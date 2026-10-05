@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { screens } from '../data/site.js'
+import { BrowserBar, MockScreen, MockWeb } from './Mocks.jsx'
 
 // Ancho de cada tipo de pantalla, en anchos de pantalla de móvil
 const WIDTH = { mobile: 1, web: 2.2 }
@@ -23,57 +24,6 @@ const angles = cardsData.map((s) => {
   acc += w
   return a
 })
-
-// Pantalla de móvil de ejemplo para cuando aún no hay captura
-function MockScreen({ title }) {
-  return (
-    <div className="mock">
-      <div className="mock__bar" />
-      <div className="mock__avatar" />
-      <p className="mock__title">{title}</p>
-      <div className="mock__line" />
-      <div className="mock__line mock__line--short" />
-      <div className="mock__block" />
-      <div className="mock__line" />
-      <div className="mock__line mock__line--short" />
-      <div className="mock__button" />
-    </div>
-  )
-}
-
-// Aplicación web de ejemplo: menú lateral, título y bloques de contenido
-function MockWeb({ title }) {
-  return (
-    <div className="mockweb">
-      <div className="mockweb__side">
-        <div className="mock__avatar" />
-        <div className="mock__line" />
-        <div className="mock__line mock__line--short" />
-        <div className="mock__line" />
-        <div className="mock__line mock__line--short" />
-      </div>
-      <div className="mockweb__main">
-        <p className="mock__title">{title}</p>
-        <div className="mockweb__cards">
-          <div className="mock__block" />
-          <div className="mock__block" />
-          <div className="mock__block" />
-        </div>
-        <div className="mock__block mockweb__chart" />
-      </div>
-    </div>
-  )
-}
-
-// Barra de navegador que enmarca las pantallas web
-function BrowserBar() {
-  return (
-    <div className="browser">
-      <span /><span /><span />
-      <div className="browser__url" />
-    </div>
-  )
-}
 
 /**
  * Carrusel 3D: las pantallas se colocan en un cilindro que gira solo,

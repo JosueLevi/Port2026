@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { site } from '../data/site.js'
 import { characterArt as art } from '../data/characterArt.js'
@@ -69,6 +69,29 @@ export default function Character() {
   const [hover, setHover] = useState(false)
   const [clicked, setClicked] = useState(false)
   const [greeting, setGreeting] = useState(0)
+  // Al entrar en la web saluda solo y pasa por los tres mensajes; si lo tocas, se detiene
+  const [auto, setAuto] = useState(false)
+  const autoTimers = useRef([])
+  const stopAuto = () => {
+    autoTimers.current.forEach(clearTimeout)
+    autoTimers.current = []
+    setAuto(false)
+  }
+
+  useEffect(() => {
+    const at = (ms, fn) => setTimeout(fn, ms)
+    autoTimers.current = [
+      at(1600, () => setAuto(true)),
+      at(5000, () => setGreeting(1)),
+      at(8400, () => setGreeting(2)),
+      at(11800, () => {
+        setAuto(false)
+        setGreeting(0)
+      }),
+    ]
+    return () => autoTimers.current.forEach(clearTimeout)
+  }, [])
+
   // Inclinación hacia el cursor, con muelle para que sea suave
   const rotate = useSpring(useMotionValue(0), { stiffness: 60, damping: 15 })
   const x = useSpring(useMotionValue(0), { stiffness: 60, damping: 15 })
@@ -86,11 +109,12 @@ export default function Character() {
 
   // Cada clic muestra el siguiente saludo
   const greet = () => {
-    if (clicked) setGreeting((g) => (g + 1) % greetings.length)
+    if (clicked || auto) setGreeting((g) => (g + 1) % greetings.length)
+    stopAuto()
     setClicked(true)
   }
 
-  const show = hover || clicked
+  const show = hover || clicked || auto
 
   return (
     <motion.div
@@ -133,10 +157,11 @@ export default function Character() {
         </motion.button>
       </motion.div>
 
-      {/* Saludo al pasar el ratón o al hacer clic */}
+      {/* Saludo al entrar, al pasar el ratón o al hacer clic (el automático no se lee en voz alta) */}
       <motion.p
         className="character__bubble"
         role="status"
+        aria-live={auto ? 'off' : 'polite'}
         initial={false}
         animate={show ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.6, y: 10 }}
         transition={{ type: 'spring', stiffness: 400, damping: 22 }}

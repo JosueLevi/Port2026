@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { buttonVariants } from '@heroui/react'
 import { projects, site } from '../data/site.js'
 import Metric from './Metric.jsx'
+import { DeviceMock } from './Mocks.jsx'
 
 const ease = [0.22, 1, 0.36, 1]
 
@@ -94,7 +95,7 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
             </dl>
 
             <div className="case__cover" style={{ background: p.color }}>
-              {p.cover && <img src={p.cover} alt={`Pantallas de ${p.title}`} />}
+              {p.cover ? <img src={p.cover} alt={`Pantallas de ${p.title}`} /> : <DeviceMock type={p.type} title={p.title} />}
             </div>
 
             <section>

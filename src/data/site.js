@@ -19,6 +19,8 @@ export const site = {
   heroTitle: 'UX/UI DESIGN',
   // Frase visible en la portada y texto del botón que baja a los casos
   tagline: 'Diseño productos digitales claros, útiles y medibles.',
+  // Etiqueta con punto verde en la portada (pon null para quitarla)
+  status: 'Disponible para proyectos',
   exploreLabel: 'VER CASOS',
   captionLeft: 'PRODUCT DESIGNER',
   captionRight: 'RESEARCH → UI → PROTOTIPO',
@@ -28,8 +30,26 @@ export const site = {
     { label: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/in/josue-frias-aquino-5955a9256' },
   ],
 
+  // Cuéntalo con tus palabras: tu historia y el tipo de equipo que buscas
   about:
-    'Diseñador UX/UI. Convierto problemas de negocio en productos fáciles de usar: investigo con usuarios, ordeno la información, prototipo y valido antes de pasar a desarrollo. Cambia este texto por tu historia y el tipo de equipo que buscas.',
+    'Soy diseñador UX/UI en Lima. Me encanta convertir problemas enredados en productos fáciles de usar: hablo con usuarios, ordeno la información, prototipo y valido antes de pasar a desarrollo.',
+
+  // Datos curiosos de "Sobre mí". Iconos: coffee, music, pin, search, map, pencil, check
+  facts: [
+    { icon: 'coffee', text: 'Funciono a café' },
+    { icon: 'music', text: 'Diseño con música' },
+    { icon: 'pin', text: 'Desde Lima, Perú' },
+  ],
+
+  // Notas escritas a mano junto a las secciones (pon null para quitar una)
+  notes: {
+    work: '¡haz clic en uno!',
+    about: 'este soy yo',
+    contact: 'escríbeme, no muerdo :)',
+  },
+
+  // Frase sobre tu correo, al final de la página
+  contactLead: '¿Tienes una idea en mente? Hablemos',
 
   skills: ['UX Research', 'Arquitectura de información', 'Wireframes', 'UI Design', 'Design Systems', 'Prototipado', 'Testing de usabilidad', 'Accesibilidad'],
   tools: ['Figma', 'FigJam', 'Maze', 'Notion', 'Miro', 'Protopie', 'Webflow'],
@@ -37,10 +57,10 @@ export const site = {
 
 // Pasos del proceso de diseño
 export const process = [
-  { step: '01', title: 'Descubrir', text: 'Entrevistas, benchmark y análisis de datos para entender el problema real.' },
-  { step: '02', title: 'Definir', text: 'User personas, journeys y arquitectura de información para priorizar.' },
-  { step: '03', title: 'Diseñar', text: 'Wireframes, UI y design system, iterando con el equipo.' },
-  { step: '04', title: 'Validar', text: 'Prototipos y tests de usabilidad antes de pasar a desarrollo.' },
+  { step: '01', icon: 'search', title: 'Descubrir', text: 'Entrevistas, benchmark y análisis de datos para entender el problema real.' },
+  { step: '02', icon: 'map', title: 'Definir', text: 'User personas, journeys y arquitectura de información para priorizar.' },
+  { step: '03', icon: 'pencil', title: 'Diseñar', text: 'Wireframes, UI y design system, iterando con el equipo.' },
+  { step: '04', icon: 'check', title: 'Validar', text: 'Prototipos y tests de usabilidad antes de pasar a desarrollo.' },
 ]
 
 // Pantallas del carrusel 3D de la portada.
@@ -61,10 +81,12 @@ export const screens = [
 ]
 
 // Casos de estudio. `cover` (imagen) o `video` en /public/assets/.
-// Sin portada se muestra un bloque de color.
+// Sin portada se muestra un móvil o un navegador de ejemplo (`type: 'web'`) sobre el color del caso.
+// `tags`: etiquetas cortas que se ven en la tarjeta (tipo de proyecto, plataforma...).
 export const projects = [
   {
     title: 'App de salud',
+    tags: ['App móvil', 'Onboarding'],
     client: 'Proyecto de ejemplo',
     year: '2026',
     role: 'UX/UI Designer',
@@ -85,6 +107,8 @@ export const projects = [
   },
   {
     title: 'Dashboard SaaS',
+    type: 'web',
+    tags: ['Web app', 'Data viz'],
     client: 'Proyecto de ejemplo',
     year: '2025',
     role: 'Product Designer',
@@ -105,6 +129,7 @@ export const projects = [
   },
   {
     title: 'E-commerce',
+    tags: ['E-commerce', 'Móvil'],
     client: 'Proyecto de ejemplo',
     year: '2025',
     role: 'UX/UI Designer',
@@ -122,6 +147,8 @@ export const projects = [
   },
   {
     title: 'Design System',
+    type: 'web',
+    tags: ['Design System', 'Accesibilidad'],
     client: 'Proyecto de ejemplo',
     year: '2024',
     role: 'UI Designer',

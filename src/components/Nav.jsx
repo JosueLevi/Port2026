@@ -3,10 +3,10 @@ import { site } from '../data/site.js'
 import { Pin, external, socialIcons } from './Icons.jsx'
 
 const tabs = [
-  { label: 'WORK', href: '#work', id: 'work' },
-  { label: 'PROCESS', href: '#process', id: 'process' },
-  { label: 'ABOUT', href: '#about', id: 'about' },
-  { label: 'CONTACT', href: '#contact', id: 'contact' },
+  { label: 'PROYECTOS', href: '#work', id: 'work' },
+  { label: 'PROCESO', href: '#process', id: 'process' },
+  { label: 'SOBRE MÍ', href: '#about', id: 'about' },
+  { label: 'CONTACTO', href: '#contact', id: 'contact' },
 ]
 
 export default function Nav() {

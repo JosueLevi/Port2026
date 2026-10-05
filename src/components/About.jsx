@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Chip, buttonVariants } from '@heroui/react'
 import { site } from '../data/site.js'
 import { CharacterArt } from './Character.jsx'
+import { Arrow, LineIcon, Sparkle } from './Doodles.jsx'
 
 export default function About() {
   return (
@@ -14,6 +15,14 @@ export default function About() {
         transition={{ duration: 0.9 }}
       >
         <CharacterArt className="character__art about__art" />
+        <Sparkle className="about__sparkle about__sparkle--1" />
+        <Sparkle className="about__sparkle about__sparkle--2" />
+        {site.notes?.about && (
+          <p className="note note--about" aria-hidden="true">
+            {site.notes.about}
+            <Arrow />
+          </p>
+        )}
       </motion.div>
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -23,6 +32,17 @@ export default function About() {
       >
         <h2 id="about-title" className="section-title">Sobre mí</h2>
         <p className="about__text">{site.about}</p>
+
+        {site.facts?.length > 0 && (
+          <ul className="facts">
+            {site.facts.map((f) => (
+              <li key={f.text}>
+                <LineIcon name={f.icon} />
+                {f.text}
+              </li>
+            ))}
+          </ul>
+        )}
 
         <div className="about__lists">
           <div>

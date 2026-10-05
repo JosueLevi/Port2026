@@ -12,11 +12,12 @@ npm run build    # genera /dist para subir a Vercel, Netlify, etc.
 ## Dónde cambiar cosas
 - **Textos, email, redes, habilidades, herramientas, proceso y casos de estudio:** `src/data/site.js`
 - **CV:** pon tu archivo en `public/cv.pdf` (lo descarga el botón de la sección About)
+- **Toques personales:** en `src/data/site.js`, `status` (etiqueta «Disponible para proyectos» de la portada), `facts` (datos curiosos de Sobre mí), `notes` (notas escritas a mano), `contactLead` (frase sobre tu correo) y, en cada caso, `tags` y `type: 'web'`. Pon `null` para quitar una nota o la etiqueta.
 - **Pantallas del carrusel 3D:** lista `screens` en `src/data/site.js` (añade `image` con tus capturas)
 - **Título y textos curvos de la portada:** `heroTitle`, `captionLeft`, `captionRight` en `src/data/site.js`
 - **Personaje (portada y Sobre mí, vectorial):** los colores son variables CSS (`--char-ink`, `--char-light`) en `.character` de `src/styles.css`; el color de la sudadera es `jacketColor` en `src/data/site.js`; `src/data/characterArt.js` se regenera con `node scripts/gen-character.mjs public/assets/img/personaje.svg`.
 - **Imágenes y videos de proyectos:** `public/assets/img/` y `public/assets/video/`, y añade `image: '/assets/img/x.webp'` o `video: '/assets/video/x.mp4'` al proyecto en `site.js`
-- **Colores y tipografía:** variables al inicio de `src/styles.css` (fuentes Bricolage Grotesque para títulos y menú e Inter para textos, incluidas vía @fontsource; el grosor de los títulos es `--display-weight`)
+- **Colores y tipografía:** variables al inicio de `src/styles.css` (fuentes Bricolage Grotesque para títulos y menú, Inter para textos y Caveat para las notas a mano, incluidas vía @fontsource; el grosor de los títulos es `--display-weight`; el estilo pegatina usa `--outline` y `--shadow`)
 
 > **Ojo:** las métricas de los casos de estudio de ejemplo (`metrics` en `site.js`) son inventadas. Cámbialas por datos reales de tus proyectos o elimínalas antes de publicar.
 
