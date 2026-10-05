@@ -17,7 +17,7 @@ export default function Hero({ onOpenProject }) {
   const shade = useTransform(covered, [0, 1], [0, 0.2])
 
   return (
-    <motion.section id="top" className="hero" style={{ scale, borderRadius: radius }}>
+    <motion.section className="hero" style={{ scale, borderRadius: radius }}>
       {/* Presentación visible: quién eres y qué haces */}
       <motion.div className="hero__intro" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6, ease }}>
         {site.status && (

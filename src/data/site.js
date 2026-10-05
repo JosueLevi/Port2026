@@ -24,21 +24,25 @@ export const site = {
   // Lo que leen los lectores de pantalla en el mouse que baja a los casos
   exploreLabel: 'Bajar a los casos de estudio',
 
-  // Cabecera de cada sección: número y nombre pequeños, título grande y entradilla.
-  // La palabra entre *asteriscos* va en cursiva con la letra de acento (Instrument Serif).
+  // Cabecera de cada sección: número y nombre pequeños, título grande y entradilla
   sections: {
     work: {
       label: 'Trabajo seleccionado',
-      title: 'Casos de *estudio*',
+      title: 'Casos de estudio',
       intro: 'Proyectos donde el diseño movió métricas. Haz clic en uno para ver cómo lo hice.',
     },
     process: {
       label: 'Proceso',
-      title: 'Cómo *trabajo*',
+      title: 'Cómo trabajo',
       intro: 'Mi receta para pasar de una idea a un producto que la gente usa de verdad.',
     },
-    about: { label: 'Perfil', title: 'Sobre *mí*' },
-    contact: { label: 'Contacto' },
+    about: { label: 'Perfil', title: 'Sobre mí' },
+    // El pie de la página
+    contact: {
+      label: 'Contacto',
+      title: 'Hablemos',
+      intro: '¿Tienes una idea en mente? Escríbeme y lo vemos juntos.',
+    },
   },
 
   socials: [
@@ -57,15 +61,12 @@ export const site = {
     { icon: 'pin', text: 'Desde Lima, Perú' },
   ],
 
-  // Notas cortas en cursiva junto a las secciones (pon null para quitar una)
+  // Notas cortas junto a las secciones (pon null para quitar una)
   notes: {
     work: '¡haz clic en uno!',
     about: 'este soy yo',
     contact: 'escríbeme, no muerdo :)',
   },
-
-  // Frase sobre tu correo, al final de la página (la parte entre *asteriscos* va en cursiva)
-  contactLead: '¿Tienes una idea en mente? *Hablemos*',
 
   skills: ['UX Research', 'Arquitectura de información', 'Wireframes', 'UI Design', 'Design Systems', 'Prototipado', 'Testing de usabilidad', 'Accesibilidad'],
   tools: ['Figma', 'FigJam', 'Maze', 'Notion', 'Miro', 'Protopie', 'Webflow'],

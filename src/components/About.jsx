@@ -3,7 +3,6 @@ import { Chip, buttonVariants } from '@heroui/react'
 import { site } from '../data/site.js'
 import { CharacterArt } from './Character.jsx'
 import { LineIcon } from './Doodles.jsx'
-import Accent from './Accent.jsx'
 import { SectionMeta } from './SectionHead.jsx'
 
 export default function About() {
@@ -29,7 +28,7 @@ export default function About() {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.1 }}
         >
-          <h2 id="about-title" className="section-title"><Accent text={site.sections.about.title} /></h2>
+          <h2 id="about-title" className="section-title">{site.sections.about.title}</h2>
           <p className="about__text">{site.about}</p>
 
           {site.facts?.length > 0 && (

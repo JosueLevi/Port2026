@@ -71,7 +71,8 @@ export default function App() {
       <a href="#work" className="skip-link">Saltar al contenido</a>
       <Cursor />
       <Nav />
-      <main>
+      {/* #top va en <main> y no en la portada: la portada es fija (sticky) y el navegador no sabría subir hasta ella */}
+      <main id="top">
         <Hero onOpenProject={setOpenProject} />
         {/* Hoja que sube por encima de la portada fija */}
         <div className="sheet">

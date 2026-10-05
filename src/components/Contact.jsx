@@ -1,8 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { site } from '../data/site.js'
-import { external, socialIcons } from './Icons.jsx'
-import Accent from './Accent.jsx'
-import { SectionMeta } from './SectionHead.jsx'
+import { external } from './Icons.jsx'
+import SectionHead from './SectionHead.jsx'
+
+// Enlaces a las secciones que se repiten en el pie
+const links = [
+  { label: 'Inicio', href: '#top' },
+  { label: 'Proyectos', href: '#work' },
+  { label: 'Proceso', href: '#process' },
+  { label: 'Sobre mí', href: '#about' },
+]
 
 export default function Contact() {
   // Botón para copiar el correo, con aviso de "¡Copiado!" durante dos segundos
@@ -21,29 +28,52 @@ export default function Contact() {
   }
 
   return (
-    <footer id="contact" className="contact">
-      <SectionMeta number="04" label={site.sections.contact.label} />
+    <footer id="contact" className="contact" aria-labelledby="contact-title">
+      <SectionHead id="contact-title" number="04" section={site.sections.contact}>
+        {site.notes?.contact && <p className="note note--contact" aria-hidden="true">{site.notes.contact}</p>}
+      </SectionHead>
 
-      <p className="contact__lead"><Accent text={site.contactLead} /></p>
-      <a className="contact__mail" href={`mailto:${site.email}`}>{site.email}</a>
-      {site.notes?.contact && (
-        <p className="note note--contact" aria-hidden="true">{site.notes.contact}</p>
-      )}
-
-      <div className="contact__actions">
+      {/* Llamada principal: el correo en grande y, al lado, el botón para copiarlo */}
+      <div className="contact__cta">
+        <a className="contact__mail" href={`mailto:${site.email}`}>
+          {site.email}
+          <span className="contact__arrow" aria-hidden="true">↗</span>
+        </a>
         <button type="button" className="pill-button pill-button--pop" onClick={copy}>
           {copied ? '¡Copiado!' : 'Copiar correo'}
         </button>
-        {site.socials.map((s) => {
-          const Icon = socialIcons[s.icon]
-          return (
-            <a key={s.label} className="pill-button" href={s.href} {...external(s.href)}>
-              {Icon && <Icon />}
-              {s.label}
-            </a>
-          )
-        })}
         <span className="sr-only" role="status">{copied ? 'Correo copiado' : ''}</span>
+      </div>
+
+      {/* Columnas: secciones, redes y dónde estás */}
+      <div className="contact__columns">
+        <nav aria-label="Secciones del pie">
+          <h3>Secciones</h3>
+          <ul>
+            {links.map((l) => (
+              <li key={l.href}><a href={l.href}>{l.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+        <div>
+          <h3>Redes</h3>
+          <ul>
+            {site.socials.map((s) => (
+              <li key={s.label}><a href={s.href} {...external(s.href)}>{s.label} <span aria-hidden="true">↗</span></a></li>
+            ))}
+          </ul>
+        </div>
+        <div className="contact__place">
+          <h3>Ubicación</h3>
+          <p>{site.location}</p>
+          {site.status && (
+            <p className="contact__status">
+              <span className="status__dot" aria-hidden="true" />
+              {site.status}
+            </p>
+          )}
+        </div>
+        <a className="pill-button contact__top" href="#top">Volver arriba <span aria-hidden="true">↑</span></a>
       </div>
 
       <div className="contact__bottom">
@@ -52,6 +82,9 @@ export default function Contact() {
           Componentes animados: <a href="https://rareui.com" target="_blank" rel="noreferrer">Rare UI</a>
         </small>
       </div>
+
+      {/* Firma: el nombre de lado a lado, solo con el contorno, como el título de la portada antes de rellenarse */}
+      <div className="contact__wordmark" aria-hidden="true"><span>{site.name}</span></div>
     </footer>
   )
 }
