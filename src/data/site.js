@@ -87,7 +87,7 @@ export const process = [
 // `project` es el índice del caso de estudio que se abre al hacer clic (opcional).
 // Sin imagen se dibuja una pantalla de ejemplo con el título.
 export const screens = [
-  { title: 'Onboarding', project: 0 },
+  { title: 'Inicio de Levi, gestor de finanzas', image: '/assets/img/gestor-finanzas-movil.webp', project: 0 },
   { title: 'Dashboard', type: 'web', project: 1 },
   { title: 'Checkout', project: 2 },
   { title: 'Perfil', project: 0 },
@@ -101,7 +101,7 @@ export const screens = [
 // Sin portada se muestra un móvil o un navegador de ejemplo (`type: 'web'`) sobre el color del caso.
 // `tags`: etiquetas cortas que se ven en la tarjeta (tipo de proyecto, plataforma...).
 // Solo hacen falta título, año, rol y resumen: lo demás (duration, tools, description, problem,
-// process, stack, metrics) es opcional y, si no lo pones, esa parte no sale en el caso.
+// process, gallery, stack, metrics) es opcional y, si no lo pones, esa parte no sale en el caso.
 export const projects = [
   {
     title: 'Gestor de finanzas personales',
@@ -111,6 +111,8 @@ export const projects = [
     role: 'UX/UI Designer y Developer',
     color: 'var(--ink)',
     cover: '/assets/img/gestor-finanzas.webp',
+    // Más imágenes del caso (salen en el caso abierto, debajo del texto)
+    gallery: ['/assets/img/gestor-finanzas-foto.webp'],
     summary: 'Tus finanzas pueden sentirse más simples.',
     // Qué es el producto (sale en el caso abierto, en "El proyecto")
     description:
@@ -193,6 +195,7 @@ screens.forEach((s) => { s.image = withBase(s.image) })
 projects.forEach((p) => {
   p.cover = withBase(p.cover)
   p.video = withBase(p.video)
+  p.gallery = p.gallery?.map(withBase)
 })
 
 // Nombre del caso para su enlace propio: "App de salud" -> "app-de-salud" (tusitio.com/#caso/app-de-salud)

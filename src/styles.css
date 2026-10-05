@@ -541,6 +541,9 @@ img, video { display: block; max-width: 100%; }
 .case h3 { color: var(--muted); margin-bottom: 12px; }
 .case section p, .case__process { font-size: var(--size-body); line-height: 1.6; }
 .case__process { padding-left: 22px; display: grid; gap: 8px; }
+/* Más imágenes del caso: una debajo de otra o lado a lado si caben; las muy altas se recortan por arriba y por abajo */
+.case__gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; margin-bottom: 40px; }
+.case__gallery img { width: 100%; height: auto; max-height: 80vh; object-fit: cover; border-radius: 16px; }
 /* Stack: qué se usó en cada parte, en dos columnas separadas por líneas finas */
 .case__stack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
 .case__stack div { display: grid; grid-template-columns: minmax(0, 11ch) minmax(0, 1fr); gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); }

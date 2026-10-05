@@ -6,14 +6,12 @@ import { BrowserBar, MockScreen, MockWeb } from './Mocks.jsx'
 const WIDTH = { mobile: 1, web: 2.2 }
 const kind = (s) => (s.type === 'web' ? 'web' : 'mobile')
 
-// Se repiten las pantallas hasta llenar el anillo (unas 24 pantallas de móvil)
+// Se repiten las pantallas hasta llenar el anillo (unas 24 pantallas de móvil), siempre en
+// vueltas completas: así la primera y la última no son la misma pantalla, una al lado de la otra
 const MIN_WIDTH = 24
-const cardsData = []
-for (let total = 0; total < MIN_WIDTH || cardsData.length < screens.length; ) {
-  const s = screens[cardsData.length % screens.length]
-  cardsData.push(s)
-  total += WIDTH[kind(s)]
-}
+const cycleWidth = screens.reduce((t, s) => t + WIDTH[kind(s)], 0)
+const cycles = Math.max(1, Math.round(MIN_WIDTH / cycleWidth))
+const cardsData = Array.from({ length: cycles }, () => screens).flat()
 
 // Ángulo del centro de cada pantalla: las web ocupan más hueco que las de móvil
 const totalWidth = cardsData.reduce((t, s) => t + WIDTH[kind(s)], 0)

@@ -122,6 +122,14 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
               </section>
             )}
 
+            {p.gallery?.length > 0 && (
+              <div className="case__gallery">
+                {p.gallery.map((src) => (
+                  <img key={src} src={src} alt={`Pantallas de ${p.title}`} loading="lazy" />
+                ))}
+              </div>
+            )}
+
             {p.stack?.length > 0 && (
               <section>
                 <h3>Stack</h3>
