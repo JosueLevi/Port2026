@@ -191,10 +191,8 @@ img, video { display: block; max-width: 100%; }
 }
 .hero__title-svg { display: block; width: 100%; height: auto; overflow: visible; transition: opacity .3s; }
 .hero__title-svg text { font-family: var(--title); font-size: 150px; letter-spacing: .03em; } /* aire entre letras para que los contornos no se crucen */
-.hero__title-outline {
-  fill: none; stroke: var(--ink); stroke-width: 2px; stroke-linejoin: round;
-  stroke-dasharray: 1600; vector-effect: non-scaling-stroke;
-}
+/* El grosor va en unidades del SVG: crece y se achica con el título */
+.hero__title-outline { fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linejoin: round; }
 .hero__title-fill { fill: var(--ink); }
 
 /* Textos curvos */
@@ -589,6 +587,7 @@ img, video { display: block; max-width: 100%; }
   .browser { padding: 6px 8px; }
   .mockweb { padding: 8px; gap: 8px; }
   .hero__title { top: 120px; width: 92vw; }
+  .hero__title-outline { stroke-width: 4.5; }
   .hero__intro { left: 50%; translate: -50% 0; top: 205px; bottom: auto; width: 92vw; max-width: none; text-align: center; }
   .hero__intro h1, .hero__intro p { font-size: 13px; }
   .case__nav { grid-template-columns: 1fr; }

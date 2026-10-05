@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 
 const ease = [0.65, 0, 0.35, 1]
 const pad = 4 // margen alrededor del texto para que el contorno no se corte
+const dash = 660 // largo del contorno más largo (la S y la G), en unidades del SVG: así tarda lo mismo en cualquier pantalla
 
 /**
  * Título de la portada, en horizontal y con Archivo Black (--title en styles.css).
@@ -45,7 +46,7 @@ export default function HeroTitle({ text }) {
               height={box.h}
               initial={{ width: reduce ? box.w : 0 }}
               animate={{ width: box.w }}
-              transition={{ delay: 1.1, duration: 1, ease }}
+              transition={{ delay: 1.4, duration: 1, ease }}
             />
           </clipPath>
         </defs>
@@ -55,7 +56,8 @@ export default function HeroTitle({ text }) {
       <motion.text
         ref={textRef}
         className="hero__title-outline"
-        initial={{ strokeDashoffset: reduce ? 0 : 1600 }}
+        strokeDasharray={dash}
+        initial={{ strokeDashoffset: reduce ? 0 : dash }}
         animate={box ? { strokeDashoffset: 0 } : undefined}
         transition={{ duration: 1.6, ease }}
       >
