@@ -17,7 +17,7 @@ npm run build    # genera /dist para subir a Vercel, Netlify, etc.
 - **Personaje:** `public/assets/img/personaje.png` (fondo transparente)
 - **Personaje del hero (vector):** los colores son variables CSS (`--char-ink`, `--char-light`) en `.character` de `src/styles.css`; el color de la sudadera es `jacketColor` en `src/data/site.js`; `src/data/characterArt.js` se regenera con `node scripts/gen-character.mjs public/assets/img/personaje.svg`.
 - **Imágenes y videos de proyectos:** `public/assets/img/` y `public/assets/video/`, y añade `image: '/assets/img/x.webp'` o `video: '/assets/video/x.mp4'` al proyecto en `site.js`
-- **Colores y tipografía:** variables al inicio de `src/styles.css` (fuentes Archivo Black, Montserrat e Inter, incluidas vía @fontsource)
+- **Colores y tipografía:** variables al inicio de `src/styles.css` (fuentes Bricolage Grotesque para títulos y menú e Inter para textos, incluidas vía @fontsource; el grosor de los títulos es `--display-weight`)
 
 > **Ojo:** las métricas de los casos de estudio de ejemplo (`metrics` en `site.js`) son inventadas. Cámbialas por datos reales de tus proyectos o elimínalas antes de publicar.
 
