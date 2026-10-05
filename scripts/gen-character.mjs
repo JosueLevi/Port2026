@@ -5,14 +5,19 @@ const paths = [...svg.matchAll(/\bd="([^"]+)" fill="([^"]+)"/g)].map((m) => [m[1
 if (paths.length !== 58) throw new Error(`Se esperaban 58 trazados y hay ${paths.length}`)
 const tone = { black: 'ink', '#FBF4E9': 'light', '#353331': 'shade' }
 const head = new Set([6, 9, 21, 25, 33, 35, 36, 39])
+// Partes claras de la silla (patas, bordes del asiento y del respaldo): van en blanco, no en crema
+const chair = new Set([4, 5, 8, 15, 22, 23, 26, 27, 30, 31, 32, 40, 41])
 const short = (d) => d.replace(/(\d+\.\d{2})\d+/g, '$1')
 const W = 351, H = 515
 const jacket = '76.7,64.3 116.6,61.2 125.8,88.8 144.2,102.9 195.1,102.9 203.7,73.5 211.7,61.2 220.9,91.9 245.5,122.5 276.1,153.1 303.8,183.7 311.1,214.3 308.0,241.9 270.0,247.4 220.9,233.9 171.8,227.8 153.4,223.5 122.7,226.6 116,246 90,249 60,249 32,248 24,244 21,232 21,212 24,190 30,168 40,150 50,137 58.3,122.5 68.7,91.9'
 const body = [], hd = []
-paths.slice(1).forEach(([d, f], i) => (head.has(i + 2) ? hd : body).push(`    ['${tone[f]}', '${short(d)}'],`))
+paths.slice(1).forEach(([d, f], i) => {
+  const t = chair.has(i + 2) && tone[f] === 'light' ? 'white' : tone[f]
+  ;(head.has(i + 2) ? hd : body).push(`    ['${t}', '${short(d)}'],`)
+})
 const out = [
   '// Ilustración vectorial del personaje (de Josue.svg), separada en capas para animarla.',
-  '// ink = negro, light = crema, shade = gris. Coordenadas en un lienzo de 351 x 515.',
+  '// ink = negro, light = crema, white = blanco (silla), shade = gris. Coordenadas en un lienzo de 351 x 515.',
   'export const characterArt = {',
   "  viewBox: '0 0 351 515',",
   '  // Silueta negra completa (se dibuja en el cuerpo y en la cabeza)',

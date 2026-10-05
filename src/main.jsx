@@ -9,6 +9,7 @@ import '@fontsource/inter/400.css'
 import '@fontsource/inter/500.css'
 import '@fontsource/inter/600.css'
 import '@fontsource/caveat/700.css'
+import '@fontsource/archivo-black/400.css'
 import './tailwind.css'
 import './styles.css'
 

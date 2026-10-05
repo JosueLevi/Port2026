@@ -8,7 +8,6 @@ import Work from './components/Work.jsx'
 import Process from './components/Process.jsx'
 import About from './components/About.jsx'
 import Contact from './components/Contact.jsx'
-import Marquee from './components/Marquee.jsx'
 import CaseStudy from './components/CaseStudy.jsx'
 import { projects, caseSlug } from './data/site.js'
 import ScrollProgress from '@/components/ui/scroll-progress'
@@ -76,7 +75,6 @@ export default function App() {
         <Hero onOpenProject={setOpenProject} />
         {/* Hoja que sube por encima de la portada fija */}
         <div className="sheet">
-          <Marquee />
           <Work onOpenProject={setOpenProject} />
           <Process />
           <About />

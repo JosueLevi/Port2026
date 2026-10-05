@@ -5,7 +5,7 @@ import { characterArt as art } from '../data/characterArt.js'
 
 const ease = [0.22, 1, 0.36, 1]
 
-const fills = { ink: 'var(--char-ink)', light: 'var(--char-light)', shade: 'var(--char-shade)' }
+const fills = { ink: 'var(--char-ink)', light: 'var(--char-light)', white: 'var(--char-white)', shade: 'var(--char-shade)' }
 const pts = (list) => list.trim().split(/\s+/).map((p) => p.split(',').map(Number))
 const toPath = (list) => 'M' + pts(list).map((p) => p.join(' ')).join('L') + 'Z'
 

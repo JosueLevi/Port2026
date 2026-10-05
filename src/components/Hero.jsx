@@ -2,6 +2,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion
 import { site } from '../data/site.js'
 import Ring from './Ring.jsx'
 import Character from './Character.jsx'
+import HeroTitle from './HeroTitle.jsx'
 
 const ease = [0.22, 1, 0.36, 1]
 
@@ -31,20 +32,9 @@ export default function Hero({ onOpenProject }) {
 
       <Ring onOpenProject={onOpenProject} />
 
-      {/* Título curvado: el texto sigue una curva y la perspectiva lo agranda hacia la derecha */}
+      {/* Título horizontal: primero se dibuja el contorno y luego se pinta el relleno */}
       <div className="hero__title">
-      <motion.svg
-        viewBox="0 0 1000 220"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease }}
-        aria-hidden="true"
-      >
-        <path id="title-curve" d="M 10 190 Q 520 175 990 120" fill="none" />
-        <text textLength="975" lengthAdjust="spacingAndGlyphs">
-          <textPath href="#title-curve">{site.heroTitle}</textPath>
-        </text>
-      </motion.svg>
+        <HeroTitle text={site.heroTitle} />
       </div>
 
       {/* Textos curvos debajo del carrusel */}

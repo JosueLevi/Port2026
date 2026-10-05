@@ -6,6 +6,8 @@
   --display-weight: 800;
   --ui: 'Bricolage Grotesque', system-ui, sans-serif;
   --body: 'Inter', system-ui, sans-serif;
+  /* Letra más pesada solo para el título de la portada */
+  --title: 'Archivo Black', 'Arial Black', sans-serif;
   --gutter: clamp(16px, 2.2vw, 32px);
 
   /* Color: azul de la sudadera del personaje (jacketColor en site.js) + un acento cálido */
@@ -87,7 +89,7 @@ img, video { display: block; max-width: 100%; }
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
   padding: 22px var(--gutter);
   font-family: var(--ui); font-weight: 600; font-size: 15px; letter-spacing: .01em;
-  background: linear-gradient(var(--paper) 60%, transparent);
+  background: var(--paper);
 }
 .nav__left { display: flex; align-items: center; gap: 18px; }
 .nav__logo {
@@ -98,7 +100,7 @@ img, video { display: block; max-width: 100%; }
 .nav__logo:hover { rotate: -8deg; }
 .nav__location { display: inline-flex; align-items: center; gap: 6px; }
 .nav__tabs { display: flex; gap: 20px; }
-.nav__tabs a { padding: 3px 10px; border-radius: 999px; }
+.nav__tabs a { padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
 .nav__tabs a.is-active { background: var(--brand); color: #fff; }
 .nav__right { display: flex; align-items: center; justify-content: flex-end; gap: 26px; }
 .nav__right a:hover, .nav__tabs a:not(.is-active):hover { opacity: .6; }
@@ -178,16 +180,22 @@ img, video { display: block; max-width: 100%; }
 .mockweb__cards .mock__block:nth-child(2) { background: var(--pop-soft); }
 .mockweb__chart { flex: 1; }
 
-/* Título curvado */
+/* Título horizontal (HeroTitle.jsx): el contorno se dibuja y luego se pinta el relleno */
 .hero__title {
+  --top: clamp(96px, 13vh, 140px);
   position: absolute; z-index: 2;
-  left: 50%; top: clamp(90px, 13vh, 140px);
-  width: min(720px, 86vw);
-  transform: translateX(-50%) perspective(900px) rotateY(-14deg);
+  left: 50%; top: var(--top); translate: -50% 0;
+  /* En pantallas bajas se achica para no tocar la cabeza del personaje, que empieza al 27vh */
+  width: min(940px, 84vw, max(560px, (27vh - var(--top) - 22px) * 9));
   pointer-events: none;
 }
-.hero__title svg { display: block; width: 100%; overflow: visible; }
-.hero__title text { font-family: var(--display); font-weight: var(--display-weight); font-size: 132px; fill: var(--ink); }
+.hero__title-svg { display: block; width: 100%; height: auto; overflow: visible; transition: opacity .3s; }
+.hero__title-svg text { font-family: var(--title); font-size: 150px; letter-spacing: .03em; } /* aire entre letras para que los contornos no se crucen */
+.hero__title-outline {
+  fill: none; stroke: var(--ink); stroke-width: 2px; stroke-linejoin: round;
+  stroke-dasharray: 1600; vector-effect: non-scaling-stroke;
+}
+.hero__title-fill { fill: var(--ink); }
 
 /* Textos curvos */
 .hero__captions {
@@ -205,7 +213,7 @@ img, video { display: block; max-width: 100%; }
 }
 /* Personaje animado */
 .character { position: relative; isolation: isolate; }
-.character, .about__character { --char-ink: #000; --char-light: #FBF4E9; --char-shade: #353331; }
+.character, .about__character { --char-ink: #000; --char-light: #FBF4E9; --char-white: #fff; --char-shade: #353331; }
 .character__art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 /* Solo la cabeza, que se mueve al ritmo (pivote en el cuello) */
 .character__head {
@@ -307,7 +315,7 @@ img, video { display: block; max-width: 100%; }
   border: var(--outline); box-shadow: var(--shadow);
   transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s cubic-bezier(.22,1,.36,1);
 }
-.card__button:hover .card__media { transform: translate(-4px, -4px) rotate(-.6deg); box-shadow: var(--shadow-hover); }
+.card__button:hover .card__media { transform: translate(-4px, -4px); box-shadow: var(--shadow-hover); }
 .card__media > :is(img, video, .card__placeholder) { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.22,1,.36,1); }
 .card:hover .card__media > :is(img, video) { transform: scale(1.05); }
 /* Sin portada: móvil o navegador de ejemplo sobre el color del caso */
@@ -351,13 +359,13 @@ img, video { display: block; max-width: 100%; }
 /* Proceso */
 .process { padding: clamp(64px, 10vw, 140px) var(--gutter); }
 .process__list { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(16px, 2.5vw, 32px); }
-/* Cada paso es una pegatina de color, un poco inclinada */
+/* Cada paso es una tarjeta de color con contorno y sombra */
 .process__card {
   padding: 22px 22px 26px; border: var(--outline); border-radius: 22px;
-  background: var(--tone); box-shadow: var(--shadow); rotate: var(--tilt);
-  transition: rotate .3s, translate .3s;
+  background: var(--tone); box-shadow: var(--shadow);
+  transition: translate .3s;
 }
-.process__card:hover { rotate: 0deg; translate: 0 -4px; }
+.process__card:hover { translate: 0 -4px; }
 .process__top { display: flex; justify-content: space-between; align-items: center; }
 .process__step { font-family: var(--ui); font-weight: 700; font-size: 13px; }
 .process__list h3 { font-family: var(--display); font-weight: var(--display-weight); font-size: clamp(24px, 2.6vw, 36px); text-transform: uppercase; margin: 14px 0 8px; }
@@ -386,10 +394,10 @@ img, video { display: block; max-width: 100%; }
   display: inline-flex; align-items: center; gap: 10px;
   padding: 8px 16px 8px 10px; border: var(--outline); border-radius: 16px;
   background: var(--paper); box-shadow: 3px 3px 0 var(--ink);
-  font-family: var(--ui); font-weight: 600; font-size: 15px; rotate: -1.5deg;
+  font-family: var(--ui); font-weight: 600; font-size: 15px;
 }
-.facts li:nth-child(3n + 2) { rotate: 1.5deg; background: var(--pop-soft); }
-.facts li:nth-child(3n) { rotate: -1deg; background: var(--brand-soft); }
+.facts li:nth-child(3n + 2) { background: var(--pop-soft); }
+.facts li:nth-child(3n) { background: var(--brand-soft); }
 .facts .line-icon { width: 30px; height: 30px; }
 
 /* Contact */
@@ -537,7 +545,7 @@ img, video { display: block; max-width: 100%; }
 .sticker {
   flex-shrink: 0; padding: 6px 14px; margin-top: -6px;
   border: var(--outline); border-radius: 999px; background: var(--pop); box-shadow: 3px 3px 0 var(--ink);
-  font-family: var(--ui); font-weight: 700; font-size: 15px; white-space: nowrap; rotate: 6deg;
+  font-family: var(--ui); font-weight: 700; font-size: 15px; white-space: nowrap;
 }
 
 /* Notas escritas a mano */
@@ -555,29 +563,8 @@ img, video { display: block; max-width: 100%; }
 .note--about .arrow { scale: -1 1; }
 .note--contact { color: var(--pop); align-self: flex-end; margin: -14px 8% 0 0; font-size: clamp(26px, 2.8vw, 38px); rotate: -5deg; }
 
-/* Cintas con habilidades y herramientas (Marquee.jsx), al principio de la hoja */
-.tapes { position: relative; height: clamp(120px, 12vw, 170px); overflow: hidden; border-radius: 32px 32px 0 0; }
-.tape {
-  position: absolute; left: -5%; width: 110%; top: 50%;
-  padding: 12px 0; border-block: var(--outline); overflow: hidden;
-}
-.tape--pop { z-index: 1; background: var(--pop); color: var(--ink); translate: 0 -78%; rotate: -2.5deg; }
-.tape--brand { background: var(--brand); color: #fff; translate: 0 -22%; rotate: 2deg; }
-.tape__track { display: flex; width: max-content; animation: tape 70s linear infinite; }
-.tape--brand .tape__track { animation-direction: reverse; animation-duration: 55s; }
-.tape__row { display: flex; flex-shrink: 0; }
-.tape__row span {
-  display: inline-flex; align-items: center; gap: 22px; padding-right: 22px; white-space: nowrap;
-  font-family: var(--display); font-weight: var(--display-weight); font-size: clamp(18px, 2vw, 28px);
-  text-transform: uppercase; letter-spacing: -.01em; line-height: 1.1;
-}
-.tape .sparkle { width: .85em; height: .85em; }
-.tape--pop .sparkle path { fill: var(--paper); }
-@keyframes tape { to { transform: translateX(-50%); } }
-.work { padding-top: clamp(40px, 6vw, 90px); }
-
 @media (prefers-reduced-motion: reduce) {
-  .tape__track, .status__dot, .section-title__sparkle, .about__sparkle, .contact__sparkle { animation: none; }
+  .status__dot, .section-title__sparkle, .about__sparkle, .contact__sparkle { animation: none; }
 }
 
 /* Con el menú en español no cabe también el correo en pantallas medianas */
@@ -602,13 +589,14 @@ img, video { display: block; max-width: 100%; }
   .browser { padding: 6px 8px; }
   .mockweb { padding: 8px; gap: 8px; }
   .hero__title { top: 120px; width: 92vw; }
-  .hero__intro { left: 50%; translate: -50% 0; top: 205px; bottom: auto; width: 86vw; max-width: none; text-align: center; }
+  .hero__intro { left: 50%; translate: -50% 0; top: 205px; bottom: auto; width: 92vw; max-width: none; text-align: center; }
   .hero__intro h1, .hero__intro p { font-size: 13px; }
   .case__nav { grid-template-columns: 1fr; }
   .ring { margin-top: -8vh; }
   .hero__captions { display: none; }
   .hero__character { bottom: 9vh; }
-  .character__breath { height: 46vh; }
+  /* En móviles bajos se achica para que el saludo no tape la presentación */
+  .character__breath { height: min(46vh, 79vh - 256px); }
   .work__grid { grid-template-columns: 1fr; }
   .card:nth-child(even) { margin-top: 0; }
   .about { grid-template-columns: 1fr; }
@@ -631,6 +619,12 @@ img, video { display: block; max-width: 100%; }
   .sticker { font-size: 13px; padding: 5px 10px; }
   .contact__sparkle--1 { top: 6%; right: 6%; width: 40px; height: 40px; }
   .contact__sparkle--2 { display: none; }
+}
+
+/* Móviles estrechos: el menú cabe en una línea */
+@media (max-width: 400px) {
+  .nav__tabs { gap: 2px; font-size: 10px; }
+  .nav__tabs a { padding: 3px 5px; }
 }
 
 /* Píldora de progreso (Rare UI): abajo a la derecha para no tapar el botón Ver casos */
