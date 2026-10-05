@@ -1,3 +1,7 @@
+// Las rutas de /public ("/assets/...") se adaptan a la dirección de la web
+// (en GitHub Pages la web vive en /Port2026/). Escríbelas siempre empezando por "/".
+const withBase = (path) => (path?.startsWith('/') ? import.meta.env.BASE_URL + path.slice(1) : path)
+
 // Cambia aquí tus textos y enlaces
 export const site = {
   name: 'Levi',
@@ -5,8 +9,8 @@ export const site = {
   role: 'UX/UI Designer',
   location: 'TU CIUDAD, PAÍS',
   email: 'hola@tudominio.com',
-  cv: '/cv.pdf', // pon tu CV en /public/cv.pdf
-  character: '/assets/img/personaje.png',
+  cv: withBase('/cv.pdf'), // pon tu CV en /public/cv.pdf
+  character: withBase('/assets/img/personaje.png'),
   // Color de la chaqueta del personaje (null = negro original). Ej: '#2f5bea'
   jacketColor: '#2f5bea',
 
@@ -131,6 +135,13 @@ export const projects = [
     metrics: [{ value: '2x', label: 'velocidad de entrega' }],
   },
 ]
+
+// Aplica la dirección de la web a las imágenes y videos de pantallas y casos
+screens.forEach((s) => { s.image = withBase(s.image) })
+projects.forEach((p) => {
+  p.cover = withBase(p.cover)
+  p.video = withBase(p.video)
+})
 
 // Nombre del caso para su enlace propio: "App de salud" -> "app-de-salud" (tusitio.com/#caso/app-de-salud)
 export const caseSlug = (p) =>
