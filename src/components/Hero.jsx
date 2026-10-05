@@ -37,24 +37,15 @@ export default function Hero({ onOpenProject }) {
         <HeroTitle text={site.heroTitle} />
       </div>
 
-      {/* Textos curvos debajo del carrusel */}
-      <svg className="hero__captions" viewBox="0 0 1000 120" aria-hidden="true">
-        <path id="caption-curve" d="M 0 110 Q 500 -10 1000 110" fill="none" />
-        <text>
-          <textPath href="#caption-curve" startOffset="18%" textAnchor="middle">{site.captionLeft}</textPath>
-        </text>
-        <text>
-          <textPath href="#caption-curve" startOffset="82%" textAnchor="middle">{site.captionRight}</textPath>
-        </text>
-      </svg>
-
       <div className="hero__character">
         <Character />
       </div>
 
-      <a href="#work" className="hero__explore">
-        {site.exploreLabel}
-        <span aria-hidden="true">↓</span>
+      {/* Mouse que invita a bajar: la rueda se mueve sola y al pulsarlo baja a los casos */}
+      <a href="#work" className="hero__scroll" aria-label={site.exploreLabel}>
+        <span className="hero__mouse" aria-hidden="true">
+          <span className="hero__wheel" />
+        </span>
       </a>
       <motion.div className="hero__shade" style={{ opacity: shade }} aria-hidden="true" />
     </motion.section>

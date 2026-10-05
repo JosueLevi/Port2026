@@ -15,15 +15,15 @@ npm run build    # genera /dist para subir a Vercel, Netlify, etc.
 - **Títulos de las secciones:** `sections` en `src/data/site.js` (nombre pequeño, título y entradilla). La palabra entre `*asteriscos*` sale en cursiva, p. ej. `'Casos de *estudio*'`; también funciona en `contactLead`.
 - **Toques personales:** en `src/data/site.js`, `status` (etiqueta «Disponible para proyectos» de la portada), `facts` (datos curiosos de Sobre mí), `notes` (notas cortas en cursiva), `contactLead` (frase sobre tu correo) y, en cada caso, `tags` y `type: 'web'`. Pon `null` para quitar una nota o la etiqueta.
 - **Pantallas del carrusel 3D:** lista `screens` en `src/data/site.js` (añade `image` con tus capturas)
-- **Título y textos curvos de la portada:** `heroTitle`, `captionLeft`, `captionRight` en `src/data/site.js`
-- **Personaje (portada y Sobre mí, vectorial):** los colores son variables CSS (`--char-ink`, `--char-light` y `--char-white` para la silla) en `.character` de `src/styles.css`; el color de la sudadera es `jacketColor` en `src/data/site.js`; `src/data/characterArt.js` se regenera con `node scripts/gen-character.mjs public/assets/img/personaje.svg`.
+- **Título de la portada:** `heroTitle` en `src/data/site.js`
+- **Personaje (portada y Sobre mí, vectorial):** los colores son variables CSS (`--char-ink`, `--char-light` y `--char-shade`) en `.character` de `src/styles.css` y las partes claras de la silla son transparentes; el color de la sudadera es `jacketColor` en `src/data/site.js`; `src/data/characterArt.js` se regenera con `node scripts/gen-character.mjs public/assets/img/personaje.svg`.
 - **Imágenes y videos de proyectos:** `public/assets/img/` y `public/assets/video/`, y añade `image: '/assets/img/x.webp'` o `video: '/assets/video/x.mp4'` al proyecto en `site.js`
-- **Colores y tipografía:** variables al inicio de `src/styles.css`. Hay tres fuentes, incluidas vía @fontsource: Archivo Black para los títulos (`--font-display`), Inter para todo lo demás (`--font-text`) e Instrument Serif en cursiva para las palabras de acento y las notas (`--font-accent`). Los tamaños salen de la escala `--size-*` (de `--size-label` a `--size-display`).
+- **Colores y tipografía:** variables al inicio de `src/styles.css`. Hay tres fuentes, incluidas vía @fontsource: Archivo Black para los títulos (`--font-display`), Barlow para todo lo demás (`--font-text`) e Instrument Serif en cursiva para las palabras de acento y las notas (`--font-accent`). Los tamaños salen de la escala `--size-*` (de `--size-label` a `--size-display`).
 
 > **Ojo:** las métricas de los casos de estudio de ejemplo (`metrics` en `site.js`) son inventadas. Cámbialas por datos reales de tus proyectos o elimínalas antes de publicar.
 
 ## Secciones
-`Hero` (carrusel 3D de pantallas que gira solo, con el scroll y arrastrando; título curvado; personaje al centro; botón Explore) · `Work` (grid de proyectos con aparición al hacer scroll) · `About` · `Contact`.
+`Hero` (carrusel 3D de pantallas que gira solo, con el scroll y arrastrando; título que se dibuja; personaje al centro; mouse que baja a los casos) · `Work` (casos en pila: cada tarjeta se queda fija y la siguiente se apila encima) · `Process` · `About` · `Contact`.
 Extras: cursor personalizado (`Cursor.jsx`) y scroll suave con Lenis (`App.jsx`).
 
 Cada caso de estudio abierto tiene su propio enlace para compartirlo, por ejemplo `tusitio.com/#caso/app-de-salud`.

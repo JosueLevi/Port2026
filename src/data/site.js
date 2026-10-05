@@ -17,13 +17,12 @@ export const site = {
 
   // Portada
   heroTitle: 'UX/UI DESIGN',
-  // Frase visible en la portada y texto del botón que baja a los casos
+  // Frase visible en la portada
   tagline: 'Diseño productos digitales claros, útiles y medibles.',
   // Etiqueta con punto verde en la portada (pon null para quitarla)
   status: 'Disponible para proyectos',
-  exploreLabel: 'VER CASOS',
-  captionLeft: 'Product designer',
-  captionRight: 'Research → UI → Prototipo',
+  // Lo que leen los lectores de pantalla en el mouse que baja a los casos
+  exploreLabel: 'Bajar a los casos de estudio',
 
   // Cabecera de cada sección: número y nombre pequeños, título grande y entradilla.
   // La palabra entre *asteriscos* va en cursiva con la letra de acento (Instrument Serif).

@@ -1,5 +1,5 @@
 // Ilustración vectorial del personaje (de Josue.svg), separada en capas para animarla.
-// ink = negro, light = crema, white = blanco (silla), shade = gris. Coordenadas en un lienzo de 351 x 515.
+// ink = negro, light = crema, white = partes claras de la silla (transparentes), shade = gris. Coordenadas en un lienzo de 351 x 515.
 export const characterArt = {
   viewBox: '0 0 351 515',
   // Silueta negra completa (se dibuja en el cuerpo y en la cabeza)

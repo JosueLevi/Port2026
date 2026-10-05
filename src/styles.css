@@ -4,23 +4,25 @@
   --muted: #6b6b6b;
   --line: rgba(14, 14, 14, .16); /* líneas finas de separación */
   --gutter: clamp(16px, 2.2vw, 32px);
+  --nav-h: 80px; /* alto del menú fijo de arriba */
 
   /* Tipografía: tres familias, cada una con un papel
      - display: títulos grandes, siempre en mayúsculas (Archivo Black)
-     - text: todo lo demás, del menú a los párrafos (Inter 400, 500 y 600)
+     - text: todo lo demás, del menú a los párrafos (Barlow 400, 500 y 600)
      - accent: palabras sueltas en cursiva para el toque artístico (Instrument Serif) */
   --font-display: 'Archivo Black', 'Arial Black', sans-serif;
-  --font-text: 'Inter', system-ui, sans-serif;
+  --font-text: 'Barlow', system-ui, sans-serif;
   --font-accent: 'Instrument Serif', Georgia, serif;
 
   /* Escala de tamaños: usa siempre uno de estos */
   --size-display: clamp(46px, 7.4vw, 112px); /* títulos de sección */
   --size-title: clamp(36px, 5.6vw, 84px);    /* título del caso y correo de contacto */
-  --size-heading: clamp(20px, 1.8vw, 26px);  /* títulos de tarjetas y pasos */
-  --size-lead: clamp(19px, 1.8vw, 24px);     /* párrafos destacados */
-  --size-body: 17px;
-  --size-small: 15px;
-  --size-caption: 13px;                      /* datos y etiquetas de tarjetas */
+  --size-headline: clamp(30px, 3.4vw, 52px); /* títulos y cifras de las tarjetas de casos */
+  --size-heading: clamp(20px, 1.8vw, 26px);  /* títulos de los pasos */
+  --size-lead: clamp(20px, 1.9vw, 25px);     /* párrafos destacados */
+  --size-body: 18px;
+  --size-small: 16px;
+  --size-caption: 14px;                      /* datos y etiquetas de tarjetas */
   --size-label: 12px;                        /* etiquetas en mayúsculas */
 
   /* Color: azul de la sudadera del personaje (jacketColor en site.js) + un acento cálido */
@@ -50,7 +52,7 @@
 
 /* Estilos de texto reutilizables */
 /* Etiqueta: pequeña, en mayúsculas y con aire entre letras */
-.section-meta, .about__lists h3, .case h3, .case__eyebrow, .case__facts dt {
+.section-meta, .about__lists h3, .case h3, .case__eyebrow, .case__facts dt, .case-card__meta {
   font-family: var(--font-text); font-weight: 600; font-size: var(--size-label);
   letter-spacing: .14em; text-transform: uppercase;
 }
@@ -216,14 +218,6 @@ img, video { display: block; max-width: 100%; }
 .hero__title-outline { fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linejoin: round; }
 .hero__title-fill { fill: var(--ink); }
 
-/* Textos curvos */
-.hero__captions {
-  position: absolute; z-index: 2; left: 50%; bottom: 20vh;
-  width: min(1200px, 96vw); transform: translateX(-50%);
-  overflow: visible; pointer-events: none;
-}
-.hero__captions text { font-family: var(--font-accent); font-style: italic; font-size: 34px; fill: var(--ink); }
-
 /* Personaje */
 .hero__character {
   position: absolute; z-index: 3;
@@ -232,7 +226,7 @@ img, video { display: block; max-width: 100%; }
 }
 /* Personaje animado */
 .character { position: relative; isolation: isolate; }
-.character, .about__character { --char-ink: #000; --char-light: #FBF4E9; --char-white: #fff; --char-shade: #353331; }
+.character, .about__character { --char-ink: #000; --char-light: #FBF4E9; --char-shade: #353331; }
 .character__art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 /* Solo la cabeza, que se mueve al ritmo (pivote en el cuello) */
 .character__head {
@@ -292,17 +286,28 @@ img, video { display: block; max-width: 100%; }
   .character__steam path, .character__notes span, .character__head { animation: none; }
 }
 
-/* Botón Explore */
-.hero__explore {
-  position: absolute; z-index: 4; left: 50%; bottom: 0; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 2px;
-  min-width: 74px; padding: 18px 14px 10px; white-space: nowrap;
-  background: var(--brand); color: #fff;
-  border-radius: 40px 40px 0 0;
-  font-family: var(--font-text); font-weight: 600; font-size: var(--size-label); letter-spacing: .12em;
+/* Mouse que invita a bajar: la rueda baja y se desvanece, una y otra vez */
+/* Siempre por debajo de los pies del personaje, que acaban a 9vh del borde; el padding agranda la zona de clic */
+.hero__scroll {
+  position: absolute; z-index: 4; left: 50%; bottom: clamp(6px, 9vh - 50px, 22px); translate: -50% 0;
+  padding: 8px; margin-bottom: -8px;
 }
-.hero__explore span { font-size: 20px; line-height: 1; transition: transform .3s; }
-.hero__explore:hover span { transform: translateY(3px); }
+.hero__mouse {
+  display: flex; justify-content: center;
+  width: 28px; height: 44px; padding-top: 8px;
+  border: 2px solid var(--ink); border-radius: 14px; background: var(--paper);
+  transition: border-color .3s;
+}
+.hero__wheel { width: 4px; height: 9px; border-radius: 2px; background: var(--ink); animation: wheel 2s ease-in-out infinite; transition: background-color .3s; }
+.hero__scroll:hover .hero__mouse { border-color: var(--brand); }
+.hero__scroll:hover .hero__wheel { background: var(--brand); }
+@keyframes wheel {
+  /* Baja y se desvanece; luego vuelve a aparecer arriba */
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  55% { transform: translateY(13px); opacity: 0; }
+  56% { transform: translateY(0); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .hero__wheel { animation: none; } }
 
 /* Secciones */
 /* Número y nombre de la sección sobre una línea fina (SectionHead.jsx) */
@@ -339,37 +344,64 @@ img, video { display: block; max-width: 100%; }
 .button.cta { padding-inline: 24px; font-family: var(--font-text); font-weight: 600; font-size: var(--size-small); }
 .about .cta { margin-top: 36px; }
 
-/* Work */
-.work { padding: clamp(64px, 10vw, 140px) var(--gutter); }
-.work__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(36px, 4vw, 56px) clamp(16px, 3vw, 40px); }
-.card:nth-child(even) { margin-top: clamp(0px, 6vw, 80px); }
-.card__button {
-  display: block; width: 100%; text-align: left; cursor: pointer;
-  background: none; border: 0; color: inherit; font: inherit; padding: 0;
+/* Work: los casos en pila (Work.jsx). Cada tarjeta mide una pantalla de alto y se queda fija;
+   la siguiente sube por encima, un poco más abajo (--peek), y deja ver el borde de las anteriores */
+.work { padding: clamp(64px, 10vw, 140px) var(--gutter) clamp(24px, 4vw, 56px); }
+.work .section-head { margin-bottom: 0; }
+.stack {
+  list-style: none; --peek: 28px;
+  /* Alto de cada tarjeta: cabe en la pantalla aunque sea la última de la pila */
+  --card-h: min(580px, 100svh - var(--nav-h) - 48px - (var(--cards) - 1) * var(--peek));
+  /* Aire de arriba para que la pila completa quede centrada bajo el menú */
+  --stack-top: max(24px, (100svh - var(--nav-h) - var(--card-h) - (var(--cards) - 1) * var(--peek)) / 2);
 }
-.card__media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 16px; }
-.card__media > :is(img, video, .card__placeholder) { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.22,1,.36,1); }
-.card:hover .card__media > :is(img, video) { transform: scale(1.04); }
+.stack__item {
+  position: sticky; top: 0; height: 100vh; height: 100svh;
+  padding-top: calc(var(--nav-h) + var(--stack-top) + var(--i) * var(--peek));
+  pointer-events: none; /* la parte vacía no tapa los clics de la tarjeta de atrás */
+}
+.case-card {
+  position: relative; pointer-events: auto; transform-origin: 50% 0;
+  height: var(--card-h);
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 16px;
+  padding: 16px; border: 1px solid var(--line); border-radius: 28px;
+  background: var(--paper); box-shadow: 0 -12px 40px rgba(14, 14, 14, .07);
+}
+.case-card__info { display: flex; flex-direction: column; min-width: 0; padding: 14px 12px 8px 14px; }
+.case-card__meta { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); }
+.case-card__title {
+  margin-top: clamp(20px, 5vh, 56px);
+  font-family: var(--font-display); font-weight: 400; text-transform: uppercase;
+  font-size: var(--size-headline); line-height: .95; letter-spacing: -.01em;
+}
+/* El botón del título cubre toda la tarjeta: se puede pulsar en cualquier parte */
+.case-card__button {
+  background: none; border: 0; padding: 0; color: inherit; font: inherit; text-transform: inherit; letter-spacing: inherit;
+  text-align: left; cursor: pointer;
+}
+.case-card__button::after { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: 28px; }
+.case-card__button:focus-visible { outline: none; }
+.case-card__button:focus-visible::after { outline: 2px solid var(--brand); outline-offset: 4px; }
+.case-card__summary { margin-top: 16px; max-width: 30ch; font-size: var(--size-lead); line-height: 1.35; }
+.case-card__metric { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--line); }
+/* El contador de Rare UI hace cada dígito de 1.5em de alto: el margen negativo quita ese aire extra */
+.case-card__metric strong { display: block; font-family: var(--font-display); font-weight: 400; font-size: var(--size-headline); line-height: 1; margin-block: -.25em; }
+.case-card__metric > span { display: block; margin-top: 10px; color: var(--muted); font-size: var(--size-caption); }
+.case-card__foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }
+.case-card__tags { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.case-card__tags li { padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: var(--size-caption); font-weight: 500; }
+.case-card__cta {
+  flex-shrink: 0; padding: 10px 18px; border-radius: 999px;
+  background: var(--ink); color: var(--paper); font-weight: 600; font-size: var(--size-small);
+  transition: background-color .3s;
+}
+.case-card:hover .case-card__cta { background: var(--brand); }
+.case-card__media { position: relative; overflow: hidden; border-radius: 18px; }
+.case-card__media > :is(img, video, .case-card__placeholder) { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.22,1,.36,1); }
+.case-card:hover .case-card__media > :is(img, video) { transform: scale(1.04); }
 /* Sin portada: móvil o navegador de ejemplo sobre el color del caso */
-.card__placeholder { display: grid; place-items: end center; overflow: hidden; }
-.card__button:hover .device { translate: 0 -5%; rotate: 0deg; }
-.card__number {
-  position: absolute; top: 16px; left: 16px;
-  padding: 7px 10px 6px; border-radius: 999px; background: var(--paper); color: var(--ink);
-  font-weight: 600; font-size: var(--size-label); letter-spacing: .1em; line-height: 1;
-}
-.card__metric {
-  position: absolute; left: 16px; bottom: 16px;
-  padding: 8px 14px; border-radius: 999px; background: var(--paper); color: var(--ink);
-  font-size: var(--size-caption);
-}
-.card__metric strong { font-weight: 600; }
-.card__meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-top: 18px; }
-.card__meta h3 { font-size: var(--size-heading); font-weight: 600; letter-spacing: -.01em; }
-.card__meta span { font-size: var(--size-caption); color: var(--muted); white-space: nowrap; }
-.card__summary { margin-top: 6px; color: var(--muted); font-size: var(--size-small); line-height: 1.5; }
-.card__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
-.card__tags span { padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: var(--size-caption); font-weight: 500; }
+.case-card__placeholder { display: grid; place-items: end center; overflow: hidden; }
+.case-card:hover .device { translate: 0 -5%; rotate: 0deg; }
 
 /* Móvil o navegador de ejemplo (Mocks.jsx) */
 .device {
@@ -558,6 +590,7 @@ img, video { display: block; max-width: 100%; }
   .section-head__aside { max-width: 44ch; }
   .about__lists { grid-template-columns: 1fr; }
   .process__list { grid-template-columns: repeat(2, 1fr); }
+  .case-card { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* Móvil */
@@ -578,12 +611,21 @@ img, video { display: block; max-width: 100%; }
   .hero__intro h1, .hero__intro p { font-size: var(--size-caption); }
   .case__nav { grid-template-columns: 1fr; }
   .ring { margin-top: -8vh; }
-  .hero__captions { display: none; }
   .hero__character { bottom: 9vh; }
   /* En móviles bajos se achica para que el saludo no tape la presentación */
   .character__breath { height: min(46vh, 79vh - 256px); }
-  .work__grid { grid-template-columns: 1fr; }
-  .card:nth-child(even) { margin-top: 0; }
+  /* Pila de casos: el texto arriba, la imagen debajo y menos borde visible entre tarjetas */
+  .stack { --peek: 16px; --card-h: min(620px, 100svh - var(--nav-h) - 24px - (var(--cards) - 1) * var(--peek)); }
+  .case-card { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); gap: 12px; padding: 12px; border-radius: 22px; }
+  .case-card__button::after { border-radius: 22px; }
+  .case-card__info { padding: 8px 6px 0; }
+  .case-card__title { margin-top: 14px; }
+  .case-card__summary { margin-top: 8px; font-size: var(--size-small); }
+  .case-card__metric { display: flex; align-items: baseline; gap: 10px; margin-top: 14px; padding-top: 12px; }
+  .case-card__metric > span { margin-top: 0; }
+  .case-card__foot { margin-top: 12px; }
+  .case-card__cta { display: none; }
+  .case-card__media { border-radius: 14px; }
   .about__grid { grid-template-columns: 1fr; }
   .about__character { max-width: 220px; }
   .about__lists, .case__facts { grid-template-columns: 1fr; }
@@ -605,7 +647,7 @@ img, video { display: block; max-width: 100%; }
   .nav__tabs a { padding: 3px 5px; }
 }
 
-/* Píldora de progreso (Rare UI): abajo a la derecha para no tapar el botón Ver casos */
+/* Píldora de progreso (Rare UI): abajo a la derecha para no tapar el mouse de la portada */
 .progress-pill { left: auto; right: 24px; translate: none; }
 .progress-pill [data-slot="scroll-progress-surface"] { left: auto; right: 0; translate: none; }
 .progress-pill [data-slot="scroll-progress-surface"] { border: 1px solid var(--line); background: var(--paper); box-shadow: var(--float); }

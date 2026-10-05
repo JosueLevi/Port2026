@@ -5,7 +5,8 @@ import { characterArt as art } from '../data/characterArt.js'
 
 const ease = [0.22, 1, 0.36, 1]
 
-const fills = { ink: 'var(--char-ink)', light: 'var(--char-light)', white: 'var(--char-white)', shade: 'var(--char-shade)' }
+// Las partes claras de la silla ('white') no se pintan: quedan transparentes (ver la máscara de abajo)
+const fills = { ink: 'var(--char-ink)', light: 'var(--char-light)', shade: 'var(--char-shade)' }
 const pts = (list) => list.trim().split(/\s+/).map((p) => p.split(',').map(Number))
 const toPath = (list) => 'M' + pts(list).map((p) => p.join(' ')).join('L') + 'Z'
 
@@ -31,20 +32,28 @@ export function CharacterArt({ className = 'character__art' }) {
         <filter id={id('inset')}>
           <feMorphology operator="erode" radius="1.6" />
         </filter>
+        {/* Huecos de la silla: se repite el orden de pintado y lo que acaba en una parte
+            clara de la silla queda en negro (oculto), así se ve lo que hay detrás */}
+        <mask id={id('chair')} maskUnits="userSpaceOnUse" x="-50" y="-50" width="451" height="615">
+          <rect x="-50" y="-50" width="451" height="615" fill="#fff" />
+          {art.body.map(([tone, d], i) => (
+            <path key={i} d={d} fill={tone === 'white' ? '#000' : '#fff'} />
+          ))}
+        </mask>
       </defs>
 
       {/* Cuerpo (sin la cabeza) */}
       <g clipPath={`url(#${id('body')})`}>
-        <path d={art.base} fill={fills.ink} />
-        {/* Sudadera del color elegido, encogida un poco para dejar el contorno negro */}
-        {site.jacketColor && (
-          <g filter={`url(#${id('inset')})`}>
-            <path d={art.base} fill={site.jacketColor} clipPath={`url(#${id('jacket')})`} />
-          </g>
-        )}
-        {art.body.map(([tone, d], i) => (
-          <path key={i} d={d} fill={fills[tone]} />
-        ))}
+        <g mask={`url(#${id('chair')})`}>
+          <path d={art.base} fill={fills.ink} />
+          {/* Sudadera del color elegido, encogida un poco para dejar el contorno negro */}
+          {site.jacketColor && (
+            <g filter={`url(#${id('inset')})`}>
+              <path d={art.base} fill={site.jacketColor} clipPath={`url(#${id('jacket')})`} />
+            </g>
+          )}
+          {art.body.map(([tone, d], i) => fills[tone] && <path key={i} d={d} fill={fills[tone]} />)}
+        </g>
       </g>
 
       {/* Cabeza, que se mueve al ritmo */}

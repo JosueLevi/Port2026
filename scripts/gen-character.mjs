@@ -5,7 +5,7 @@ const paths = [...svg.matchAll(/\bd="([^"]+)" fill="([^"]+)"/g)].map((m) => [m[1
 if (paths.length !== 58) throw new Error(`Se esperaban 58 trazados y hay ${paths.length}`)
 const tone = { black: 'ink', '#FBF4E9': 'light', '#353331': 'shade' }
 const head = new Set([6, 9, 21, 25, 33, 35, 36, 39])
-// Partes claras de la silla (patas, bordes del asiento y del respaldo): van en blanco, no en crema
+// Partes claras de la silla (patas, bordes del asiento y del respaldo): la web las deja transparentes
 const chair = new Set([4, 5, 8, 15, 22, 23, 26, 27, 30, 31, 32, 40, 41])
 const short = (d) => d.replace(/(\d+\.\d{2})\d+/g, '$1')
 const W = 351, H = 515
@@ -17,7 +17,7 @@ paths.slice(1).forEach(([d, f], i) => {
 })
 const out = [
   '// Ilustración vectorial del personaje (de Josue.svg), separada en capas para animarla.',
-  '// ink = negro, light = crema, white = blanco (silla), shade = gris. Coordenadas en un lienzo de 351 x 515.',
+  '// ink = negro, light = crema, white = partes claras de la silla (transparentes), shade = gris. Coordenadas en un lienzo de 351 x 515.',
   'export const characterArt = {',
   "  viewBox: '0 0 351 515',",
   '  // Silueta negra completa (se dibuja en el cuerpo y en la cabeza)',
