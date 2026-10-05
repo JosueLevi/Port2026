@@ -16,6 +16,10 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
   const total = projects.length
   const prevIndex = index === null ? 0 : (index - 1 + total) % total
   const nextIndex = index === null ? 0 : (index + 1) % total
+  // Datos del caso bajo el resumen; los que falten en site.js no se muestran
+  const facts = p
+    ? [['Rol', p.role], ['Duración', p.duration], ['Herramientas', p.tools]].filter(([, value]) => value)
+    : []
 
   // Al cambiar de caso, vuelve arriba
   useEffect(() => {
@@ -75,54 +79,76 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
             <button ref={closeRef} className="case__close" onClick={onClose} aria-label="Cerrar caso de estudio">
               ✕
             </button>
-            <p className="case__eyebrow">{p.client} · {p.year}</p>
+            <p className="case__eyebrow">{[p.client, p.year].filter(Boolean).join(' · ')}</p>
             <h2 id="case-title" className="case__title">{p.title}</h2>
             <p className="case__summary">{p.summary}</p>
 
             <dl className="case__facts">
-              <div>
-                <dt>Rol</dt>
-                <dd>{p.role}</dd>
-              </div>
-              <div>
-                <dt>Duración</dt>
-                <dd>{p.duration}</dd>
-              </div>
-              <div>
-                <dt>Herramientas</dt>
-                <dd>{p.tools}</dd>
-              </div>
+              {facts.map(([label, value]) => (
+                <div key={label}>
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
             </dl>
 
             <div className="case__cover" style={{ background: p.color }}>
               {p.cover ? <img src={p.cover} alt={`Pantallas de ${p.title}`} /> : <DeviceMock type={p.type} title={p.title} />}
             </div>
 
-            <section>
-              <h3>El problema</h3>
-              <p>{p.problem}</p>
-            </section>
+            {/* Cada parte sale solo si el caso la tiene en site.js */}
+            {p.description && (
+              <section>
+                <h3>El proyecto</h3>
+                <p>{p.description}</p>
+              </section>
+            )}
 
-            <section>
-              <h3>Proceso</h3>
-              <ol className="case__process">
-                {p.process.map((step) => (
-                  <li key={step}>{step}</li>
-                ))}
-              </ol>
-            </section>
+            {p.problem && (
+              <section>
+                <h3>El problema</h3>
+                <p>{p.problem}</p>
+              </section>
+            )}
 
-            <section>
-              <h3>Resultado</h3>
-              <div className="case__metrics">
-                {p.metrics.map((m) => (
-                  <div key={m.label}>
-                    <strong><Metric value={m.value} /></strong>
-                    <span>{m.label}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
+            {p.process?.length > 0 && (
+              <section>
+                <h3>Proceso</h3>
+                <ol className="case__process">
+                  {p.process.map((step) => (
+                    <li key={step}>{step}</li>
+                  ))}
+                </ol>
+              </section>
+            )}
+
+            {p.stack?.length > 0 && (
+              <section>
+                <h3>Stack</h3>
+                <dl className="case__stack">
+                  {p.stack.map((s) => (
+                    <div key={s.label}>
+                      <dt>{s.label}</dt>
+                      <dd>{s.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            )}
+
+            {p.metrics?.length > 0 && (
+              <section>
+                <h3>Resultado</h3>
+                <div className="case__metrics">
+                  {p.metrics.map((m) => (
+                    <div key={m.label}>
+                      <strong><Metric value={m.value} /></strong>
+                      <span>{m.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
             <section className="case__cta">
               <h3>¿Hablamos?</h3>

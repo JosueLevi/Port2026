@@ -97,29 +97,34 @@ export const screens = [
   { title: 'Ajustes', project: 3 },
 ]
 
-// Casos de estudio. `cover` (imagen) o `video` en /public/assets/.
+// Casos de estudio, en el orden de la pila. `cover` (imagen) o `video` en /public/assets/.
 // Sin portada se muestra un móvil o un navegador de ejemplo (`type: 'web'`) sobre el color del caso.
 // `tags`: etiquetas cortas que se ven en la tarjeta (tipo de proyecto, plataforma...).
+// Solo hacen falta título, año, rol y resumen: lo demás (duration, tools, description, problem,
+// process, stack, metrics) es opcional y, si no lo pones, esa parte no sale en el caso.
 export const projects = [
   {
-    title: 'App de salud',
-    tags: ['App móvil', 'Onboarding'],
-    client: 'Proyecto de ejemplo',
+    title: 'Gestor de finanzas personales',
+    tags: ['App móvil', 'SaaS'],
+    client: 'Proyecto personal',
     year: '2026',
-    role: 'UX/UI Designer',
-    duration: '3 meses',
-    tools: 'Figma · Maze',
-    color: 'var(--brand)',
-    summary: 'Rediseño del onboarding de una app de seguimiento de hábitos.',
-    problem: 'El 60% de los usuarios abandonaba la app antes de terminar el registro.',
-    process: [
-      '8 entrevistas con usuarios y análisis del embudo de registro.',
-      'Reducción del registro de 7 a 3 pasos y nueva arquitectura de información.',
-      'Prototipo en Figma validado con 2 rondas de test en Maze.',
-    ],
-    metrics: [
-      { value: '+35%', label: 'registros completados' },
-      { value: '-50%', label: 'tiempo de onboarding' },
+    role: 'UX/UI Designer y Developer',
+    color: 'var(--ink)',
+    cover: '/assets/img/gestor-finanzas.webp',
+    summary: 'Tus finanzas pueden sentirse más simples.',
+    // Qué es el producto (sale en el caso abierto, en "El proyecto")
+    description:
+      'Levi es una plataforma de finanzas personales para registrar ingresos y gastos, organizar movimientos por categorías y controlar presupuestos. Muestra tu saldo, gráficos y comparaciones mensuales para ayudarte a entender en qué se va tu dinero.',
+    // Con qué está hecho (sale en el caso abierto, en "Stack")
+    stack: [
+      { label: 'Frontend', value: 'React 19 con JavaScript/JSX y Vite 8' },
+      { label: 'Interfaz', value: 'Tailwind CSS 4 y HeroUI 3' },
+      { label: 'Estado', value: 'Zustand' },
+      { label: 'Gráficos', value: 'Recharts' },
+      { label: 'Animaciones e íconos', value: 'Framer Motion y Lucide React' },
+      { label: 'Backend', value: 'Supabase: PostgreSQL, Auth y políticas RLS' },
+      { label: 'Despliegue', value: 'Vercel, con el código en GitHub' },
+      { label: 'IA', value: 'Codex' },
     ],
   },
   {

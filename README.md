@@ -17,7 +17,8 @@ npm run build    # genera /dist para subir a Vercel, Netlify, etc.
 - **Pantallas del carrusel 3D:** lista `screens` en `src/data/site.js` (añade `image` con tus capturas)
 - **Título de la portada:** `heroTitle` en `src/data/site.js`
 - **Personaje (portada y Sobre mí, vectorial):** los colores son variables CSS (`--char-ink`, `--char-light` y `--char-shade`) en `.character` de `src/styles.css` y las partes claras de la silla son transparentes; el color de la sudadera es `jacketColor` en `src/data/site.js`; `src/data/characterArt.js` se regenera con `node scripts/gen-character.mjs public/assets/img/personaje.svg`.
-- **Imágenes y videos de proyectos:** `public/assets/img/` y `public/assets/video/`, y añade `image: '/assets/img/x.webp'` o `video: '/assets/video/x.mp4'` al proyecto en `site.js`
+- **Casos de estudio:** lista `projects` en `src/data/site.js`, en el orden de la pila. Solo hacen falta `title`, `year`, `role` y `summary`; `duration`, `tools`, `description`, `problem`, `process`, `stack` y `metrics` son opcionales y, si faltan, esa parte no sale en el caso.
+- **Imágenes y videos de proyectos:** `public/assets/img/` y `public/assets/video/`, y añade `cover: '/assets/img/x.webp'` o `video: '/assets/video/x.mp4'` al proyecto en `site.js` (en las pantallas del carrusel es `image`). Mejor horizontales (16:9 o 16:10): en tablet y móvil la imagen va abajo de la tarjeta, en apaisado.
 - **Colores y tipografía:** variables al inicio de `src/styles.css`. Hay dos fuentes, incluidas vía @fontsource: Archivo Black para los títulos (`--font-display`) y Barlow para todo lo demás (`--font-text`). Los tamaños salen de la escala `--size-*` (de `--size-label` a `--size-display`).
 
 > **Ojo:** las métricas de los casos de estudio de ejemplo (`metrics` en `site.js`) son inventadas. Cámbialas por datos reales de tus proyectos o elimínalas antes de publicar.
