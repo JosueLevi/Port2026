@@ -163,6 +163,8 @@ img, video { display: block; max-width: 100%; }
   user-select: none; cursor: pointer;
 }
 .ring__card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+/* Sin caso que abrir, la pantalla no parece un enlace: se arrastra como el resto del carrusel */
+.ring__card:not([data-project]) { cursor: inherit; }
 /* Pantallas web: apaisadas, centradas a la altura de las de móvil */
 .ring__card--web {
   --h: calc(var(--w) * 19.5 / 9);
