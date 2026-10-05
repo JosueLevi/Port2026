@@ -10,7 +10,6 @@ export const site = {
   location: 'TU CIUDAD, PAÍS',
   email: 'hola@tudominio.com',
   cv: withBase('/cv.pdf'), // pon tu CV en /public/cv.pdf
-  character: withBase('/assets/img/personaje.png'),
   // Color de la chaqueta del personaje (null = negro original). Ej: '#2f5bea'
   jacketColor: '#2f5bea',
 
@@ -69,7 +68,7 @@ export const projects = [
     role: 'UX/UI Designer',
     duration: '3 meses',
     tools: 'Figma · Maze',
-    color: '#111111',
+    color: 'var(--brand)',
     summary: 'Rediseño del onboarding de una app de seguimiento de hábitos.',
     problem: 'El 60% de los usuarios abandonaba la app antes de terminar el registro.',
     process: [
@@ -89,7 +88,7 @@ export const projects = [
     role: 'Product Designer',
     duration: '4 meses',
     tools: 'Figma · FigJam',
-    color: '#e6e6e6',
+    color: 'var(--pop)',
     summary: 'Panel de analítica para equipos de ventas.',
     problem: 'Los usuarios no encontraban los datos clave entre demasiados gráficos.',
     process: [
@@ -109,7 +108,7 @@ export const projects = [
     role: 'UX/UI Designer',
     duration: '2 meses',
     tools: 'Figma · Hotjar',
-    color: '#2a2a2a',
+    color: 'var(--ink)',
     summary: 'Optimización del checkout móvil de una tienda online.',
     problem: 'Alta tasa de abandono del carrito en móvil.',
     process: [
@@ -126,7 +125,7 @@ export const projects = [
     role: 'UI Designer',
     duration: '6 meses',
     tools: 'Figma · Storybook',
-    color: '#d4d4d4',
+    color: 'var(--brand-soft)',
     summary: 'Sistema de diseño accesible para 3 productos.',
     problem: 'Cada producto tenía estilos distintos y el desarrollo era lento.',
     process: [

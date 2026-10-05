@@ -1,4 +1,4 @@
-/* Tailwind solo para los componentes de Rare UI (src/components/ui).
+/* Tailwind solo para los componentes de Rare UI (src/components/ui) y de HeroUI.
    Sin "preflight": así no cambia ningún estilo de styles.css. */
 @layer theme, base, components, utilities;
 @import "tailwindcss/theme.css" layer(theme);
@@ -6,12 +6,15 @@
 /* Solo genera clases para los componentes de Rare UI, no para el resto de la web */
 @source "./components/ui";
 
-/* Colores que esperan los componentes (estilo shadcn) */
-@theme {
-  --color-background: #ffffff;
-  --color-foreground: #0d0d0d;
-  --color-border: #d4d4d4;
-}
+/* HeroUI (https://heroui.com): variables del tema y solo los componentes que usamos.
+   Para usar otro, añade aquí su CSS, p. ej. "@heroui/styles/components/tooltip.css".
+   Los colores (--accent, --warning...) se ajustan en :root de styles.css. */
+@import "tw-animate-css";
+@import "@heroui/styles/themes/default" layer(theme);
+@import "@heroui/styles/utilities";
+@import "@heroui/styles/variants";
+@import "@heroui/styles/components/button.css" layer(components);
+@import "@heroui/styles/components/chip.css" layer(components);
 
 /* Mínimo reset para los componentes (sustituye al preflight de Tailwind) */
 @layer base {
@@ -20,4 +23,6 @@
     font: inherit; color: inherit; cursor: pointer;
   }
   [data-slot^="scroll-progress"] ul { list-style: none; }
+  .button, .chip { border: 0 solid; font-family: inherit; letter-spacing: inherit; text-decoration: none; }
+  button.button { margin: 0; }
 }

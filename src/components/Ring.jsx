@@ -125,7 +125,7 @@ export default function Ring({ onOpenProject }) {
       cards.forEach((c, i) => {
         const a = (((angles[i] + angle) % 360) + 540) % 360 - 180 // -180..180
         const off = Math.min(Math.abs(a) / 90, 1) // 0 delante, 1 al lado
-        c.style.filter = `grayscale(1) blur(${(off * off * 6).toFixed(2)}px)`
+        c.style.filter = `blur(${(off * off * 6).toFixed(2)}px)`
         c.style.opacity = (1 - off * 0.55).toFixed(2)
       })
 

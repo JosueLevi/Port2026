@@ -1,5 +1,9 @@
 import { motion } from 'framer-motion'
+import { Chip } from '@heroui/react'
 import { process } from '../data/site.js'
+
+// Un color por paso (colores del tema de HeroUI, ver :root en styles.css)
+const stepColors = ['accent', 'warning', 'success', 'danger']
 
 export default function Process() {
   return (
@@ -16,7 +20,7 @@ export default function Process() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: i * 0.08 }}
           >
-            <span className="process__step">{s.step}</span>
+            <Chip className="process__step" color={stepColors[i % stepColors.length]} variant="soft">{s.step}</Chip>
             <h3>{s.title}</h3>
             <p>{s.text}</p>
           </motion.li>

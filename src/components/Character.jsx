@@ -9,6 +9,55 @@ const fills = { ink: 'var(--char-ink)', light: 'var(--char-light)', shade: 'var(
 const pts = (list) => list.trim().split(/\s+/).map((p) => p.split(',').map(Number))
 const toPath = (list) => 'M' + pts(list).map((p) => p.join(' ')).join('L') + 'Z'
 
+/**
+ * Dibujo del personaje en capas: cuerpo, sudadera (color de site.jacketColor) y la cabeza,
+ * que se mueve al ritmo. Se usa en la portada y en "Sobre mí".
+ */
+export function CharacterArt({ className = 'character__art' }) {
+  const uid = useId().replace(/:/g, '')
+  const id = (name) => `${name}-${uid}`
+  return (
+    <svg className={className} viewBox={art.viewBox} aria-hidden="true">
+      <defs>
+        <clipPath id={id('body')}>
+          <path d={`M-50 -50H401V565H-50Z${toPath(art.headArea)}`} clipRule="evenodd" />
+        </clipPath>
+        <clipPath id={id('head')}>
+          <polygon points={art.headClip} />
+        </clipPath>
+        <clipPath id={id('jacket')}>
+          <polygon points={art.jacketArea} />
+        </clipPath>
+        <filter id={id('inset')}>
+          <feMorphology operator="erode" radius="1.6" />
+        </filter>
+      </defs>
+
+      {/* Cuerpo (sin la cabeza) */}
+      <g clipPath={`url(#${id('body')})`}>
+        <path d={art.base} fill={fills.ink} />
+        {/* Sudadera del color elegido, encogida un poco para dejar el contorno negro */}
+        {site.jacketColor && (
+          <g filter={`url(#${id('inset')})`}>
+            <path d={art.base} fill={site.jacketColor} clipPath={`url(#${id('jacket')})`} />
+          </g>
+        )}
+        {art.body.map(([tone, d], i) => (
+          <path key={i} d={d} fill={fills[tone]} />
+        ))}
+      </g>
+
+      {/* Cabeza, que se mueve al ritmo */}
+      <g className="character__head" clipPath={`url(#${id('head')})`}>
+        <path d={art.base} fill={fills.ink} />
+        {art.head.map(([tone, d], i) => (
+          <path key={i} d={d} fill={fills[tone]} />
+        ))}
+      </g>
+    </svg>
+  )
+}
+
 const greetings = [`¡Hola! Soy ${site.name} 👋`, 'Diseño productos claros y medibles', 'Mira mis casos de estudio ↓']
 
 /**
@@ -20,9 +69,6 @@ export default function Character() {
   const [hover, setHover] = useState(false)
   const [clicked, setClicked] = useState(false)
   const [greeting, setGreeting] = useState(0)
-  const uid = useId().replace(/:/g, '')
-  const id = (name) => `${name}-${uid}`
-
   // Inclinación hacia el cursor, con muelle para que sea suave
   const rotate = useSpring(useMotionValue(0), { stiffness: 60, damping: 15 })
   const x = useSpring(useMotionValue(0), { stiffness: 60, damping: 15 })
@@ -69,44 +115,7 @@ export default function Character() {
           onClick={greet}
           onBlur={() => setClicked(false)}
         >
-          <svg className="character__art" viewBox={art.viewBox} aria-hidden="true">
-            <defs>
-              <clipPath id={id('body')}>
-                <path d={`M-50 -50H401V565H-50Z${toPath(art.headArea)}`} clipRule="evenodd" />
-              </clipPath>
-              <clipPath id={id('head')}>
-                <polygon points={art.headClip} />
-              </clipPath>
-              <clipPath id={id('jacket')}>
-                <polygon points={art.jacketArea} />
-              </clipPath>
-              <filter id={id('inset')}>
-                <feMorphology operator="erode" radius="1.6" />
-              </filter>
-            </defs>
-
-            {/* Cuerpo (sin la cabeza) */}
-            <g clipPath={`url(#${id('body')})`}>
-              <path d={art.base} fill={fills.ink} />
-              {/* Sudadera del color elegido, encogida un poco para dejar el contorno negro */}
-              {site.jacketColor && (
-                <g filter={`url(#${id('inset')})`}>
-                  <path d={art.base} fill={site.jacketColor} clipPath={`url(#${id('jacket')})`} />
-                </g>
-              )}
-              {art.body.map(([tone, d], i) => (
-                <path key={i} d={d} fill={fills[tone]} />
-              ))}
-            </g>
-
-            {/* Cabeza, que se mueve al ritmo */}
-            <g className="character__head" clipPath={`url(#${id('head')})`}>
-              <path d={art.base} fill={fills.ink} />
-              {art.head.map(([tone, d], i) => (
-                <path key={i} d={d} fill={fills[tone]} />
-              ))}
-            </g>
-          </svg>
+          <CharacterArt />
 
           {/* Vapor del café */}
           <svg className="character__steam" viewBox="0 0 60 80" aria-hidden="true">

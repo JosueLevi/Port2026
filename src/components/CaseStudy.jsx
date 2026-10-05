@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { buttonVariants } from '@heroui/react'
 import { projects, site } from '../data/site.js'
 import Metric from './Metric.jsx'
 
@@ -125,7 +126,7 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
             <section className="case__cta">
               <h3>¿Hablamos?</h3>
               <p>¿Tienes un producto que mejorar? Escríbeme y lo vemos juntos.</p>
-              <a className="button" href={`mailto:${site.email}`}>Escribirme</a>
+              <a className={`${buttonVariants({ variant: 'secondary', size: 'lg' })} cta`} href={`mailto:${site.email}`}>Escribirme</a>
             </section>
 
             {total > 1 && (

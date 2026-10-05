@@ -14,8 +14,7 @@ npm run build    # genera /dist para subir a Vercel, Netlify, etc.
 - **CV:** pon tu archivo en `public/cv.pdf` (lo descarga el botón de la sección About)
 - **Pantallas del carrusel 3D:** lista `screens` en `src/data/site.js` (añade `image` con tus capturas)
 - **Título y textos curvos de la portada:** `heroTitle`, `captionLeft`, `captionRight` en `src/data/site.js`
-- **Personaje:** `public/assets/img/personaje.png` (fondo transparente)
-- **Personaje del hero (vector):** los colores son variables CSS (`--char-ink`, `--char-light`) en `.character` de `src/styles.css`; el color de la sudadera es `jacketColor` en `src/data/site.js`; `src/data/characterArt.js` se regenera con `node scripts/gen-character.mjs public/assets/img/personaje.svg`.
+- **Personaje (portada y Sobre mí, vectorial):** los colores son variables CSS (`--char-ink`, `--char-light`) en `.character` de `src/styles.css`; el color de la sudadera es `jacketColor` en `src/data/site.js`; `src/data/characterArt.js` se regenera con `node scripts/gen-character.mjs public/assets/img/personaje.svg`.
 - **Imágenes y videos de proyectos:** `public/assets/img/` y `public/assets/video/`, y añade `image: '/assets/img/x.webp'` o `video: '/assets/video/x.mp4'` al proyecto en `site.js`
 - **Colores y tipografía:** variables al inicio de `src/styles.css` (fuentes Bricolage Grotesque para títulos y menú e Inter para textos, incluidas vía @fontsource; el grosor de los títulos es `--display-weight`)
 
