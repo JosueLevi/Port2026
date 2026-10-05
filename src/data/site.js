@@ -3,12 +3,14 @@
 const withBase = (path) => (path?.startsWith('/') ? import.meta.env.BASE_URL + path.slice(1) : path)
 
 // Cambia aquí tus textos y enlaces
+const email = 'friaslevi97@gmail.com'
+
 export const site = {
   name: 'Levi',
   logo: 'LV',
   role: 'UX/UI Designer',
-  location: 'TU CIUDAD, PAÍS',
-  email: 'hola@tudominio.com',
+  location: 'LIMA, PERÚ',
+  email,
   cv: withBase('/cv.pdf'), // pon tu CV en /public/cv.pdf
   // Color de la chaqueta del personaje (null = negro original). Ej: '#2f5bea'
   jacketColor: '#2f5bea',
@@ -22,8 +24,8 @@ export const site = {
   captionRight: 'RESEARCH → UI → PROTOTIPO',
 
   socials: [
-    { label: 'Telegram', icon: 'telegram', href: 'https://t.me/' },
-    { label: 'LinkedIn', icon: 'linkedin', href: 'https://linkedin.com/' },
+    { label: 'Gmail', icon: 'gmail', href: `mailto:${email}` },
+    { label: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/in/josue-frias-aquino-5955a9256' },
   ],
 
   about:

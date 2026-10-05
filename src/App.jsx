@@ -73,9 +73,12 @@ export default function App() {
       <Nav />
       <main>
         <Hero onOpenProject={setOpenProject} />
-        <Work onOpenProject={setOpenProject} />
-        <Process />
-        <About />
+        {/* Hoja que sube por encima de la portada fija */}
+        <div className="sheet">
+          <Work onOpenProject={setOpenProject} />
+          <Process />
+          <About />
+        </div>
       </main>
       <Contact />
       <CaseStudy index={openProject} onClose={() => setOpenProject(null)} onNavigate={setOpenProject} />

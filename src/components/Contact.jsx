@@ -1,4 +1,5 @@
 import { site } from '../data/site.js'
+import { external } from './Icons.jsx'
 
 export default function Contact() {
   return (
@@ -7,7 +8,7 @@ export default function Contact() {
       <a className="contact__mail" href={`mailto:${site.email}`}>{site.email}</a>
       <div className="contact__socials">
         {site.socials.map((s) => (
-          <a key={s.label} href={s.href} target="_blank" rel="noreferrer">{s.label}</a>
+          <a key={s.label} href={s.href} {...external(s.href)}>{s.label}</a>
         ))}
       </div>
       <small>© {new Date().getFullYear()} {site.name} · {site.role}</small>

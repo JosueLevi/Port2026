@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { site } from '../data/site.js'
 import Ring from './Ring.jsx'
 import Character from './Character.jsx'
@@ -6,8 +6,17 @@ import Character from './Character.jsx'
 const ease = [0.22, 1, 0.36, 1]
 
 export default function Hero({ onOpenProject }) {
+  // La portada se queda fija: al bajar, las demás secciones suben por encima
+  // y la portada se aleja y oscurece un poco (0 = arriba, 1 = ya tapada)
+  const reduce = useReducedMotion()
+  const { scrollY } = useScroll()
+  const covered = useTransform(scrollY, (y) => Math.min(Math.max(y / window.innerHeight, 0), 1))
+  const scale = useTransform(covered, [0, 1], [1, reduce ? 1 : 0.92])
+  const radius = useTransform(covered, [0, 1], [0, reduce ? 0 : 32])
+  const shade = useTransform(covered, [0, 1], [0, 0.2])
+
   return (
-    <section id="top" className="hero">
+    <motion.section id="top" className="hero" style={{ scale, borderRadius: radius }}>
       {/* Presentación visible: quién eres y qué haces */}
       <motion.div className="hero__intro" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6, ease }}>
         <h1>Hola, soy {site.name} · {site.role}</h1>
@@ -51,6 +60,7 @@ export default function Hero({ onOpenProject }) {
         {site.exploreLabel}
         <span aria-hidden="true">↓</span>
       </a>
-    </section>
+      <motion.div className="hero__shade" style={{ opacity: shade }} aria-hidden="true" />
+    </motion.section>
   )
 }

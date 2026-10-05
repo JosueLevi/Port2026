@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { site } from '../data/site.js'
-import { Pin, socialIcons } from './Icons.jsx'
+import { Pin, external, socialIcons } from './Icons.jsx'
 
 const tabs = [
   { label: 'WORK', href: '#work', id: 'work' },
@@ -50,7 +50,7 @@ export default function Nav() {
         {site.socials.map((s) => {
           const Icon = socialIcons[s.icon]
           return (
-            <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label}>
+            <a key={s.label} href={s.href} {...external(s.href)} aria-label={s.label}>
               <Icon />
             </a>
           )

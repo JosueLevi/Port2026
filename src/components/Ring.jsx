@@ -163,13 +163,19 @@ export default function Ring({ onOpenProject }) {
       }
     }
 
-    // Solo se anima mientras el carrusel está a la vista
-    const io = new IntersectionObserver(([entry]) => (entry.isIntersecting ? start() : stop()))
+    // Solo se anima mientras el carrusel está a la vista y la portada no está tapada
+    let visible = true
+    const update = () => (visible && window.scrollY < stage.offsetHeight ? start() : stop())
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting
+      update()
+    })
 
     layout()
     start()
     io.observe(stage)
     window.addEventListener('resize', layout)
+    window.addEventListener('scroll', update, { passive: true })
     stage.addEventListener('pointerdown', down)
     window.addEventListener('pointermove', move)
     window.addEventListener('pointerup', up)
@@ -177,6 +183,7 @@ export default function Ring({ onOpenProject }) {
       stop()
       io.disconnect()
       window.removeEventListener('resize', layout)
+      window.removeEventListener('scroll', update)
       stage.removeEventListener('pointerdown', down)
       window.removeEventListener('pointermove', move)
       window.removeEventListener('pointerup', up)
