@@ -43,18 +43,20 @@ export const process = [
 ]
 
 // Pantallas del carrusel 3D de la portada.
-// Pon tus capturas de apps/webs en /public/assets/img/ y añade `image: '/assets/img/x.webp'`.
+// `type: 'web'` dibuja una pantalla apaisada con barra de navegador; sin `type` es de móvil.
+// Pon tus capturas de apps/webs en /public/assets/img/ y añade `image: '/assets/img/x.webp'`
+// (móvil: vertical, unos 9:19,5 · web: apaisada, unos 16:10).
 // `project` es el índice del caso de estudio que se abre al hacer clic (opcional).
 // Sin imagen se dibuja una pantalla de ejemplo con el título.
 export const screens = [
   { title: 'Onboarding', project: 0 },
-  { title: 'Dashboard', project: 1 },
+  { title: 'Dashboard', type: 'web', project: 1 },
   { title: 'Checkout', project: 2 },
   { title: 'Perfil', project: 0 },
+  { title: 'Reportes', type: 'web', project: 1 },
   { title: 'Chat', project: 1 },
-  { title: 'Búsqueda', project: 2 },
+  { title: 'Agenda', type: 'web', project: 3 },
   { title: 'Ajustes', project: 3 },
-  { title: 'Agenda', project: 3 },
 ]
 
 // Casos de estudio. `cover` (imagen) o `video` en /public/assets/.

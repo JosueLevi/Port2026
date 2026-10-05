@@ -1,14 +1,30 @@
 import { useEffect, useRef } from 'react'
 import { screens } from '../data/site.js'
 
-// Se repiten las pantallas hasta llenar el anillo
-const MIN_CARDS = 24
-const cardsData = Array.from(
-  { length: Math.max(MIN_CARDS, screens.length) },
-  (_, i) => screens[i % screens.length]
-)
+// Ancho de cada tipo de pantalla, en anchos de pantalla de móvil
+const WIDTH = { mobile: 1, web: 2.2 }
+const kind = (s) => (s.type === 'web' ? 'web' : 'mobile')
 
-// Pantalla de ejemplo para cuando aún no hay captura
+// Se repiten las pantallas hasta llenar el anillo (unas 24 pantallas de móvil)
+const MIN_WIDTH = 24
+const cardsData = []
+for (let total = 0; total < MIN_WIDTH || cardsData.length < screens.length; ) {
+  const s = screens[cardsData.length % screens.length]
+  cardsData.push(s)
+  total += WIDTH[kind(s)]
+}
+
+// Ángulo del centro de cada pantalla: las web ocupan más hueco que las de móvil
+const totalWidth = cardsData.reduce((t, s) => t + WIDTH[kind(s)], 0)
+let acc = 0
+const angles = cardsData.map((s) => {
+  const w = WIDTH[kind(s)]
+  const a = ((acc + w / 2) / totalWidth) * 360
+  acc += w
+  return a
+})
+
+// Pantalla de móvil de ejemplo para cuando aún no hay captura
 function MockScreen({ title }) {
   return (
     <div className="mock">
@@ -21,6 +37,40 @@ function MockScreen({ title }) {
       <div className="mock__line" />
       <div className="mock__line mock__line--short" />
       <div className="mock__button" />
+    </div>
+  )
+}
+
+// Aplicación web de ejemplo: menú lateral, título y bloques de contenido
+function MockWeb({ title }) {
+  return (
+    <div className="mockweb">
+      <div className="mockweb__side">
+        <div className="mock__avatar" />
+        <div className="mock__line" />
+        <div className="mock__line mock__line--short" />
+        <div className="mock__line" />
+        <div className="mock__line mock__line--short" />
+      </div>
+      <div className="mockweb__main">
+        <p className="mock__title">{title}</p>
+        <div className="mockweb__cards">
+          <div className="mock__block" />
+          <div className="mock__block" />
+          <div className="mock__block" />
+        </div>
+        <div className="mock__block mockweb__chart" />
+      </div>
+    </div>
+  )
+}
+
+// Barra de navegador que enmarca las pantallas web
+function BrowserBar() {
+  return (
+    <div className="browser">
+      <span /><span /><span />
+      <div className="browser__url" />
     </div>
   )
 }
@@ -38,7 +88,6 @@ export default function Ring({ onOpenProject }) {
     const ring = ringRef.current
     const stage = ring.parentElement
     const cards = cardRefs.current
-    const step = 360 / cardsData.length
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     let angle = 0
@@ -50,12 +99,13 @@ export default function Ring({ onOpenProject }) {
     let id = null
 
     // Radio según el ancho de las tarjetas, para que queden casi pegadas
-    const radius = () => (cardsData.length * cards[0].offsetWidth * 1.3) / (2 * Math.PI)
+    const mobileWidth = () => cards.find((c) => c.dataset.type === 'mobile')?.offsetWidth ?? cards[0].offsetWidth / WIDTH.web
+    const radius = () => (totalWidth * mobileWidth() * 1.3) / (2 * Math.PI)
 
     const layout = () => {
       const r = radius()
       cards.forEach((c, i) => {
-        c.style.transform = `rotateY(${i * step}deg) translateZ(${r}px)`
+        c.style.transform = `rotateY(${angles[i]}deg) translateZ(${r}px)`
       })
     }
 
@@ -73,7 +123,7 @@ export default function Ring({ onOpenProject }) {
 
       // Desenfoque según lo lejos que esté cada pantalla del centro
       cards.forEach((c, i) => {
-        const a = (((i * step + angle) % 360) + 540) % 360 - 180 // -180..180
+        const a = (((angles[i] + angle) % 360) + 540) % 360 - 180 // -180..180
         const off = Math.min(Math.abs(a) / 90, 1) // 0 delante, 1 al lado
         c.style.filter = `grayscale(1) blur(${(off * off * 6).toFixed(2)}px)`
         c.style.opacity = (1 - off * 0.55).toFixed(2)
@@ -138,12 +188,20 @@ export default function Ring({ onOpenProject }) {
       <div className="ring" ref={ringRef}>
         {cardsData.map((s, i) => (
           <div
-            className="ring__card"
+            className={`ring__card ring__card--${kind(s)}`}
             key={i}
             ref={(el) => (cardRefs.current[i] = el)}
             data-project={s.project}
+            data-type={kind(s)}
           >
-            {s.image ? <img src={s.image} alt={s.title} draggable="false" /> : <MockScreen title={s.title} />}
+            {kind(s) === 'web' && <BrowserBar />}
+            {s.image ? (
+              <img src={s.image} alt={s.title} draggable="false" />
+            ) : kind(s) === 'web' ? (
+              <MockWeb title={s.title} />
+            ) : (
+              <MockScreen title={s.title} />
+            )}
           </div>
         ))}
       </div>
