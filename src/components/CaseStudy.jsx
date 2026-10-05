@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { projects, site } from '../data/site.js'
+import Metric from './Metric.jsx'
 
 const ease = [0.22, 1, 0.36, 1]
 
@@ -114,7 +115,7 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
               <div className="case__metrics">
                 {p.metrics.map((m) => (
                   <div key={m.label}>
-                    <strong>{m.value}</strong>
+                    <strong><Metric value={m.value} /></strong>
                     <span>{m.label}</span>
                   </div>
                 ))}

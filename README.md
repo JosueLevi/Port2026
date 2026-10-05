@@ -27,6 +27,11 @@ Extras: cursor personalizado (`Cursor.jsx`) y scroll suave con Lenis (`App.jsx`)
 
 Cada caso de estudio abierto tiene su propio enlace para compartirlo, por ejemplo `tusitio.com/#caso/app-de-salud`.
 
+## Componentes de Rare UI
+El contador animado de las métricas (`src/components/Metric.jsx`) y la píldora de progreso de abajo a la derecha vienen de [Rare UI](https://rareui.com). Están en `src/components/ui` y usan Tailwind solo dentro de esa carpeta (`src/tailwind.css`), así que no cambian el resto de estilos.
+- Para añadir otro: `node scripts/get-rareui.mjs nombre-del-componente` (los nombres están en rareui.com/components).
+- La licencia de Rare UI exige un enlace visible a rareui.com: está en el pie de página, no lo quites.
+
 ## Publicar
 - **Vercel (lo más fácil):** entra en [vercel.com](https://vercel.com) con GitHub o con tu email → "Add New Project" → importa o sube esta carpeta. Framework: **Vite**, build: `npm run build`, carpeta de salida: `dist`.
 - **Netlify:** ejecuta `npm run build` y arrastra la carpeta `dist` a [app.netlify.com/drop](https://app.netlify.com/drop).

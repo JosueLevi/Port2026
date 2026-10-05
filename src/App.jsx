@@ -10,6 +10,16 @@ import About from './components/About.jsx'
 import Contact from './components/Contact.jsx'
 import CaseStudy from './components/CaseStudy.jsx'
 import { projects, caseSlug } from './data/site.js'
+import ScrollProgress from '@/components/ui/scroll-progress'
+
+// Secciones que muestra la píldora de progreso (Rare UI)
+const sections = [
+  { id: 'top', label: 'Inicio' },
+  { id: 'work', label: 'Casos de estudio' },
+  { id: 'process', label: 'Proceso' },
+  { id: 'about', label: 'Sobre mí' },
+  { id: 'contact', label: 'Contacto' },
+]
 
 export default function App() {
   const lenisRef = useRef(null)
@@ -69,6 +79,9 @@ export default function App() {
       </main>
       <Contact />
       <CaseStudy index={openProject} onClose={() => setOpenProject(null)} onNavigate={setOpenProject} />
+      {openProject === null && (
+        <ScrollProgress sections={sections} className="progress-pill" />
+      )}
     </MotionConfig>
   )
 }

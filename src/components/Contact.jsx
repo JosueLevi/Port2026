@@ -11,6 +11,9 @@ export default function Contact() {
         ))}
       </div>
       <small>© {new Date().getFullYear()} {site.name} · {site.role}</small>
+      <small className="contact__credits">
+        Componentes animados: <a href="https://rareui.com" target="_blank" rel="noreferrer">Rare UI</a>
+      </small>
     </footer>
   )
 }

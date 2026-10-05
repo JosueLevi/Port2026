@@ -8,7 +8,8 @@
   --gutter: clamp(16px, 2.2vw, 32px);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* Reset en la capa "base" para que no pise los estilos de Tailwind de los componentes de Rare UI */
+@layer base { * { box-sizing: border-box; margin: 0; padding: 0; } }
 body {
   background: var(--paper);
   color: var(--ink);
@@ -311,7 +312,7 @@ img, video { display: block; max-width: 100%; }
 .case__metrics { display: flex; flex-wrap: wrap; gap: 16px; }
 .case__metrics div { flex: 1 1 200px; padding: 20px; border-radius: 14px; background: #f3f3f3; }
 .case__metrics strong { display: block; font-family: var(--display); font-weight: 400; font-size: 44px; line-height: 1; }
-.case__metrics span { color: var(--muted); }
+.case__metrics div > span { color: var(--muted); }
 
 /* Presentación visible en la portada */
 .hero__intro { position: absolute; z-index: 4; left: var(--gutter); bottom: 36px; max-width: 300px; }
@@ -366,3 +367,10 @@ img, video { display: block; max-width: 100%; }
   .about__lists, .case__facts { grid-template-columns: 1fr; }
   .process__list { grid-template-columns: 1fr; }
 }
+
+/* Píldora de progreso (Rare UI): abajo a la derecha para no tapar el botón Ver casos */
+.progress-pill { left: auto; right: 24px; translate: none; }
+.progress-pill [data-slot="scroll-progress-surface"] { left: auto; right: 0; translate: none; }
+@media (max-width: 720px) { .progress-pill { right: 16px; bottom: 16px; } }
+.contact__credits { display: block; margin-top: 6px; opacity: .6; }
+.contact__credits a { color: inherit; }

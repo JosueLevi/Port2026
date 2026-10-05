@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { projects } from '../data/site.js'
+import Metric from './Metric.jsx'
 
 function Media({ p }) {
   if (p.video)
@@ -36,7 +37,7 @@ export default function Work({ onOpenProject }) {
                 <Media p={p} />
                 {p.metrics?.[0] && (
                   <span className="card__metric">
-                    <strong>{p.metrics[0].value}</strong> {p.metrics[0].label}
+                    <strong><Metric value={p.metrics[0].value} /></strong> {p.metrics[0].label}
                   </span>
                 )}
               </div>
