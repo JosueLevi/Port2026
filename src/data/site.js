@@ -22,8 +22,25 @@ export const site = {
   // Etiqueta con punto verde en la portada (pon null para quitarla)
   status: 'Disponible para proyectos',
   exploreLabel: 'VER CASOS',
-  captionLeft: 'PRODUCT DESIGNER',
-  captionRight: 'RESEARCH → UI → PROTOTIPO',
+  captionLeft: 'Product designer',
+  captionRight: 'Research → UI → Prototipo',
+
+  // Cabecera de cada sección: número y nombre pequeños, título grande y entradilla.
+  // La palabra entre *asteriscos* va en cursiva con la letra de acento (Instrument Serif).
+  sections: {
+    work: {
+      label: 'Trabajo seleccionado',
+      title: 'Casos de *estudio*',
+      intro: 'Proyectos donde el diseño movió métricas. Haz clic en uno para ver cómo lo hice.',
+    },
+    process: {
+      label: 'Proceso',
+      title: 'Cómo *trabajo*',
+      intro: 'Mi receta para pasar de una idea a un producto que la gente usa de verdad.',
+    },
+    about: { label: 'Perfil', title: 'Sobre *mí*' },
+    contact: { label: 'Contacto' },
+  },
 
   socials: [
     { label: 'Gmail', icon: 'gmail', href: `mailto:${email}` },
@@ -41,15 +58,15 @@ export const site = {
     { icon: 'pin', text: 'Desde Lima, Perú' },
   ],
 
-  // Notas escritas a mano junto a las secciones (pon null para quitar una)
+  // Notas cortas en cursiva junto a las secciones (pon null para quitar una)
   notes: {
     work: '¡haz clic en uno!',
     about: 'este soy yo',
     contact: 'escríbeme, no muerdo :)',
   },
 
-  // Frase sobre tu correo, al final de la página
-  contactLead: '¿Tienes una idea en mente? Hablemos',
+  // Frase sobre tu correo, al final de la página (la parte entre *asteriscos* va en cursiva)
+  contactLead: '¿Tienes una idea en mente? *Hablemos*',
 
   skills: ['UX Research', 'Arquitectura de información', 'Wireframes', 'UI Design', 'Design Systems', 'Prototipado', 'Testing de usabilidad', 'Accesibilidad'],
   tools: ['Figma', 'FigJam', 'Maze', 'Notion', 'Miro', 'Protopie', 'Webflow'],

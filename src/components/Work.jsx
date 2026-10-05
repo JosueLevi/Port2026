@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { projects, site } from '../data/site.js'
 import Metric from './Metric.jsx'
 import { DeviceMock } from './Mocks.jsx'
-import { Arrow, Squiggle } from './Doodles.jsx'
+import SectionHead from './SectionHead.jsx'
 
 function Media({ p }) {
   if (p.video)
@@ -18,22 +18,9 @@ function Media({ p }) {
 export default function Work({ onOpenProject }) {
   return (
     <section id="work" className="work" aria-labelledby="work-title">
-      <div className="section-head">
-        <div className="section-head__title">
-          <h2 id="work-title" className="section-title">Casos de estudio</h2>
-          <Squiggle className="section-title__squiggle" />
-          <span className="sticker">{projects.length} proyectos</span>
-        </div>
-        <p className="section-intro">
-          Proyectos donde el diseño movió métricas. Haz clic en uno para ver cómo lo hice.
-        </p>
-        {site.notes?.work && (
-          <p className="note note--work" aria-hidden="true">
-            {site.notes.work}
-            <Arrow />
-          </p>
-        )}
-      </div>
+      <SectionHead id="work-title" number="01" section={site.sections.work} count={String(projects.length).padStart(2, '0')}>
+        {site.notes?.work && <p className="note" aria-hidden="true">{site.notes.work}</p>}
+      </SectionHead>
       <div className="work__grid">
         {projects.map((p, i) => (
           <motion.article
