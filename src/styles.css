@@ -108,8 +108,9 @@ img, video { display: block; max-width: 100%; }
   background: var(--paper);
 }
 .nav__left { display: flex; align-items: center; gap: 18px; }
-.nav__logo { display: block; color: var(--ink); transition: color .3s; }
-.nav__logo svg { display: block; height: 36px; width: auto; }
+/* El logo mide 28px de alto; el relleno mantiene el menú en 80px (--nav-h) */
+.nav__logo { display: block; padding-block: 4px; color: var(--ink); transition: color .3s; }
+.nav__logo svg { display: block; height: 28px; width: auto; }
 .nav__logo:hover { color: var(--brand); }
 .nav__location { display: inline-flex; align-items: center; gap: 6px; }
 .nav__tabs { display: flex; gap: 20px; }
@@ -427,7 +428,7 @@ img, video { display: block; max-width: 100%; }
 .about__art { position: static; display: block; height: auto; }
 .note--about { margin-top: 12px; text-align: center; }
 .about .section-title { margin-bottom: 28px; }
-.about__text { font-size: var(--size-lead); line-height: 1.45; max-width: 40ch; }
+.about__text { font-size: var(--size-lead); line-height: 1.45; text-wrap: pretty; }
 .about__lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 36px; }
 .about__lists h3 { color: var(--muted); margin-bottom: 12px; }
 .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
@@ -441,11 +442,11 @@ img, video { display: block; max-width: 100%; }
 .facts li { display: inline-flex; align-items: center; gap: 10px; font-size: var(--size-small); font-weight: 500; }
 .facts .line-icon { width: 24px; height: 24px; }
 
-/* Contact: el pie de la página, en azul */
+/* Contact: el pie de la página, en negro */
 .contact {
   position: relative; overflow: hidden;
-  background: var(--brand); color: #fff;
-  padding: clamp(48px, 7vw, 104px) var(--gutter) 0;
+  background: var(--ink); color: #fff;
+  padding: clamp(48px, 7vw, 104px) var(--gutter) clamp(28px, 4vw, 48px);
   /* Para medir con "cqi": 100cqi es el ancho disponible dentro del pie (sin los márgenes) */
   container-type: inline-size;
 }
@@ -483,17 +484,6 @@ img, video { display: block; max-width: 100%; }
 .contact__bottom { display: flex; gap: 6px 32px; flex-wrap: wrap; margin-top: clamp(40px, 6vw, 72px); }
 .contact small { color: rgba(255, 255, 255, .75); font-size: var(--size-caption); }
 .contact__credits a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
-/* Firma: el nombre de lado a lado, solo con el contorno y cortado por abajo.
-   "LEVI" mide 2,34 veces el tamaño de la letra (de borde a borde de las letras);
-   si cambias el nombre, cambia ese número para que siga ocupando todo el ancho */
-.contact__wordmark { margin-top: clamp(16px, 3vw, 40px); user-select: none; }
-.contact__wordmark span {
-  display: block; white-space: nowrap;
-  font-family: var(--font-display); text-transform: uppercase; letter-spacing: -.02em;
-  font-size: calc(100cqi / 2.34); line-height: .8;
-  margin: 0 0 -.14em -.072em; /* la L empieza justo en el margen y la parte de abajo queda cortada */
-  color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, .5);
-}
 
 /* Botón redondeado del contacto */
 .pill-button {

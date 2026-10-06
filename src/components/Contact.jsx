@@ -82,9 +82,6 @@ export default function Contact() {
           Componentes animados: <a href="https://rareui.com" target="_blank" rel="noreferrer">Rare UI</a>
         </small>
       </div>
-
-      {/* Firma: el nombre de lado a lado, solo con el contorno, como el título de la portada antes de rellenarse */}
-      <div className="contact__wordmark" aria-hidden="true"><span>{site.name}</span></div>
     </footer>
   )
 }
