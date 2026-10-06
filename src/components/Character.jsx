@@ -6,7 +6,7 @@ import { characterArt as art } from '../data/characterArt.js'
 const ease = [0.22, 1, 0.36, 1]
 
 // Las partes claras de la silla ('white') no se pintan: quedan transparentes (ver la máscara de abajo)
-const fills = { ink: 'var(--char-ink)', light: 'var(--char-light)', shade: 'var(--char-shade)' }
+const fills = { ink: 'var(--char-ink)', light: 'var(--char-light)', skin: 'var(--char-skin)', shade: 'var(--char-shade)' }
 const pts = (list) => list.trim().split(/\s+/).map((p) => p.split(',').map(Number))
 const toPath = (list) => 'M' + pts(list).map((p) => p.join(' ')).join('L') + 'Z'
 

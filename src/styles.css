@@ -131,9 +131,6 @@ img, video { display: block; max-width: 100%; }
 .sheet {
   position: relative; z-index: 1; background: var(--paper);
   border-radius: 32px 32px 0 0; box-shadow: 0 -18px 50px rgba(14, 14, 14, .12);
-  /* Fondo de puntos, como el lienzo de Figma o FigJam */
-  background-image: radial-gradient(rgba(14, 14, 14, .08) 1.1px, transparent 1.5px);
-  background-size: 22px 22px;
 }
 
 /* Carrusel 3D */
@@ -217,7 +214,7 @@ img, video { display: block; max-width: 100%; }
 }
 /* Personaje animado */
 .character { position: relative; isolation: isolate; }
-.character, .about__character { --char-ink: #000; --char-light: #FBF4E9; --char-shade: #353331; }
+.character, .about__character { --char-ink: #000; --char-light: #FBF4E9; --char-skin: #FBE0D6; --char-shade: #353331; }
 .character__art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 /* Solo la cabeza, que se mueve al ritmo (pivote en el cuello) */
 .character__head {
