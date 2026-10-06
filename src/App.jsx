@@ -47,6 +47,16 @@ export default function App() {
   const goTo = useRef(null) // sección del inicio a la que ir al salir del caso desde el menú o el pie
   const closing = useRef(false)
 
+  // Lenis sigue deslizando la página un momento después de mover la rueda y, mientras tanto, deshace los saltos
+  // que no hace él: un caso abierto justo después acababa a media página, donde iba a parar el deslizamiento.
+  // Esto lo para en seco; desde el siguiente cuadro sigue normal, desde donde haya quedado la página.
+  const stopGlide = () => {
+    const lenis = lenisRef.current
+    if (!lenis || lenis.isStopped) return
+    lenis.stop()
+    requestAnimationFrame(() => lenis.start())
+  }
+
   // Scroll suave
   useEffect(() => {
     const lenis = new Lenis({ lerp: 0.1 })
@@ -57,7 +67,14 @@ export default function App() {
       id = requestAnimationFrame(raf)
     }
     id = requestAnimationFrame(raf)
+    // En el inicio, los enlaces a una sección (menú, "Volver arriba"…) saltan con el navegador: antes se para
+    // el deslizamiento. Dentro de un caso esos enlaces los maneja la web (más abajo).
+    const onAnchor = (e) => {
+      if (current.current === null && e.target.closest?.('a[href^="#"]')) stopGlide()
+    }
+    document.addEventListener('click', onAnchor)
     return () => {
+      document.removeEventListener('click', onAnchor)
       cancelAnimationFrame(id)
       lenis.destroy()
     }
@@ -172,6 +189,7 @@ export default function App() {
       firstView.current = false
       return
     }
+    stopGlide()
     if (openProject !== null) {
       window.scrollTo(0, 0)
     } else {
