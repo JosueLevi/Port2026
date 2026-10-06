@@ -107,6 +107,22 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
           </section>
         )}
 
+        {/* Versión para celular: las pantallas en fila (de dos en dos en el celular), cada una con su nombre debajo */}
+        {p.mobile?.screens?.length > 0 && (
+          <section>
+            <h2>Versión móvil</h2>
+            {p.mobile.caption && <p>{p.mobile.caption}</p>}
+            <div className="case__phones">
+              {p.mobile.screens.map((s) => (
+                <figure key={s.src}>
+                  <img src={s.src} alt={s.alt ?? s.title} width={p.mobile.width} height={p.mobile.height} loading="lazy" />
+                  <figcaption>{s.title}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
+
         {p.gallery?.length > 0 && (
           <div className="case__gallery">
             {p.gallery.map((src) => (

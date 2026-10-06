@@ -100,7 +100,7 @@ export const screens = [
 // Sin portada se muestra un móvil o un navegador de ejemplo (`type: 'web'`) sobre el color del caso.
 // `tags`: etiquetas cortas que se ven en la tarjeta (tipo de proyecto, plataforma...).
 // Solo hacen falta título, año, rol y resumen: lo demás (duration, tools, description, problem,
-// process, flow, screens, gallery, stack, metrics) es opcional y, si no lo pones, esa parte no sale en el caso.
+// process, flow, screens, mobile, gallery, stack, metrics) es opcional y, si no lo pones, esa parte no sale en el caso.
 export const projects = [
   {
     title: 'Gestor de finanzas personales',
@@ -145,8 +145,36 @@ export const projects = [
         alt: 'Pantalla de categorías de Levi con el formulario para crear una y la lista de categorías',
       },
     ],
-    // Más imágenes del caso (salen en el caso abierto, debajo de las pantallas)
-    gallery: ['/assets/img/gestor-finanzas-foto.webp'],
+    // Versión para celular (sale en "Versión móvil": las pantallas en fila, cada una con su nombre debajo)
+    mobile: {
+      caption:
+        'La misma app en el celular: el menú lateral pasa a una barra abajo, al alcance del pulgar, y la tabla de movimientos se convierte en tarjetas.',
+      // Tamaño en píxeles de las capturas (todas iguales): guarda su lugar mientras cargan, para que la página no salte
+      width: 436,
+      height: 813,
+      screens: [
+        {
+          src: '/assets/img/gestor-finanzas-movil-login.webp',
+          title: 'Inicio de sesión',
+          alt: 'Inicio de sesión de Levi en el celular, con la ilustración arriba y el formulario debajo',
+        },
+        {
+          src: '/assets/img/gestor-finanzas-movil-inicio.webp',
+          title: 'Inicio',
+          alt: 'Inicio de Levi en el celular, con el saludo, el saldo estimado de hoy y la barra de navegación abajo',
+        },
+        {
+          src: '/assets/img/gestor-finanzas-movil-registro.webp',
+          title: 'Registro',
+          alt: 'Registro de Levi en el celular, con el buscador, los filtros y los movimientos del mes en tarjetas',
+        },
+        {
+          src: '/assets/img/gestor-finanzas-movil-ajustes.webp',
+          title: 'Ajustes',
+          alt: 'Ajustes de Levi en el celular, con el formulario para crear una categoría',
+        },
+      ],
+    },
     summary: 'Tus finanzas pueden sentirse más simples.',
     // Qué es el producto (sale en el caso abierto, en "El proyecto")
     description:
@@ -235,6 +263,7 @@ projects.forEach((p) => {
     p.flow.mobile = withBase(p.flow.mobile)
   }
   p.screens?.forEach((s) => { s.src = withBase(s.src) })
+  p.mobile?.screens?.forEach((s) => { s.src = withBase(s.src) })
 })
 
 // Nombre del caso para su enlace propio: "App de salud" -> "app-de-salud" (tusitio.com/#caso/app-de-salud)
