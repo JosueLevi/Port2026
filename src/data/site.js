@@ -100,7 +100,7 @@ export const screens = [
 // Sin portada se muestra un móvil o un navegador de ejemplo (`type: 'web'`) sobre el color del caso.
 // `tags`: etiquetas cortas que se ven en la tarjeta (tipo de proyecto, plataforma...).
 // Solo hacen falta título, año, rol y resumen: lo demás (duration, tools, description, problem,
-// process, gallery, stack, metrics) es opcional y, si no lo pones, esa parte no sale en el caso.
+// process, flow, screens, gallery, stack, metrics) es opcional y, si no lo pones, esa parte no sale en el caso.
 export const projects = [
   {
     title: 'Gestor de finanzas personales',
@@ -110,7 +110,42 @@ export const projects = [
     role: 'UX/UI Designer y Developer',
     color: 'var(--ink)',
     cover: '/assets/img/gestor-finanzas.webp',
-    // Más imágenes del caso (salen en el caso abierto, debajo del texto)
+    // Flujo de usuario (sale en "Proceso", con el texto al lado). `mobile`: versión vertical para celular y tablet
+    flow: {
+      src: '/assets/img/gestor-finanzas-flujo.webp',
+      mobile: '/assets/img/gestor-finanzas-flujo-movil.webp',
+      alt: 'Flujo de usuario de Levi: entrar; si no tiene cuenta, crearla y confirmar el correo; iniciar sesión; llegar al Dashboard y desde ahí ir y volver a Registro de movimientos, Comparar meses y Configuración',
+      caption:
+        'Flujo de usuario: quien no tiene cuenta la crea y confirma su correo antes de iniciar sesión. Ya dentro, todo parte del Dashboard, desde donde se va y se vuelve a Registro de movimientos, Comparar meses y Configuración.',
+    },
+    // Pantallas principales (salen en "Pantallas", de dos en dos, cada una con su texto debajo)
+    screens: [
+      {
+        src: '/assets/img/gestor-finanzas-login.webp',
+        title: 'Inicio de sesión',
+        caption: 'Entrar y crear cuenta comparten pantalla, con pestañas, y el tono es cercano desde el primer mensaje.',
+        alt: 'Pantalla de inicio de sesión de Levi, con la ilustración a la izquierda y el formulario a la derecha',
+      },
+      {
+        src: '/assets/img/gestor-finanzas-dashboard.webp',
+        title: 'Dashboard',
+        caption: 'El saldo estimado de hoy va primero y en grande. Debajo, el resumen del mes y en qué categorías se va el dinero.',
+        alt: 'Dashboard de Levi con el saldo estimado, el resumen del mes y un gráfico de gastos por categoría',
+      },
+      {
+        src: '/assets/img/gestor-finanzas-registro.webp',
+        title: 'Registro',
+        caption: 'Los movimientos del mes en una tabla, con buscador, filtros por tipo y los totales de lo que estás viendo.',
+        alt: 'Pantalla de registro de Levi con buscador, filtros y la tabla de movimientos del mes',
+      },
+      {
+        src: '/assets/img/gestor-finanzas-categorias.webp',
+        title: 'Categorías',
+        caption: 'Cada persona crea sus categorías con nombre, tipo, color e ícono, o añade las sugeridas para empezar rápido.',
+        alt: 'Pantalla de categorías de Levi con el formulario para crear una y la lista de categorías',
+      },
+    ],
+    // Más imágenes del caso (salen en el caso abierto, debajo de las pantallas)
     gallery: ['/assets/img/gestor-finanzas-foto.webp'],
     summary: 'Tus finanzas pueden sentirse más simples.',
     // Qué es el producto (sale en el caso abierto, en "El proyecto")
@@ -195,6 +230,11 @@ projects.forEach((p) => {
   p.cover = withBase(p.cover)
   p.video = withBase(p.video)
   p.gallery = p.gallery?.map(withBase)
+  if (p.flow) {
+    p.flow.src = withBase(p.flow.src)
+    p.flow.mobile = withBase(p.flow.mobile)
+  }
+  p.screens?.forEach((s) => { s.src = withBase(s.src) })
 })
 
 // Nombre del caso para su enlace propio: "App de salud" -> "app-de-salud" (tusitio.com/#caso/app-de-salud)

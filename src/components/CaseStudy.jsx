@@ -69,14 +69,41 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
           </section>
         )}
 
-        {p.process?.length > 0 && (
+        {(p.process?.length > 0 || p.flow) && (
           <section>
             <h2>Proceso</h2>
-            <ol className="case__process">
-              {p.process.map((step) => (
-                <li key={step}>{step}</li>
+            {p.flow?.caption && <p>{p.flow.caption}</p>}
+            {p.process?.length > 0 && (
+              <ol className="case__process">
+                {p.process.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ol>
+            )}
+            {/* El flujo va a todo lo ancho; en celular y tablet se cambia por su versión vertical */}
+            {p.flow && (
+              <picture className="case__flow">
+                {p.flow.mobile && <source media="(max-width: 1000px)" srcSet={p.flow.mobile} />}
+                <img src={p.flow.src} alt={p.flow.alt} loading="lazy" />
+              </picture>
+            )}
+          </section>
+        )}
+
+        {/* Pantallas principales, de dos en dos, cada una con su texto debajo */}
+        {p.screens?.length > 0 && (
+          <section>
+            <h2>Pantallas</h2>
+            <div className="case__screens">
+              {p.screens.map((s) => (
+                <figure key={s.src}>
+                  <img src={s.src} alt={s.alt ?? s.title} loading="lazy" />
+                  <figcaption>
+                    <strong>{s.title}.</strong> {s.caption}
+                  </figcaption>
+                </figure>
               ))}
-            </ol>
+            </div>
           </section>
         )}
 
