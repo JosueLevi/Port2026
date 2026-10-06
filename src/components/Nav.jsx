@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { site } from '../data/site.js'
 import { Pin, external, socialIcons } from './Icons.jsx'
+import Logo from './Logo.jsx'
 
 const tabs = [
   { label: 'PROYECTOS', href: '#work', id: 'work' },
@@ -28,7 +29,7 @@ export default function Nav() {
   return (
     <header className="nav">
       <div className="nav__left">
-        <a href="#top" className="nav__logo" aria-label={site.name}>{site.logo}</a>
+        <a href="#top" className="nav__logo" aria-label={site.name}><Logo /></a>
         <span className="nav__location"><Pin /> {site.location}</span>
       </div>
 

@@ -7,7 +7,6 @@ const email = 'friaslevi97@gmail.com'
 
 export const site = {
   name: 'Levi',
-  logo: 'LV',
   role: 'UX/UI Designer',
   location: 'LIMA, PERÚ',
   email,
@@ -52,24 +51,25 @@ export const site = {
 
   // Cuéntalo con tus palabras: tu historia y el tipo de equipo que buscas
   about:
-    'Soy diseñador UX/UI en Lima. Me encanta convertir problemas enredados en productos fáciles de usar: hablo con usuarios, ordeno la información, prototipo y valido antes de pasar a desarrollo.',
+    'Ingeniero de Sistemas con cuatro años de experiencia especializada en diseño UX/UI, con un enfoque en diseño web, desarrollo de aplicaciones y plataformas digitales. A lo largo de mi carrera, he perfeccionado mis habilidades para crear soluciones innovadoras, funcionales y altamente intuitivas, siempre orientadas a ofrecer un valor excepcional a los clientes.',
 
-  // Datos curiosos de "Sobre mí". Iconos: coffee, music, pin, search, map, pencil, check
+  // Datos curiosos de "Sobre mí". Iconos: coffee, music, ball, pin, search, map, pencil, check
   facts: [
     { icon: 'coffee', text: 'Funciono a café' },
     { icon: 'music', text: 'Diseño con música' },
+    { icon: 'ball', text: 'Juego básquet' },
     { icon: 'pin', text: 'Desde Lima, Perú' },
   ],
 
   // Notas cortas junto a las secciones (pon null para quitar una)
   notes: {
     work: '¡haz clic en uno!',
-    about: 'este soy yo',
+    about: null,
     contact: 'escríbeme, no muerdo :)',
   },
 
-  skills: ['UX Research', 'Arquitectura de información', 'Wireframes', 'UI Design', 'Design Systems', 'Prototipado', 'Testing de usabilidad', 'Accesibilidad'],
-  tools: ['Figma', 'FigJam', 'Maze', 'Notion', 'Miro', 'Protopie', 'Webflow'],
+  skills: ['UX Research', 'Arquitectura de información', 'Wireframes', 'UI Design', 'Design Systems', 'Prototipado', 'Testing de usabilidad', 'Accesibilidad (WCAG)'],
+  tools: ['Figma', 'Figma Make', 'FigJam', 'Maze', 'Notion', 'Miro', 'Protopie', 'Webflow', 'HTML', 'CSS', 'JavaScript', 'Codex', 'Claude'],
 }
 
 // Pasos del proceso de diseño

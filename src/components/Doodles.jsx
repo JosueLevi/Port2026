@@ -2,7 +2,7 @@
 // Son decorativos: los lectores de pantalla los ignoran.
 
 // Iconos para los pasos del proceso y los datos curiosos.
-// Usa el nombre en site.js: coffee, music, pin, search, map, pencil, check
+// Usa el nombre en site.js: coffee, music, ball, pin, search, map, pencil, check
 const icons = {
   coffee: (
     <>
@@ -15,6 +15,13 @@ const icons = {
     <>
       <path d="M6 19v-3a10 10 0 0 1 20 0v3" />
       <path className="fill-ink" d="M5 18h4.5v9H7a2 2 0 0 1-2-2ZM27 18h-4.5v9H25a2 2 0 0 0 2-2Z" />
+    </>
+  ),
+  ball: (
+    <>
+      <circle className="fill-paper" cx="16" cy="16" r="11" />
+      <path d="M5 16h22M16 5v22" />
+      <path d="M8.2 8.2a11 11 0 0 1 0 15.6M23.8 8.2a11 11 0 0 0 0 15.6" />
     </>
   ),
   pin: (
