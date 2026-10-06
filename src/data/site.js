@@ -84,11 +84,9 @@ export const process = [
 // `type: 'web'` dibuja una pantalla apaisada con barra de navegador; sin `type` es de móvil.
 // Pon tus capturas de apps/webs en /public/assets/img/ y añade `image: '/assets/img/x.webp'`
 // (móvil: vertical, unos 9:19,5 · web: apaisada, unos 16:10).
-// `project` es el índice del caso de estudio que se abre al hacer clic (opcional).
 // Sin imagen se dibuja una pantalla de ejemplo con el título.
 export const screens = [
-  { title: 'Inicio de Levi, gestor de finanzas', image: '/assets/img/gestor-finanzas-movil.webp', project: 0 },
-  // Las demás aún no tienen caso: cuando lo tengan, añade su `project` para que se abran al hacer clic
+  { title: 'Inicio de Levi, gestor de finanzas', image: '/assets/img/gestor-finanzas-movil.webp' },
   { title: 'Web de SISE', type: 'web', image: '/assets/img/sise-web.webp' },
   { title: 'Food App, bienvenida', image: '/assets/img/food-app.webp' },
   { title: 'Coinpay, crear cuenta', image: '/assets/img/coinpay.webp' },

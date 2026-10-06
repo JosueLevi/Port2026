@@ -26,9 +26,9 @@ const angles = cardsData.map((s) => {
 /**
  * Carrusel 3D: las pantallas se colocan en un cilindro que gira solo,
  * se acelera con el scroll y se puede arrastrar. Las que quedan a los lados
- * se desenfocan y se aclaran. Un clic en una pantalla abre su caso de estudio.
+ * se desenfocan y se aclaran. Pulsar una pantalla no abre nada: es solo para mirar.
  */
-export default function Ring({ onOpenProject }) {
+export default function Ring() {
   const ringRef = useRef(null)
   const cardRefs = useRef([])
 
@@ -42,7 +42,6 @@ export default function Ring({ onOpenProject }) {
     let velocity = 0
     let dragging = false
     let lastX = 0
-    let downX = 0
     let lastScroll = window.scrollY
     let id = null
 
@@ -94,21 +93,14 @@ export default function Ring({ onOpenProject }) {
     const down = (e) => {
       dragging = true
       lastX = e.clientX
-      downX = e.clientX
     }
     const move = (e) => {
       if (!dragging) return
       velocity = (e.clientX - lastX) * 0.08
       lastX = e.clientX
     }
-    const up = (e) => {
-      if (!dragging) return
+    const up = () => {
       dragging = false
-      // Si casi no se movió, es un clic: abre el caso de estudio de esa pantalla
-      if (Math.abs(e.clientX - downX) < 6) {
-        const card = e.target.closest?.('[data-project]')
-        if (card && onOpenProject) onOpenProject(Number(card.dataset.project))
-      }
     }
 
     // Solo se anima mientras el carrusel está a la vista y la portada no está tapada
@@ -136,7 +128,7 @@ export default function Ring({ onOpenProject }) {
       window.removeEventListener('pointermove', move)
       window.removeEventListener('pointerup', up)
     }
-  }, [onOpenProject])
+  }, [])
 
   return (
     <div className="ring-stage" aria-hidden="true">
@@ -146,7 +138,6 @@ export default function Ring({ onOpenProject }) {
             className={`ring__card ring__card--${kind(s)}`}
             key={i}
             ref={(el) => (cardRefs.current[i] = el)}
-            data-project={s.project}
             data-type={kind(s)}
           >
             {kind(s) === 'web' && <BrowserBar />}

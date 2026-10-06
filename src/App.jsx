@@ -73,7 +73,7 @@ export default function App() {
       <Nav />
       {/* #top va en <main> y no en la portada: la portada es fija (sticky) y el navegador no sabría subir hasta ella */}
       <main id="top">
-        <Hero onOpenProject={setOpenProject} />
+        <Hero />
         {/* Hoja que sube por encima de la portada fija */}
         <div className="sheet">
           <Work onOpenProject={setOpenProject} />

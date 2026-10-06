@@ -6,7 +6,7 @@ import HeroTitle from './HeroTitle.jsx'
 
 const ease = [0.22, 1, 0.36, 1]
 
-export default function Hero({ onOpenProject }) {
+export default function Hero() {
   // La portada se queda fija: al bajar, las demás secciones suben por encima
   // y la portada se aleja y oscurece un poco (0 = arriba, 1 = ya tapada)
   const reduce = useReducedMotion()
@@ -30,7 +30,7 @@ export default function Hero({ onOpenProject }) {
         <p>{site.tagline}</p>
       </motion.div>
 
-      <Ring onOpenProject={onOpenProject} />
+      <Ring />
 
       {/* Título horizontal: primero se dibuja el contorno y luego se pinta el relleno */}
       <div className="hero__title">
