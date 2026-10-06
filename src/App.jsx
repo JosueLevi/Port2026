@@ -103,7 +103,7 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <a href="#work" className="skip-link">Saltar al contenido</a>
-      <Cursor />
+      <Cursor view={openProject} />
       <Nav />
       {/* #top va en <main> y no en la portada: la portada es fija (sticky) y el navegador no sabría subir hasta ella */}
       <main id="top">

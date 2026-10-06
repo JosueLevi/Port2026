@@ -7,7 +7,7 @@ import { DeviceMock } from './Mocks.jsx'
 
 const ease = [0.22, 1, 0.36, 1]
 
-// Caso de estudio a pantalla completa (diálogo accesible)
+// Caso de estudio en un panel que entra por la derecha (diálogo accesible); en el celular ocupa toda la pantalla
 export default function CaseStudy({ index, onClose, onNavigate }) {
   const p = index === null ? null : projects[index]
   const closeRef = useRef(null)
@@ -23,8 +23,9 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
     ? [['Rol', p.role], ['Duración', p.duration], ['Herramientas', p.tools]].filter(([, value]) => value)
     : []
 
-  // Al cambiar de caso, vuelve arriba
+  // Al abrir otro caso, vuelve arriba (al cerrar no: el panel sale tal como está)
   useEffect(() => {
+    if (index === null) return
     dialogRef.current?.scrollTo(0, 0)
     setStuck(false)
   }, [index])
@@ -44,7 +45,8 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
   useEffect(() => {
     if (!p) return
     const previous = document.activeElement
-    closeRef.current?.focus()
+    // preventScroll: sin él, el navegador movería el panel a la vista y no se vería entrar
+    closeRef.current?.focus({ preventScroll: true })
     const onKey = (e) => {
       if (e.key === 'Escape') return onClose()
       if (e.key !== 'Tab' || !panelRef.current) return
@@ -63,7 +65,7 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
     window.addEventListener('keydown', onKey)
     return () => {
       window.removeEventListener('keydown', onKey)
-      previous?.focus?.()
+      previous?.focus?.({ preventScroll: true })
     }
   }, [p, onClose])
 
@@ -77,17 +79,22 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
           aria-modal="true"
           aria-labelledby="case-title"
           data-lenis-prevent
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={(e) => e.target === e.currentTarget && onClose()}
         >
+          {/* Fondo oscurecido: deja ver la web a la izquierda y un clic ahí cierra el caso */}
+          <motion.div
+            className="case__backdrop"
+            onClick={onClose}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          />
           <motion.article
             ref={panelRef}
             className="case__panel"
-            initial={{ y: 80 }}
-            animate={{ y: 0 }}
-            exit={{ y: 80 }}
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
             transition={{ duration: 0.5, ease }}
           >
             {/* Marca el inicio del caso y franja que aparece detrás de la × al bajar */}

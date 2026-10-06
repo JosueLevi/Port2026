@@ -498,19 +498,17 @@ img, video { display: block; max-width: 100%; }
 .pill-button:hover { background: #fff; border-color: #fff; color: var(--ink); }
 .pill-button--pop { background: var(--pop); border-color: var(--pop); color: var(--ink); }
 
-/* Caso de estudio */
-/* El espacio de arriba va como margen del panel y no como relleno de .case: así la franja y la × se pegan al borde de la pantalla */
+/* Caso de estudio: panel que entra por la derecha; a la izquierda se sigue viendo la web, un poco oscurecida.
+   .case no lleva relleno arriba: así la franja y la × se pegan al borde de la pantalla al bajar */
 .case {
-  --case-top: clamp(16px, 5vh, 56px);
   position: fixed; inset: 0; z-index: 150;
-  background: rgba(0, 0, 0, .45); backdrop-filter: blur(6px);
-  overflow-y: auto; overscroll-behavior: contain;
-  padding: 0 var(--gutter);
+  overflow: hidden auto; overscroll-behavior: contain; /* sin barra de lado mientras el panel entra o sale */
 }
+.case__backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, .35); }
 .case__panel {
   --case-pad: clamp(28px, 5vw, 64px);
-  position: relative; max-width: 920px; margin: var(--case-top) auto 0; min-height: calc(100% - var(--case-top));
-  background: var(--paper); border-radius: 24px 24px 0 0;
+  position: relative; z-index: 1; width: min(780px, 56vw); min-height: 100%; margin-left: auto;
+  background: var(--paper); border-radius: 24px 0 0 24px;
   padding: var(--case-pad);
 }
 .case__top { height: 1px; margin-bottom: -1px; }
@@ -619,6 +617,7 @@ img, video { display: block; max-width: 100%; }
   .nav__location, .nav__mail { display: none; }
   .section-head__main { grid-template-columns: 1fr; }
   .section-head__aside { max-width: 44ch; }
+  .case__panel { width: min(780px, 92vw); }
   .about__lists { grid-template-columns: 1fr; }
   .process__list { grid-template-columns: repeat(2, 1fr); }
   .case-card { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -648,6 +647,7 @@ img, video { display: block; max-width: 100%; }
   .hero__intro { left: 50%; translate: -50% 0; top: 205px; bottom: auto; width: 92vw; max-width: none; text-align: center; }
   .hero__intro h1, .hero__intro p { font-size: var(--size-caption); }
   .case__nav { grid-template-columns: 1fr; }
+  .case__panel { width: 100%; border-radius: 0; }
   .ring { margin-top: -8vh; }
   .hero__character { bottom: 9vh; }
   /* En móviles bajos se achica para que el saludo no tape la presentación */
