@@ -106,6 +106,7 @@ img, video { display: block; max-width: 100%; }
   padding: 22px var(--gutter);
   font-family: var(--font-text); font-weight: 600; font-size: var(--size-caption); letter-spacing: .08em;
   background: var(--paper);
+  transition: background-color .3s, color .3s;
 }
 .nav__left { display: flex; align-items: center; gap: 18px; }
 /* El logo mide 28px de alto; el relleno mantiene el menú en 80px (--nav-h) */
@@ -118,6 +119,11 @@ img, video { display: block; max-width: 100%; }
 .nav__tabs a.is-active { background: var(--brand); color: #fff; }
 .nav__right { display: flex; align-items: center; justify-content: flex-end; gap: 26px; }
 .nav__right a:hover, .nav__tabs a:not(.is-active):hover { opacity: .6; }
+/* Al llegar al pie (negro), el menú también se pone negro, con el texto y el logo en blanco */
+.nav--dark { background: var(--ink); color: #fff; }
+.nav--dark .nav__logo { color: #fff; }
+.nav--dark .nav__logo:hover { color: var(--pop); }
+.nav--dark :focus-visible { outline-color: var(--paper); }
 /* En pantallas táctiles, las pestañas y el logo se pulsan en un área de al menos 44px de alto, sin cambiar cómo se ven */
 @media (pointer: coarse) {
   .nav__tabs a, .nav__logo { position: relative; }
@@ -448,6 +454,11 @@ img, video { display: block; max-width: 100%; }
 /* Contact: el pie de la página, en negro */
 .contact {
   position: relative; overflow: hidden;
+  /* Al final de la página el pie llena la pantalla bajo el menú (así el menú, que se pone negro, queda unido a él).
+     Si sobra alto, las columnas y los derechos bajan hasta el fondo. */
+  display: flex; flex-direction: column;
+  min-height: calc(100vh - var(--nav-h));
+  min-height: calc(100lvh - var(--nav-h));
   background: var(--ink); color: #fff;
   padding: clamp(48px, 7vw, 104px) var(--gutter) clamp(28px, 4vw, 48px);
   /* Para medir con "cqi": 100cqi es el ancho disponible dentro del pie (sin los márgenes) */
@@ -458,7 +469,7 @@ img, video { display: block; max-width: 100%; }
 .contact .section-intro { color: rgba(255, 255, 255, .8); }
 .note--contact { color: var(--pop); }
 /* Llamada principal: el correo en grande y, al lado, el botón para copiarlo */
-.contact__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 32px; }
+.contact__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 32px; margin-bottom: clamp(56px, 7vw, 96px); }
 .contact__mail {
   max-width: 100%; overflow-wrap: anywhere;
   font-weight: 500; letter-spacing: -.01em; line-height: 1.1;
@@ -475,7 +486,7 @@ img, video { display: block; max-width: 100%; }
 /* Columnas: secciones, redes, ubicación y volver arriba */
 .contact__columns {
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: 28px 32px;
-  margin-top: clamp(56px, 7vw, 96px); padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, .3);
+  margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, .3);
 }
 .contact__columns h3 { margin-bottom: 14px; color: rgba(255, 255, 255, .65); }
 .contact__columns ul { list-style: none; display: grid; gap: 8px; }
