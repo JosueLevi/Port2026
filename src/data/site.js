@@ -88,15 +88,14 @@ export const process = [
 // Sin imagen se dibuja una pantalla de ejemplo con el título.
 export const screens = [
   { title: 'Inicio de Levi, gestor de finanzas', image: '/assets/img/gestor-finanzas-movil.webp', project: 0 },
-  // SISE, Coinpay, Raven y Exacta Express aún no tienen caso: cuando lo tengan, añade su `project`
-  // para que se abran al hacer clic
+  // Las demás aún no tienen caso: cuando lo tengan, añade su `project` para que se abran al hacer clic
   { title: 'Web de SISE', type: 'web', image: '/assets/img/sise-web.webp' },
-  { title: 'Checkout', project: 2 },
+  { title: 'Food App, bienvenida', image: '/assets/img/food-app.webp' },
   { title: 'Coinpay, crear cuenta', image: '/assets/img/coinpay.webp' },
   { title: 'Raven, pronósticos para flora y fauna', type: 'web', image: '/assets/img/raven.webp' },
-  { title: 'Chat', project: 1 },
+  { title: 'Fresh Go, inicio', image: '/assets/img/fresh-go.webp' },
   { title: 'Exacta Express, inicio de sesión', type: 'web', image: '/assets/img/exacta-express.webp' },
-  { title: 'Ajustes', project: 3 },
+  { title: 'Aspen, bienvenida', image: '/assets/img/aspen.webp' },
 ]
 
 // Casos de estudio, en el orden de la pila. `cover` (imagen) o `video` en /public/assets/.
