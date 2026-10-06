@@ -62,7 +62,8 @@ function StackCard({ p, i, progress, onOpen }) {
             <span className="case-card__cta" aria-hidden="true">Ver caso →</span>
           </div>
         </div>
-        <div className="case-card__media">
+        {/* data-case: al abrir el caso, esta imagen crece hasta ser su portada (App.jsx) */}
+        <div className="case-card__media" data-case={i}>
           <Media p={p} />
         </div>
       </motion.article>
