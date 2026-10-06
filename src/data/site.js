@@ -88,13 +88,14 @@ export const process = [
 // Sin imagen se dibuja una pantalla de ejemplo con el título.
 export const screens = [
   { title: 'Inicio de Levi, gestor de finanzas', image: '/assets/img/gestor-finanzas-movil.webp', project: 0 },
-  // SISE y Raven aún no tienen caso: cuando lo tengan, añade su `project` para que se abra al hacer clic
+  // SISE, Coinpay, Raven y Exacta Express aún no tienen caso: cuando lo tengan, añade su `project`
+  // para que se abran al hacer clic
   { title: 'Web de SISE', type: 'web', image: '/assets/img/sise-web.webp' },
   { title: 'Checkout', project: 2 },
-  { title: 'Perfil', project: 0 },
+  { title: 'Coinpay, crear cuenta', image: '/assets/img/coinpay.webp' },
   { title: 'Raven, pronósticos para flora y fauna', type: 'web', image: '/assets/img/raven.webp' },
   { title: 'Chat', project: 1 },
-  { title: 'Agenda', type: 'web', project: 3 },
+  { title: 'Exacta Express, inicio de sesión', type: 'web', image: '/assets/img/exacta-express.webp' },
   { title: 'Ajustes', project: 3 },
 ]
 
