@@ -10,8 +10,10 @@ const tabs = [
   { label: 'CONTACTO', href: '#contact', id: 'contact' },
 ]
 
-export default function Nav() {
+// current: pestaña que se marca sí o sí (p. ej. Proyectos dentro de un caso)
+export default function Nav({ current }) {
   const [active, setActive] = useState('work')
+  const shown = current ?? active
 
   // Marca la pestaña de la sección que se está viendo
   useEffect(() => {
@@ -38,8 +40,8 @@ export default function Nav() {
           <a
             key={t.id}
             href={t.href}
-            className={active === t.id ? 'is-active' : ''}
-            aria-current={active === t.id ? 'true' : undefined}
+            className={shown === t.id ? 'is-active' : ''}
+            aria-current={shown === t.id ? 'true' : undefined}
           >
             {t.label}
           </a>

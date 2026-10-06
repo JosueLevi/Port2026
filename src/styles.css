@@ -50,7 +50,7 @@
 
 /* Estilos de texto reutilizables */
 /* Etiqueta: pequeña, en mayúsculas y con aire entre letras */
-.section-meta, .about__lists h3, .case h3, .case__eyebrow, .case__facts dt, .case-card__meta, .contact__columns h3 {
+.section-meta, .about__lists h3, .case h2, .case__eyebrow, .case__facts dt, .case-card__meta, .contact__columns h3 {
   font-family: var(--font-text); font-weight: 600; font-size: var(--size-label);
   letter-spacing: .14em; text-transform: uppercase;
 }
@@ -498,61 +498,41 @@ img, video { display: block; max-width: 100%; }
 .pill-button:hover { background: #fff; border-color: #fff; color: var(--ink); }
 .pill-button--pop { background: var(--pop); border-color: var(--pop); color: var(--ink); }
 
-/* Caso de estudio */
-/* El espacio de arriba va como margen del panel y no como relleno de .case: así la franja y la × se pegan al borde de la pantalla */
-.case {
-  --case-top: clamp(16px, 5vh, 56px);
-  position: fixed; inset: 0; z-index: 150;
-  background: rgba(0, 0, 0, .45); backdrop-filter: blur(6px);
-  overflow-y: auto; overscroll-behavior: contain;
-  padding: 0 var(--gutter);
-}
-.case__panel {
-  --case-pad: clamp(28px, 5vw, 64px);
-  position: relative; max-width: 920px; margin: var(--case-top) auto 0; min-height: calc(100% - var(--case-top));
-  background: var(--paper); border-radius: 24px 24px 0 0;
-  padding: var(--case-pad);
-}
-.case__top { height: 1px; margin-bottom: -1px; }
-/* Al bajar, la × se queda arriba sobre una franja blanca del ancho del caso, así no tapa el texto */
-.case__band {
-  position: sticky; top: 0; z-index: 1; height: 0;
-  margin-inline: calc(var(--case-pad) * -1);
-  pointer-events: none;
-}
-.case__band::before {
-  content: ''; position: absolute; inset: 0 0 auto; height: 68px;
-  background: var(--paper); border-bottom: 1px solid var(--line);
-  opacity: 0; transition: opacity .2s;
-}
-.case.is-stuck .case__band::before { opacity: 1; }
-.case__close {
-  position: sticky; top: 12px; z-index: 2; float: right; width: 44px; height: 44px; border-radius: 50%;
-  border: 0; background: var(--ink); color: var(--paper); font-size: 16px; cursor: pointer;
-}
+/* Caso de estudio: página propia entre el menú y el pie (mientras tanto, el inicio se oculta) */
+.case { padding: calc(var(--nav-h) + clamp(16px, 3vw, 40px)) var(--gutter) clamp(56px, 8vw, 120px); }
+.case .section-meta a { transition: opacity .2s; }
+.case .section-meta a:hover { opacity: .6; }
+/* Cabecera como las de las secciones: título a la izquierda y resumen a la derecha, alineados por abajo */
+.case__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 34ch); align-items: end; gap: 24px 48px; }
 .case__eyebrow { color: var(--brand); }
 .case__title {
   font-family: var(--font-display); text-transform: uppercase;
-  font-size: var(--size-title); line-height: .95; letter-spacing: -.01em; margin: 12px 0 16px;
+  font-size: var(--size-display); line-height: .92; letter-spacing: -.01em; margin-top: 14px;
 }
-.case__summary { font-size: var(--size-lead); line-height: 1.45; max-width: 46ch; }
-.case__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 36px 0; padding: 20px 0; border-block: 1px solid var(--line); }
+.case__title:focus { outline: none; } /* recibe el foco al abrir el caso, para lectores de pantalla */
+.case__summary { color: var(--muted); font-size: var(--size-body); line-height: 1.5; }
+.case__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: clamp(32px, 4vw, 56px) 0; padding: 20px 0; border-block: 1px solid var(--line); }
 .case__facts dt { color: var(--muted); margin-bottom: 6px; }
 .case__facts dd { font-weight: 600; }
-.case__cover { aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; margin-bottom: 48px; display: grid; place-items: end center; }
-.case__cover .device--mobile { width: 26%; }
-.case__cover .device--web { width: 64%; margin-bottom: -5%; }
+.case__cover { aspect-ratio: 21 / 9; border-radius: 16px; overflow: hidden; margin-bottom: clamp(56px, 7vw, 112px); display: grid; place-items: end center; }
+.case__cover .device--mobile { width: 16%; }
+.case__cover .device--web { width: 52%; margin-bottom: -4%; }
 .case__cover img { width: 100%; height: 100%; object-fit: cover; }
-.case section { margin-bottom: 40px; }
-.case h3 { color: var(--muted); margin-bottom: 12px; }
-.case section p, .case__process { font-size: var(--size-body); line-height: 1.6; }
+/* Cada parte del caso: el nombre a la izquierda y el contenido a la derecha, sobre una línea fina */
+.case section {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 16px 48px;
+  padding-top: 20px; border-top: 1px solid var(--line); margin-bottom: clamp(48px, 6vw, 96px);
+}
+.case h2 { color: var(--muted); }
+.case section p, .case__process { font-size: var(--size-body); line-height: 1.6; max-width: 62ch; }
 .case__process { padding-left: 22px; display: grid; gap: 8px; }
 /* Más imágenes del caso: una debajo de otra o lado a lado si caben; las muy altas se recortan por arriba y por abajo */
-.case__gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; margin-bottom: 40px; }
+.case__gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; margin-bottom: clamp(48px, 6vw, 96px); }
 .case__gallery img { width: 100%; height: auto; max-height: 80vh; object-fit: cover; border-radius: 16px; }
 /* Stack: qué se usó en cada parte, en dos columnas separadas por líneas finas */
 .case__stack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
 .case__stack div { display: grid; grid-template-columns: minmax(0, 11ch) minmax(0, 1fr); gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); }
+.case__stack div:nth-child(-n + 2) { border-top: 0; padding-top: 0; }
 .case__stack dt { color: var(--muted); font-size: var(--size-small); }
 .case__stack dd { font-size: var(--size-small); font-weight: 500; }
 /* Resultados: número grande bajo una línea */
@@ -561,6 +541,11 @@ img, video { display: block; max-width: 100%; }
 /* El contador de Rare UI hace cada dígito de 1.5em de alto: el margen negativo quita ese aire extra */
 .case__metrics strong { display: block; font-family: var(--font-display); font-weight: 400; font-size: clamp(44px, 5vw, 64px); line-height: 1; margin-block: -.25em; }
 .case__metrics div > span { display: block; margin-top: 12px; color: var(--muted); }
+
+/* Al abrir o cerrar un caso, la imagen de la tarjeta crece hasta ser la portada (o vuelve); el resto se funde */
+::view-transition-group(case-cover) { animation-duration: .6s; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
+::view-transition-old(case-cover), ::view-transition-new(case-cover) { height: 100%; object-fit: cover; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .35s; }
 
 /* Presentación visible en la portada */
 .hero__intro { position: absolute; z-index: 4; left: var(--gutter); bottom: 36px; max-width: 300px; }
@@ -581,12 +566,8 @@ img, video { display: block; max-width: 100%; }
   100% { box-shadow: 0 0 0 8px transparent; }
 }
 
-/* Final del caso: llamada a la acción y casos anterior / siguiente */
-.case__cta { padding: clamp(24px, 4vw, 40px); border-radius: 16px; background: var(--brand); color: #fff; }
-.case__cta h3 { color: var(--pop); }
-.case__cta p { margin-bottom: 20px; font-size: var(--size-lead); line-height: 1.35; }
-.case__cta .button { --button-bg: var(--paper); --button-bg-hover: var(--pop); --button-bg-pressed: var(--pop); --button-fg: var(--ink); }
-.case__nav { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-bottom: 40px; }
+/* Final del caso: los casos anterior y siguiente (debajo va el pie de la web, con el contacto) */
+.case__nav { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .case__nav button {
   display: flex; align-items: center; gap: 14px; padding: 18px 20px;
   border: 1px solid var(--line); border-radius: 14px; background: var(--paper);
@@ -619,6 +600,8 @@ img, video { display: block; max-width: 100%; }
   .nav__location, .nav__mail { display: none; }
   .section-head__main { grid-template-columns: 1fr; }
   .section-head__aside { max-width: 44ch; }
+  .case__head { grid-template-columns: 1fr; }
+  .case__summary { max-width: 44ch; }
   .about__lists { grid-template-columns: 1fr; }
   .process__list { grid-template-columns: repeat(2, 1fr); }
   .case-card { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -648,6 +631,10 @@ img, video { display: block; max-width: 100%; }
   .hero__intro { left: 50%; translate: -50% 0; top: 205px; bottom: auto; width: 92vw; max-width: none; text-align: center; }
   .hero__intro h1, .hero__intro p { font-size: var(--size-caption); }
   .case__nav { grid-template-columns: 1fr; }
+  .case section { grid-template-columns: 1fr; }
+  .case__cover { aspect-ratio: 4 / 3; }
+  .case__cover .device--mobile { width: 30%; }
+  .case__cover .device--web { width: 80%; }
   .ring { margin-top: -8vh; }
   .hero__character { bottom: 9vh; }
   /* En móviles bajos se achica para que el saludo no tape la presentación */
@@ -670,6 +657,7 @@ img, video { display: block; max-width: 100%; }
   .about__grid { grid-template-columns: 1fr; }
   .about__character { max-width: 220px; }
   .about__lists, .case__facts, .case__stack { grid-template-columns: 1fr; }
+  .case__stack div:nth-child(2) { border-top: 1px solid var(--line); padding-top: 12px; }
   .process__list { grid-template-columns: 1fr; }
   .nav__tabs a { padding: 3px 6px; }
   .device .mock { padding: 10px 8px; gap: 6px; }
