@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { buttonVariants } from '@heroui/react'
 import { projects, site } from '../data/site.js'
@@ -13,6 +13,8 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
   const closeRef = useRef(null)
   const dialogRef = useRef(null)
   const panelRef = useRef(null)
+  const topRef = useRef(null)
+  const [stuck, setStuck] = useState(false)
   const total = projects.length
   const prevIndex = index === null ? 0 : (index - 1 + total) % total
   const nextIndex = index === null ? 0 : (index + 1) % total
@@ -24,7 +26,19 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
   // Al cambiar de caso, vuelve arriba
   useEffect(() => {
     dialogRef.current?.scrollTo(0, 0)
+    setStuck(false)
   }, [index])
+
+  // Al bajar, la × se queda arriba sobre una franja blanca (is-stuck) para no tapar el texto
+  useEffect(() => {
+    if (!p || !topRef.current) return
+    const io = new IntersectionObserver(([entry]) => setStuck(!entry.isIntersecting), {
+      root: dialogRef.current,
+      rootMargin: '-12px 0px 0px 0px',
+    })
+    io.observe(topRef.current)
+    return () => io.disconnect()
+  }, [p])
 
   // Foco en el botón de cerrar, Escape para salir, Tab no sale del caso y foco de vuelta al cerrar
   useEffect(() => {
@@ -58,7 +72,7 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
       {p && (
         <motion.div
           ref={dialogRef}
-          className="case"
+          className={`case${stuck ? ' is-stuck' : ''}`}
           role="dialog"
           aria-modal="true"
           aria-labelledby="case-title"
@@ -76,6 +90,9 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
             exit={{ y: 80 }}
             transition={{ duration: 0.5, ease }}
           >
+            {/* Marca el inicio del caso y franja que aparece detrás de la × al bajar */}
+            <div ref={topRef} className="case__top" aria-hidden="true" />
+            <div className="case__band" aria-hidden="true" />
             <button ref={closeRef} className="case__close" onClick={onClose} aria-label="Cerrar caso de estudio">
               ✕
             </button>

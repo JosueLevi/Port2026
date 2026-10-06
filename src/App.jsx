@@ -12,6 +12,16 @@ import CaseStudy from './components/CaseStudy.jsx'
 import { projects, caseSlug } from './data/site.js'
 import ScrollProgress from '@/components/ui/scroll-progress'
 
+// Caso que indica la dirección (#caso/nombre), o null si no hay ninguno
+const caseFromHash = () => {
+  const m = window.location.hash.match(/^#caso\/(.+)$/)
+  if (!m) return null
+  const i = projects.findIndex((p) => caseSlug(p) === decodeURIComponent(m[1]))
+  return i >= 0 ? i : null
+}
+const caseUrl = (i) => `#caso/${caseSlug(projects[i])}`
+const pageUrl = () => window.location.pathname + window.location.search
+
 // Secciones que muestra la píldora de progreso (Rare UI)
 const sections = [
   { id: 'top', label: 'Inicio' },
@@ -41,23 +51,47 @@ export default function App() {
     }
   }, [])
 
-  // Si la dirección trae #caso/nombre (un enlace compartido), abre ese caso
+  // Cada caso abierto tiene su propia dirección (#caso/nombre) para poder compartirla.
+  // Abrir un caso añade un paso al historial: así el botón Atrás del navegador o del celular
+  // cierra el caso en vez de sacarte de la web. Pasar al caso anterior o siguiente no añade pasos.
+  const closing = useRef(false)
+  const openCase = (i) => {
+    if (window.history.state?.caso) window.history.replaceState({ caso: true }, '', caseUrl(i))
+    else window.history.pushState({ caso: true }, '', caseUrl(i))
+    setOpenProject(i)
+  }
+  const closeCase = () => {
+    if (closing.current) return // un doble clic en la × no debe retroceder dos pasos
+    // Si el paso del caso lo añadimos nosotros, se deshace (como pulsar Atrás); si no, solo se quita de la dirección
+    if (window.history.state?.caso) {
+      closing.current = true
+      return window.history.back()
+    }
+    window.history.replaceState(null, '', pageUrl())
+    setOpenProject(null)
+  }
+
+  // Atrás y Adelante: se abre o se cierra el caso según la dirección
   useEffect(() => {
-    const m = window.location.hash.match(/^#caso\/(.+)$/)
-    if (!m) return
-    const i = projects.findIndex((p) => caseSlug(p) === decodeURIComponent(m[1]))
-    if (i >= 0) setOpenProject(i)
+    const sync = () => {
+      closing.current = false
+      setOpenProject(caseFromHash())
+    }
+    window.addEventListener('popstate', sync)
+    return () => window.removeEventListener('popstate', sync)
   }, [])
 
-  // Cada caso abierto tiene su propia dirección para poder compartirla
+  // Si la web se abre con el enlace de un caso, el caso se abre encima de la web,
+  // que queda un paso antes en el historial: Atrás cierra el caso y te deja en la web
   useEffect(() => {
-    const { pathname, search, hash } = window.location
-    if (openProject !== null) {
-      window.history.replaceState(null, '', `#caso/${caseSlug(projects[openProject])}`)
-    } else if (hash.startsWith('#caso/')) {
-      window.history.replaceState(null, '', pathname + search)
+    const i = caseFromHash()
+    if (i === null) return
+    if (!window.history.state?.caso) {
+      window.history.replaceState(null, '', pageUrl())
+      window.history.pushState({ caso: true }, '', caseUrl(i))
     }
-  }, [openProject])
+    setOpenProject(i)
+  }, [])
 
   // Con un caso de estudio abierto, la página de fondo no se mueve
   useEffect(() => {
@@ -76,13 +110,13 @@ export default function App() {
         <Hero />
         {/* Hoja que sube por encima de la portada fija */}
         <div className="sheet">
-          <Work onOpenProject={setOpenProject} />
+          <Work onOpenProject={openCase} />
           <Process />
           <About />
         </div>
       </main>
       <Contact />
-      <CaseStudy index={openProject} onClose={() => setOpenProject(null)} onNavigate={setOpenProject} />
+      <CaseStudy index={openProject} onClose={closeCase} onNavigate={openCase} />
       {openProject === null && (
         // offset: la sección cuenta como activa al llegar a media pantalla (así Contacto también se marca)
         <ScrollProgress sections={sections} offset={Math.round(window.innerHeight / 2)} className="progress-pill" />

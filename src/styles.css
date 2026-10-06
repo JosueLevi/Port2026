@@ -118,6 +118,12 @@ img, video { display: block; max-width: 100%; }
 .nav__tabs a.is-active { background: var(--brand); color: #fff; }
 .nav__right { display: flex; align-items: center; justify-content: flex-end; gap: 26px; }
 .nav__right a:hover, .nav__tabs a:not(.is-active):hover { opacity: .6; }
+/* En pantallas táctiles, las pestañas y el logo se pulsan en un área de al menos 44px de alto, sin cambiar cómo se ven */
+@media (pointer: coarse) {
+  .nav__tabs a, .nav__logo { position: relative; }
+  .nav__tabs a::after { content: ''; position: absolute; inset: -13px 0; }
+  .nav__logo::after { content: ''; position: absolute; inset: -4px; }
+}
 
 /* Hero */
 /* Portada fija: las demás secciones (.sheet) suben por encima al hacer scroll.
@@ -493,19 +499,35 @@ img, video { display: block; max-width: 100%; }
 .pill-button--pop { background: var(--pop); border-color: var(--pop); color: var(--ink); }
 
 /* Caso de estudio */
+/* El espacio de arriba va como margen del panel y no como relleno de .case: así la franja y la × se pegan al borde de la pantalla */
 .case {
+  --case-top: clamp(16px, 5vh, 56px);
   position: fixed; inset: 0; z-index: 150;
   background: rgba(0, 0, 0, .45); backdrop-filter: blur(6px);
   overflow-y: auto; overscroll-behavior: contain;
-  padding: clamp(16px, 5vh, 56px) var(--gutter) 0;
+  padding: 0 var(--gutter);
 }
 .case__panel {
-  position: relative; max-width: 920px; margin: 0 auto; min-height: 100%;
+  --case-pad: clamp(28px, 5vw, 64px);
+  position: relative; max-width: 920px; margin: var(--case-top) auto 0; min-height: calc(100% - var(--case-top));
   background: var(--paper); border-radius: 24px 24px 0 0;
-  padding: clamp(28px, 5vw, 64px);
+  padding: var(--case-pad);
 }
+.case__top { height: 1px; margin-bottom: -1px; }
+/* Al bajar, la × se queda arriba sobre una franja blanca del ancho del caso, así no tapa el texto */
+.case__band {
+  position: sticky; top: 0; z-index: 1; height: 0;
+  margin-inline: calc(var(--case-pad) * -1);
+  pointer-events: none;
+}
+.case__band::before {
+  content: ''; position: absolute; inset: 0 0 auto; height: 68px;
+  background: var(--paper); border-bottom: 1px solid var(--line);
+  opacity: 0; transition: opacity .2s;
+}
+.case.is-stuck .case__band::before { opacity: 1; }
 .case__close {
-  position: sticky; top: 0; float: right; width: 44px; height: 44px; border-radius: 50%;
+  position: sticky; top: 12px; z-index: 2; float: right; width: 44px; height: 44px; border-radius: 50%;
   border: 0; background: var(--ink); color: var(--paper); font-size: 16px; cursor: pointer;
 }
 .case__eyebrow { color: var(--brand); }

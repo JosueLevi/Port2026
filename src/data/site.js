@@ -63,7 +63,7 @@ export const site = {
 
   // Notas cortas junto a las secciones (pon null para quitar una)
   notes: {
-    work: '¡haz clic en uno!',
+    work: null,
     about: null,
     contact: 'escríbeme, no muerdo :)',
   },
