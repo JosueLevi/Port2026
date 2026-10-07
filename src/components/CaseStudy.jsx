@@ -1,3 +1,4 @@
+import { buttonVariants } from '@heroui/react'
 import { projects } from '../data/site.js'
 import Metric from './Metric.jsx'
 import { DeviceMock } from './Mocks.jsx'
@@ -36,7 +37,16 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
             <p className="case__eyebrow">{[p.client, p.year].filter(Boolean).join(' · ')}</p>
             <h1 id="case-title" className="case__title" tabIndex={-1}>{p.title}</h1>
           </div>
-          <p className="case__summary">{p.summary}</p>
+          <div className="case__intro">
+            <p className="case__summary">{p.summary}</p>
+            {/* Botón a la app o web publicada, si el caso la tiene */}
+            {p.live && (
+              <a className={`${buttonVariants({ size: 'lg' })} cta`} href={p.live.url} target="_blank" rel="noreferrer">
+                {p.live.label ?? 'Ver en vivo'} <span aria-hidden="true">↗</span>
+                <span className="sr-only"> (se abre en otra pestaña)</span>
+              </a>
+            )}
+          </div>
         </header>
 
         {facts.length > 0 && (

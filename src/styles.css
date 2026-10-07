@@ -522,6 +522,7 @@ img, video { display: block; max-width: 100%; }
 }
 .case__title:focus { outline: none; } /* recibe el foco al abrir el caso, para lectores de pantalla */
 .case__summary { color: var(--muted); font-size: var(--size-body); line-height: 1.5; }
+.case__intro { display: grid; justify-items: start; gap: 20px; }
 .case__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: clamp(32px, 4vw, 56px) 0; padding: 20px 0; border-block: 1px solid var(--line); }
 .case__facts dt { color: var(--muted); margin-bottom: 6px; }
 .case__facts dd { font-weight: 600; }

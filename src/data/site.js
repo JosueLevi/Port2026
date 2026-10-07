@@ -99,7 +99,7 @@ export const screens = [
 // Casos de estudio, en el orden de la pila. `cover` (imagen) o `video` en /public/assets/.
 // Sin portada se muestra un móvil o un navegador de ejemplo (`type: 'web'`) sobre el color del caso.
 // `tags`: etiquetas cortas que se ven en la tarjeta (tipo de proyecto, plataforma...).
-// Solo hacen falta título, año, rol y resumen: lo demás (duration, tools, description, problem,
+// Solo hacen falta título, año, rol y resumen: lo demás (live, duration, tools, description, problem,
 // process, flow, screens, mobile, gallery, stack, metrics) es opcional y, si no lo pones, esa parte no sale en el caso.
 export const projects = [
   {
@@ -176,6 +176,8 @@ export const projects = [
       ],
     },
     summary: 'Tus finanzas pueden sentirse más simples.',
+    // App publicada (sale en el caso abierto, debajo del resumen; se abre en otra pestaña)
+    live: { url: 'https://gestor-de-gastos-gamma.vercel.app/', label: 'Visitar la app' },
     // Qué es el producto (sale en el caso abierto, en "El proyecto")
     description:
       'Levi es una plataforma de finanzas personales para registrar ingresos y gastos, organizar movimientos por categorías y controlar presupuestos. Muestra tu saldo, gráficos y comparaciones mensuales para ayudarte a entender en qué se va tu dinero.',
