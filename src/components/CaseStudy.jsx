@@ -133,6 +133,15 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
           </section>
         )}
 
+        {/* Video de presentación: con controles y sin reproducirse solo, porque tiene música */}
+        {p.promo && (
+          <section>
+            <h2>La app en acción</h2>
+            {p.promo.caption && <p>{p.promo.caption}</p>}
+            <video className="case__promo" src={p.promo.src} poster={p.promo.poster} width={1920} height={1080} controls playsInline preload="metadata" />
+          </section>
+        )}
+
         {p.gallery?.length > 0 && (
           <div className="case__gallery">
             {p.gallery.map((src) => (

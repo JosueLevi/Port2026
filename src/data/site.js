@@ -100,7 +100,7 @@ export const screens = [
 // Sin portada se muestra un móvil o un navegador de ejemplo (`type: 'web'`) sobre el color del caso.
 // `tags`: etiquetas cortas que se ven en la tarjeta (tipo de proyecto, plataforma...).
 // Solo hacen falta título, año, rol y resumen: lo demás (live, duration, tools, description, problem,
-// process, flow, screens, mobile, gallery, stack, metrics) es opcional y, si no lo pones, esa parte no sale en el caso.
+// process, flow, screens, mobile, promo, gallery, stack, metrics) es opcional y, si no lo pones, esa parte no sale en el caso.
 export const projects = [
   {
     title: 'Gestor de finanzas personales',
@@ -174,6 +174,14 @@ export const projects = [
           alt: 'Ajustes de Levi en el celular, con el formulario para crear una categoría',
         },
       ],
+    },
+    // Video de presentación (sale en "La app en acción", después de la versión móvil; con controles, porque tiene música).
+    // `poster`: la imagen que se ve antes de darle a reproducir
+    promo: {
+      src: '/assets/video/gestor-finanzas-presentacion.mp4',
+      poster: '/assets/img/gestor-finanzas-presentacion.webp',
+      caption:
+        'Video de presentación de 22 segundos, con música. Muestra el problema que resuelve Levi y sus tres funciones clave: registrar movimientos, ponerle límite a cada categoría y ver en qué se va el dinero.',
     },
     summary: 'Tus finanzas pueden sentirse más simples.',
     // App publicada (sale en el caso abierto, debajo del resumen; se abre en otra pestaña)
@@ -266,6 +274,10 @@ projects.forEach((p) => {
   }
   p.screens?.forEach((s) => { s.src = withBase(s.src) })
   p.mobile?.screens?.forEach((s) => { s.src = withBase(s.src) })
+  if (p.promo) {
+    p.promo.src = withBase(p.promo.src)
+    p.promo.poster = withBase(p.promo.poster)
+  }
 })
 
 // Nombre del caso para su enlace propio: "App de salud" -> "app-de-salud" (tusitio.com/#caso/app-de-salud)
