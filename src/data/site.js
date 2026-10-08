@@ -99,8 +99,9 @@ export const screens = [
 // Casos de estudio, en el orden de la pila. `cover` (imagen) o `video` en /public/assets/.
 // Sin portada se muestra un móvil o un navegador de ejemplo (`type: 'web'`) sobre el color del caso.
 // `tags`: etiquetas cortas que se ven en la tarjeta (tipo de proyecto, plataforma...).
-// Solo hacen falta título, año, rol y resumen: lo demás (live, duration, tools, description, problem,
-// process, flow, screens, mobile, promo, gallery, stack, metrics) es opcional y, si no lo pones, esa parte no sale en el caso.
+// Solo hacen falta título, año, rol y resumen: lo demás (live, platform, duration, tools, description, problem,
+// users, process, flow, screens, mobile, promo, decisions, gallery, stack, metrics, next) es opcional y, si no lo pones,
+// esa parte no sale en el caso.
 export const projects = [
   {
     title: 'Gestor de finanzas personales',
@@ -110,6 +111,8 @@ export const projects = [
     role: 'UX/UI Designer y Developer',
     color: 'var(--ink)',
     cover: '/assets/img/gestor-finanzas.webp',
+    // Qué parte de la portada se ve en el caso abierto, que la recorta más baja (por defecto, el centro)
+    coverPosition: 'top',
     // Flujo de usuario (sale en "Proceso", con el texto al lado). `mobile`: versión vertical para celular y tablet
     flow: {
       src: '/assets/img/gestor-finanzas-flujo.webp',
@@ -202,25 +205,97 @@ export const projects = [
     ],
   },
   {
-    title: 'Dashboard SaaS',
+    title: 'Raven',
     type: 'web',
-    tags: ['Web app', 'Data viz'],
-    client: 'Proyecto de ejemplo',
+    tags: ['Web app', 'Agrotech'],
     year: '2025',
-    role: 'Product Designer',
-    duration: '4 meses',
-    tools: 'Figma · FigJam',
-    color: 'var(--pop)',
-    summary: 'Panel de analítica para equipos de ventas.',
-    problem: 'Los usuarios no encontraban los datos clave entre demasiados gráficos.',
-    process: [
-      'Card sorting con 12 usuarios para priorizar métricas.',
-      'Nuevo layout por tareas y design system con 40 componentes.',
-      'Test de usabilidad con prototipo de alta fidelidad.',
+    role: 'UX/UI Designer',
+    // Sale en los datos de arriba del caso, junto al rol y las herramientas
+    platform: 'Web de escritorio',
+    tools: 'Figma',
+    color: 'var(--ink)',
+    cover: '/assets/img/raven-login.webp',
+    summary: 'Pronosticar la cosecha antes de cosecharla.',
+    description:
+      'Raven es una plataforma web para que las empresas agrícolas proyecten cuántas toneladas van a cosechar en una campaña, frente por frente y semana a semana, a partir de los datos que levantan en campo.',
+    // Puede ir en varios párrafos
+    problem: [
+      'Planificar una cosecha implica cruzar muchos datos: cuántos frentes hay en cada fundo, cuántas semanas dura la campaña, qué módulos se recogen y cuánto pesa lo que sale de cada uno. Esa información llega desde distintas fuentes, como conteos, muestreos y registros de caída, y en distintos formatos.',
+      'El objetivo de Raven es convertir esos datos en una proyección de tonelaje que el equipo pueda revisar, ajustar y comparar contra su meta, sin perder de vista de dónde sale cada número.',
     ],
+    // Quién lo usa (sale en "Usuarios")
+    users: [
+      { title: 'Planificación de cosecha', text: 'Arma las simulaciones, define frentes y semanas, y ajusta el tonelaje hasta llegar a la meta de la campaña.' },
+      { title: 'Operaciones de campo', text: 'Sube los archivos de conteo, caída y muestreo, y revisa si fueron validados y procesados.' },
+      { title: 'Jefaturas', text: 'Revisan el avance de cada simulación contra su meta en TN y deciden qué frente necesita atención.' },
+    ],
+    // Pasos del flujo con nombre y texto (salen en "Proceso", numerados y en fila); `processCaption` va antes
+    processCaption:
+      'Del inicio de sesión al plan de cosecha, en seis pasos. En paralelo, el módulo de datos alimenta las simulaciones: ahí se cargan los archivos de caída, conteo, muestreo destructivo y no destructivo, y proyección de caída.',
+    process: [
+      { title: 'Ingreso', text: 'Usuario y contraseña, con recuperación de acceso.' },
+      { title: 'Entorno', text: 'Se elige la empresa y la campaña con la que se va a trabajar.' },
+      { title: 'Simulación', text: 'Se crea o abre una simulación y se elige el fundo.' },
+      { title: 'Tonelaje', text: 'Se proyectan las toneladas por frente y por semana.' },
+      { title: 'Corte', text: 'Se ajusta la simulación por calibre y modelo.' },
+      { title: 'Planeamiento', text: 'Se ordena la recolección en el tiempo, frente por frente.' },
+    ],
+    screens: [
+      {
+        src: '/assets/img/raven-entorno.webp',
+        title: 'Entorno operativo',
+        caption: 'Antes de ver cualquier dato, la persona elige con qué empresa y campaña va a trabajar. Así todo lo que viene después se lee en ese contexto.',
+        alt: 'Pantalla de entorno operativo con el saludo, la selección de empresa y campaña, y una ilustración de granja',
+      },
+      {
+        src: '/assets/img/raven-simulaciones.webp',
+        title: 'Simulaciones',
+        caption: 'La tabla resume cada simulación en una fila: fecha, frentes, semanas y pañas. Las dos columnas que más importan son el estado del tonelaje y la barra de avance hacia la meta.',
+        alt: 'Tabla de simulaciones con el estado del tonelaje y una barra de avance hacia la meta en cada fila',
+      },
+      {
+        src: '/assets/img/raven-tonelaje.webp',
+        title: 'Tonelaje',
+        caption: 'Con cuatro datos (frentes, número de semanas, semana inicial y final) se genera una tabla editable. Cada frente es una fila y cada semana una columna, de Sem. 51 a Sem. 12.',
+        alt: 'Tabla editable de tonelaje con un frente por fila, una semana por columna y los totales en verde',
+      },
+      {
+        src: '/assets/img/raven-planeamiento.webp',
+        title: 'Planeamiento',
+        caption: 'Una línea de tiempo ordena la recolección. Cada frente muestra su último recojo, los módulos que le tocan y cómo se acumula el peso hasta su meta.',
+        alt: 'Planeamiento con una línea de tiempo, los módulos de cada frente, indicadores circulares de meta y un gráfico de barras por módulo',
+      },
+      {
+        src: '/assets/img/raven-datos.webp',
+        title: 'Datos de campo',
+        caption: 'Cada archivo que se sube pasa por dos controles: validación y procesamiento. La tabla muestra ambos estados por separado, así es fácil ver qué falta y qué falló.',
+        alt: 'Tabla de archivos de proyección de caída con su estado de validación y de procesamiento',
+      },
+    ],
+    // Video sin sonido: con controles, como el del primer caso
+    promo: {
+      src: '/assets/video/raven-recorrido.mp4',
+      poster: '/assets/img/raven-recorrido.webp',
+      caption: 'Recorrido animado de 28 segundos por las pantallas principales.',
+    },
+    // Decisiones de diseño (salen después del video, de dos en dos)
+    decisions: [
+      { title: 'Contexto primero', text: 'Empresa y campaña se eligen al entrar y se mantienen visibles en el título de cada pantalla, por ejemplo “Simulaciones Arato II”.' },
+      { title: 'La meta siempre a la vista', text: 'Cada vista que trabaja con toneladas muestra la meta y cuánto falta, para que nadie tenga que calcularlo.' },
+      { title: 'Un paso a la vez', text: 'La simulación se divide en tonelaje, corte y planeamiento, con navegación propia y botones de volver y siguiente.' },
+      { title: 'Estados que no dependen del color', text: 'Toda etiqueta de estado lleva texto, y las acciones que no aplican se muestran desactivadas en lugar de esconderse.' },
+    ],
+    // Cifras con otro nombre en lugar de "Resultado"; la primera también sale en la tarjeta del inicio
+    metricsTitle: 'Alcance',
     metrics: [
-      { value: '4.6/5', label: 'satisfacción (SUS)' },
-      { value: '-30%', label: 'tickets de soporte' },
+      { value: '49', label: 'pantallas' },
+      { value: '335', label: 'componentes' },
+    ],
+    // Lo que harías en la próxima iteración (sale al final, en "Siguientes pasos")
+    next: [
+      { title: 'Probar el flujo con planificadores reales', text: 'Validar el orden tonelaje, corte y planeamiento con quienes arman la campaña.' },
+      { title: 'Prototipar con datos realistas', text: 'Reemplazar los valores de ejemplo por una campaña completa para revisar densidad y casos límite.' },
+      { title: 'Unificar la librería de componentes', text: 'Consolidar estilos de tipografía, color y botones en un solo sistema con nombres consistentes.' },
     ],
   },
   {

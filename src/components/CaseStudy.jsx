@@ -5,6 +5,20 @@ import { DeviceMock } from './Mocks.jsx'
 
 const pad = (n) => String(n).padStart(2, '0')
 
+// Puntos con nombre y texto, sobre una línea fina: usuarios, decisiones de diseño y siguientes pasos
+function Points({ items }) {
+  return (
+    <dl className="case__points">
+      {items.map((item) => (
+        <div key={item.title}>
+          <dt>{item.title}</dt>
+          <dd>{item.text}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
 // Caso de estudio como página propia: ocupa el lugar del inicio (que se oculta) entre el menú y el pie
 export default function CaseStudy({ index, onClose, onNavigate }) {
   const p = projects[index]
@@ -12,7 +26,9 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
   const prevIndex = (index - 1 + total) % total
   const nextIndex = (index + 1) % total
   // Datos del caso bajo la cabecera; los que falten en site.js no se muestran
-  const facts = [['Rol', p.role], ['Duración', p.duration], ['Herramientas', p.tools]].filter(([, value]) => value)
+  const facts = [['Rol', p.role], ['Plataforma', p.platform], ['Duración', p.duration], ['Herramientas', p.tools]].filter(([, value]) => value)
+  // Texto de "Proceso": el del flujo, o uno propio si el caso no tiene imagen de flujo
+  const processCaption = p.flow?.caption || p.processCaption
 
   return (
     <main className="case">
@@ -61,7 +77,11 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
         )}
 
         <div className="case__cover" style={{ background: p.color }}>
-          {p.cover ? <img src={p.cover} alt={`Pantallas de ${p.title}`} /> : <DeviceMock type={p.type} title={p.title} />}
+          {p.cover ? (
+            <img src={p.cover} alt={`Pantallas de ${p.title}`} style={p.coverPosition ? { objectPosition: p.coverPosition } : undefined} />
+          ) : (
+            <DeviceMock type={p.type} title={p.title} />
+          )}
         </div>
 
         {/* Cada parte sale solo si el caso la tiene en site.js */}
@@ -75,21 +95,42 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
         {p.problem && (
           <section>
             <h2>El problema</h2>
-            <p>{p.problem}</p>
+            {/* Un texto o varios párrafos */}
+            {[].concat(p.problem).map((text) => (
+              <p key={text}>{text}</p>
+            ))}
+          </section>
+        )}
+
+        {p.users?.length > 0 && (
+          <section>
+            <h2>Usuarios</h2>
+            <Points items={p.users} />
           </section>
         )}
 
         {(p.process?.length > 0 || p.flow) && (
           <section>
             <h2>Proceso</h2>
-            {p.flow?.caption && <p>{p.flow.caption}</p>}
-            {p.process?.length > 0 && (
-              <ol className="case__process">
-                {p.process.map((step) => (
-                  <li key={step}>{step}</li>
-                ))}
-              </ol>
-            )}
+            {processCaption && <p>{processCaption}</p>}
+            {/* Pasos sueltos en lista; si tienen nombre y texto, numerados y en fila a todo lo ancho */}
+            {p.process?.length > 0 &&
+              (typeof p.process[0] === 'string' ? (
+                <ol className="case__process">
+                  {p.process.map((step) => (
+                    <li key={step}>{step}</li>
+                  ))}
+                </ol>
+              ) : (
+                <ol className="case__steps">
+                  {p.process.map((step) => (
+                    <li key={step.title}>
+                      <strong>{step.title}</strong>
+                      <span>{step.text}</span>
+                    </li>
+                  ))}
+                </ol>
+              ))}
             {/* El flujo va a todo lo ancho; en celular y tablet se cambia por su versión vertical */}
             {p.flow && (
               <picture className="case__flow">
@@ -142,6 +183,13 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
           </section>
         )}
 
+        {p.decisions?.length > 0 && (
+          <section>
+            <h2>Decisiones de diseño</h2>
+            <Points items={p.decisions} />
+          </section>
+        )}
+
         {p.gallery?.length > 0 && (
           <div className="case__gallery">
             {p.gallery.map((src) => (
@@ -166,7 +214,7 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
 
         {p.metrics?.length > 0 && (
           <section>
-            <h2>Resultado</h2>
+            <h2>{p.metricsTitle ?? 'Resultado'}</h2>
             <div className="case__metrics">
               {p.metrics.map((m) => (
                 <div key={m.label}>
@@ -175,6 +223,13 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
                 </div>
               ))}
             </div>
+          </section>
+        )}
+
+        {p.next?.length > 0 && (
+          <section>
+            <h2>Siguientes pasos</h2>
+            <Points items={p.next} />
           </section>
         )}
 

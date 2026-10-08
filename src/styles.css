@@ -526,10 +526,11 @@ img, video { display: block; max-width: 100%; }
 .case__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: clamp(32px, 4vw, 56px) 0; padding: 20px 0; border-block: 1px solid var(--line); }
 .case__facts dt { color: var(--muted); margin-bottom: 6px; }
 .case__facts dd { font-weight: 600; }
-.case__cover { aspect-ratio: 21 / 9; border-radius: 16px; overflow: hidden; margin-bottom: clamp(56px, 7vw, 112px); display: grid; place-items: end center; }
+.case__cover { position: relative; aspect-ratio: 21 / 9; border-radius: 16px; overflow: hidden; margin-bottom: clamp(56px, 7vw, 112px); display: grid; place-items: end center; }
 .case__cover .device--mobile { width: 16%; }
 .case__cover .device--web { width: 52%; margin-bottom: -4%; }
-.case__cover img { width: 100%; height: 100%; object-fit: cover; }
+/* La imagen llena la portada, recortada por el centro (o por donde diga `coverPosition` en site.js) */
+.case__cover > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 /* Cada parte del caso: el nombre a la izquierda y el contenido a la derecha, sobre una línea fina */
 .case section {
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 16px 48px;
@@ -539,13 +540,30 @@ img, video { display: block; max-width: 100%; }
 .case section > :not(h2) { grid-column: 2; }
 .case section p, .case__process { font-size: var(--size-body); line-height: 1.6; max-width: 62ch; }
 .case__process { padding-left: 22px; display: grid; gap: 8px; }
-/* Flujo de usuario y pantallas: a todo lo ancho, debajo del nombre de la parte */
-.case section > :is(.case__flow, .case__screens, .case__phones) { grid-column: 1 / -1; margin-top: clamp(8px, 1.5vw, 16px); }
+/* Pasos con nombre y texto: numerados y en fila (de tres en tres en tablet y de dos en el celular) */
+.case__steps { list-style: none; counter-reset: paso; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 28px clamp(16px, 2vw, 24px); }
+.case__steps li { counter-increment: paso; padding-top: 14px; border-top: 1px solid var(--line); }
+.case__steps li::before { content: counter(paso, decimal-leading-zero); font-size: var(--size-label); font-weight: 600; letter-spacing: .08em; color: var(--brand); }
+.case__steps strong { display: block; margin-top: 8px; font-weight: 600; }
+.case__steps span { display: block; margin-top: 4px; font-size: var(--size-small); line-height: 1.5; color: var(--muted); }
+/* Usuarios, decisiones y siguientes pasos: de tres en tres si son tres y si no de dos en dos (uno debajo de otro en tablet y celular) */
+.case__points { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 32px; }
+.case__points:has(> :nth-child(3):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.case__points > div { padding-top: 14px; border-top: 1px solid var(--line); }
+.case__points dt { font-weight: 600; }
+.case__points dd { margin-top: 4px; font-size: var(--size-small); line-height: 1.5; color: var(--muted); }
+/* Flujo de usuario, pasos y pantallas: a todo lo ancho, debajo del nombre de la parte */
+.case section > :is(.case__flow, .case__steps, .case__screens, .case__phones) { grid-column: 1 / -1; margin-top: clamp(8px, 1.5vw, 16px); }
 .case__flow img { width: 100%; height: auto; border-radius: 16px; }
 .case__screens { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(32px, 4vw, 56px) clamp(16px, 2vw, 32px); }
-.case__screens img { width: 100%; height: auto; border-radius: 12px; }
+.case__screens img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 12px; }
 .case__screens figcaption { margin-top: 14px; max-width: 52ch; font-size: var(--size-small); line-height: 1.5; color: var(--muted); }
 .case__screens figcaption strong { color: var(--ink); font-weight: 600; }
+/* Si son impares, la última lleva su texto al lado, en el hueco que quedaría a la derecha */
+@media (min-width: 1001px) {
+  .case__screens figure:last-child:nth-child(odd) { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(16px, 2vw, 32px); align-items: end; }
+  .case__screens figure:last-child:nth-child(odd) figcaption { margin-top: 0; }
+}
 /* Versión móvil: las pantallas del celular en fila, de un lado al otro y sin pasar de 340px cada una */
 .case__phones { display: grid; grid-template-columns: repeat(4, minmax(0, 340px)); justify-content: space-between; gap: clamp(28px, 4vw, 40px) clamp(12px, 2vw, 32px); }
 .case__phones img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: clamp(10px, 1.1vw, 16px); }
@@ -633,6 +651,8 @@ img, video { display: block; max-width: 100%; }
   .case__flow img { max-width: 420px; }
   .case__screens { grid-template-columns: 1fr; }
   .case section > .case__promo { grid-column: 1 / -1; }
+  .case__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .case__points, .case__points:has(> :nth-child(3):last-child) { grid-template-columns: 1fr; }
   .about__lists { grid-template-columns: 1fr; }
   .process__list { grid-template-columns: repeat(2, 1fr); }
   .case-card { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -665,6 +685,7 @@ img, video { display: block; max-width: 100%; }
   .case section { grid-template-columns: 1fr; }
   .case section > :not(h2) { grid-column: auto; }
   .case__phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .case__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .case__cover { aspect-ratio: 4 / 3; }
   .case__cover .device--mobile { width: 30%; }
   .case__cover .device--web { width: 80%; }
@@ -681,6 +702,8 @@ img, video { display: block; max-width: 100%; }
   .case-card__summary { margin-top: 8px; font-size: var(--size-small); }
   .case-card__metric { display: flex; align-items: baseline; gap: 10px; margin-top: 14px; padding-top: 12px; }
   .case-card__metric > span { margin-top: 0; }
+  /* Con imagen propia, la cifra y las etiquetas bajan al final del texto, junto a la imagen (como en las tarjetas sin cifra) */
+  .case-card:has(.case-card__media > :is(img, video)) .case-card__metric { margin-top: auto; }
   .case-card__foot { margin-top: 12px; }
   .case-card__cta { display: none; }
   .case-card__media { border-radius: 14px; }
