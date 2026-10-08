@@ -5,7 +5,7 @@ import { DeviceMock } from './Mocks.jsx'
 
 const pad = (n) => String(n).padStart(2, '0')
 
-// Puntos con nombre y texto, sobre una línea fina: usuarios, decisiones de diseño y siguientes pasos
+// Puntos con nombre y texto, sobre una línea fina: usuarios, componentes, decisiones de diseño y siguientes pasos
 function Points({ items }) {
   return (
     <dl className="case__points">
@@ -180,6 +180,35 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
             <h2>La app en acción</h2>
             {p.promo.caption && <p>{p.promo.caption}</p>}
             <video className="case__promo" src={p.promo.src} poster={p.promo.poster} width={1920} height={1080} controls playsInline preload="metadata" />
+          </section>
+        )}
+
+        {/* Sistema de diseño: texto, paleta de colores, logos y grupos de componentes */}
+        {p.designSystem && (
+          <section>
+            <h2>Sistema de diseño</h2>
+            {p.designSystem.caption && <p>{p.designSystem.caption}</p>}
+            {p.designSystem.colors?.length > 0 && (
+              <ul className="case__colors" aria-label="Paleta de colores">
+                {p.designSystem.colors.map((c) => (
+                  <li key={c.value}>
+                    <span style={{ background: c.value }} />
+                    <strong>{c.name}</strong>
+                    <code>{c.value}</code>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {p.designSystem.logos?.length > 0 && (
+              <div className="case__logos">
+                {p.designSystem.logos.map((l) => (
+                  <div key={l.src} style={l.background ? { background: l.background, borderColor: l.background } : undefined}>
+                    <img src={l.src} alt={l.alt} loading="lazy" />
+                  </div>
+                ))}
+              </div>
+            )}
+            {p.designSystem.components?.length > 0 && <Points items={p.designSystem.components} />}
           </section>
         )}
 

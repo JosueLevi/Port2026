@@ -100,7 +100,7 @@ export const screens = [
 // Sin portada se muestra un móvil o un navegador de ejemplo (`type: 'web'`) sobre el color del caso.
 // `tags`: etiquetas cortas que se ven en la tarjeta (tipo de proyecto, plataforma...).
 // Solo hacen falta título, año, rol y resumen: lo demás (live, platform, duration, tools, description, problem,
-// users, process, flow, screens, mobile, promo, decisions, gallery, stack, metrics, next) es opcional y, si no lo pones,
+// users, process, flow, screens, mobile, promo, designSystem, decisions, gallery, stack, metrics, next) es opcional y, si no lo pones,
 // esa parte no sale en el caso.
 export const projects = [
   {
@@ -276,9 +276,29 @@ export const projects = [
     promo: {
       src: '/assets/video/raven-recorrido.mp4',
       poster: '/assets/img/raven-recorrido.webp',
-      caption: 'Recorrido animado de 28 segundos por las pantallas principales.',
+      caption: 'Veamos cómo funciona Raven.',
     },
-    // Decisiones de diseño (salen después del video, de dos en dos)
+    // Sistema de diseño (sale después del video): texto, paleta y grupos de componentes. También acepta
+    // `logos: [{ src, alt, background }]`, en fila debajo de la paleta (`background`: color detrás del logo; si no, blanco)
+    designSystem: {
+      caption:
+        'La paleta sale del propio producto: el verde de las hojas como color principal y los tonos de la palta en el logo. Los colores de estado se reservan para alertas y errores.',
+      colors: [
+        { name: 'Primario', value: '#35A645' },
+        { name: 'Primario oscuro', value: '#1C5925' },
+        { name: 'Primario suave', value: '#E4F6E7' },
+        { name: 'Alerta', value: '#F0AF23' },
+        { name: 'Error', value: '#EA3B3B' },
+        { name: 'Texto', value: '#313131' },
+      ],
+      components: [
+        { title: 'Navegación', text: 'Barra lateral de íconos, migas de pan y pasos de simulación.' },
+        { title: 'Entradas', text: 'Campos con etiqueta, selectores, calendarios y filtros.' },
+        { title: 'Datos', text: 'Tablas paginadas, barras de meta e indicadores circulares.' },
+        { title: 'Feedback', text: 'Toasts, cargadores, confirmaciones y etiquetas de estado.' },
+      ],
+    },
+    // Decisiones de diseño (salen después del sistema de diseño, de dos en dos)
     decisions: [
       { title: 'Contexto primero', text: 'Empresa y campaña se eligen al entrar y se mantienen visibles en el título de cada pantalla, por ejemplo “Simulaciones Arato II”.' },
       { title: 'La meta siempre a la vista', text: 'Cada vista que trabaja con toneladas muestra la meta y cuánto falta, para que nadie tenga que calcularlo.' },
@@ -290,12 +310,6 @@ export const projects = [
     metrics: [
       { value: '49', label: 'pantallas' },
       { value: '335', label: 'componentes' },
-    ],
-    // Lo que harías en la próxima iteración (sale al final, en "Siguientes pasos")
-    next: [
-      { title: 'Probar el flujo con planificadores reales', text: 'Validar el orden tonelaje, corte y planeamiento con quienes arman la campaña.' },
-      { title: 'Prototipar con datos realistas', text: 'Reemplazar los valores de ejemplo por una campaña completa para revisar densidad y casos límite.' },
-      { title: 'Unificar la librería de componentes', text: 'Consolidar estilos de tipografía, color y botones en un solo sistema con nombres consistentes.' },
     ],
   },
   {
@@ -353,6 +367,7 @@ projects.forEach((p) => {
     p.promo.src = withBase(p.promo.src)
     p.promo.poster = withBase(p.promo.poster)
   }
+  p.designSystem?.logos?.forEach((l) => { l.src = withBase(l.src) })
 })
 
 // Nombre del caso para su enlace propio: "App de salud" -> "app-de-salud" (tusitio.com/#caso/app-de-salud)
