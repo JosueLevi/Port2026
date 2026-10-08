@@ -214,7 +214,8 @@ export const projects = [
     platform: 'Web de escritorio',
     tools: 'Figma',
     color: 'var(--ink)',
-    cover: '/assets/img/raven-login.webp',
+    cover: '/assets/img/raven-portada.webp',
+    coverPosition: 'top',
     summary: 'Pronosticar la cosecha antes de cosecharla.',
     description:
       'Raven es una plataforma web para que las empresas agrícolas proyecten cuántas toneladas van a cosechar en una campaña, frente por frente y semana a semana, a partir de los datos que levantan en campo.',
