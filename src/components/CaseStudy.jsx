@@ -2,6 +2,7 @@ import { buttonVariants } from '@heroui/react'
 import { projects } from '../data/site.js'
 import Metric from './Metric.jsx'
 import { DeviceMock } from './Mocks.jsx'
+import ScreensSlider from './ScreensSlider.jsx'
 
 const pad = (n) => String(n).padStart(2, '0')
 
@@ -141,20 +142,12 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
           </section>
         )}
 
-        {/* Pantallas principales, de dos en dos, cada una con su texto debajo */}
+        {/* Pantallas principales en un carrusel, cada una con su texto debajo */}
         {p.screens?.length > 0 && (
           <section>
             <h2>Pantallas</h2>
-            <div className="case__screens">
-              {p.screens.map((s) => (
-                <figure key={s.src}>
-                  <img src={s.src} alt={s.alt ?? s.title} loading="lazy" />
-                  <figcaption>
-                    <strong>{s.title}.</strong> {s.caption}
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
+            {/* key: al pasar a otro caso, el carrusel empieza de nuevo en la primera pantalla */}
+            <ScreensSlider key={p.title} screens={p.screens} title={p.title} />
           </section>
         )}
 

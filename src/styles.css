@@ -555,10 +555,31 @@ img, video { display: block; max-width: 100%; }
 /* Flujo de usuario, pasos y pantallas: a todo lo ancho, debajo del nombre de la parte */
 .case section > :is(.case__flow, .case__steps, .case__screens, .case__phones) { grid-column: 1 / -1; margin-top: clamp(8px, 1.5vw, 16px); }
 .case__flow img { width: 100%; height: auto; border-radius: 16px; }
-.case__screens { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(32px, 4vw, 56px) clamp(16px, 2vw, 32px); }
 .case__screens img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 12px; }
 .case__screens figcaption { margin-top: 14px; font-size: var(--size-small); line-height: 1.5; color: var(--muted); }
 .case__screens figcaption strong { color: var(--ink); font-weight: 600; }
+/* Pantallas en carrusel, de borde a borde de la ventana: una grande y un pedazo de la siguiente (y de la anterior al avanzar).
+   Cada deslizamiento se detiene en la pantalla siguiente, alineada con el texto de la página */
+.case__screens {
+  position: relative; display: flex; gap: clamp(12px, 2vw, 24px);
+  overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
+  margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
+}
+.case__screens::-webkit-scrollbar { display: none; }
+.case__screens:focus-visible { outline-offset: -2px; }
+.case__screens figure { flex: 0 0 76%; scroll-snap-align: start; scroll-snap-stop: always; }
+.case__screens figure:only-child { flex-basis: 100%; }
+/* Contador y flechas, a la derecha del nombre de la parte y a su altura */
+.case section > .slider__controls { justify-self: end; align-self: start; margin-top: -12px; }
+.slider__controls { display: flex; align-items: center; gap: 8px; }
+.slider__count { margin-right: 10px; font-size: var(--size-label); font-weight: 600; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+.slider__button {
+  display: grid; place-items: center; width: 40px; height: 40px;
+  border: 1px solid var(--line); border-radius: 50%; background: var(--paper);
+  font: inherit; font-size: 18px; color: var(--ink); cursor: pointer; transition: border-color .2s, opacity .2s;
+}
+.slider__button:hover:not(:disabled) { border-color: var(--ink); }
+.slider__button:disabled { opacity: .3; cursor: default; }
 /* Versión móvil: las pantallas del celular en fila, de un lado al otro y sin pasar de 340px cada una */
 .case__phones { display: grid; grid-template-columns: repeat(4, minmax(0, 340px)); justify-content: space-between; gap: clamp(28px, 4vw, 40px) clamp(12px, 2vw, 32px); }
 .case__phones img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: clamp(10px, 1.1vw, 16px); }
@@ -654,7 +675,7 @@ img, video { display: block; max-width: 100%; }
   .case__summary { max-width: 44ch; }
   /* El flujo vertical (versión de celular y tablet) no pasa de 420px, para que la letra no crezca de más */
   .case__flow img { max-width: 420px; }
-  .case__screens { grid-template-columns: 1fr; }
+  .case__screens figure { flex-basis: 84%; }
   .case section > .case__promo { grid-column: 1 / -1; }
   .case__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .case__points, .case__points:has(> :nth-child(3):last-child) { grid-template-columns: 1fr; }
@@ -692,6 +713,9 @@ img, video { display: block; max-width: 100%; }
   .case section > :not(h2) { grid-column: auto; }
   .case__phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .case__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .case__screens figure { flex-basis: 88%; }
+  /* El nombre de la parte y las flechas siguen en la misma fila */
+  .case section:has(> .slider__controls) { grid-template-columns: minmax(0, 1fr) auto; }
   .case__cover { aspect-ratio: 4 / 3; }
   .case__cover .device--mobile { width: 30%; }
   .case__cover .device--web { width: 80%; }
