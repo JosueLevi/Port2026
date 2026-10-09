@@ -45,14 +45,17 @@ export default function Ring() {
     let lastScroll = window.scrollY
     let id = null
 
-    // Radio según el ancho de las tarjetas, para que queden casi pegadas
-    const mobileWidth = () => cards.find((c) => c.dataset.type === 'mobile')?.offsetWidth ?? cards[0].offsetWidth / WIDTH.web
-    const radius = () => (totalWidth * mobileWidth() * 1.3) / (2 * Math.PI)
-
+    // Radio según el ancho de las tarjetas, para que queden casi pegadas. Se vuelve a medir cuando cambia el
+    // tamaño de una tarjeta, también al volver de un caso: mientras el caso está abierto la portada está oculta
+    // y mide 0, y con ese radio el anillo se cerraba sobre sí mismo (pasaba en el iPhone al cambiar la barra de Safari)
+    const probe = cards.find((c) => c.dataset.type === 'mobile') ?? cards[0]
+    let radius = 0
     const layout = () => {
-      const r = radius()
+      const width = probe.offsetWidth / WIDTH[probe.dataset.type]
+      if (!width) return
+      radius = (totalWidth * width * 1.3) / (2 * Math.PI)
       cards.forEach((c, i) => {
-        c.style.transform = `rotateY(${angles[i]}deg) translateZ(${r}px)`
+        c.style.transform = `rotateY(${angles[i]}deg) translateZ(${radius}px)`
       })
     }
 
@@ -66,7 +69,7 @@ export default function Ring() {
       angle += velocity
       velocity *= 0.92
 
-      ring.style.transform = `translateZ(${-radius()}px) rotateX(-4deg) rotateY(${angle}deg)`
+      ring.style.transform = `translateZ(${-radius}px) rotateX(-4deg) rotateY(${angle}deg)`
 
       // Desenfoque según lo lejos que esté cada pantalla del centro
       cards.forEach((c, i) => {
@@ -105,16 +108,18 @@ export default function Ring() {
 
     // Solo se anima mientras el carrusel está a la vista y la portada no está tapada
     let visible = true
-    const update = () => (visible && window.scrollY < stage.offsetHeight ? start() : stop())
+    const hero = stage.parentElement
+    const update = () => (visible && window.scrollY < hero.offsetHeight ? start() : stop())
     const io = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting
       update()
     })
 
+    const resized = new ResizeObserver(layout)
     layout()
     start()
     io.observe(stage)
-    window.addEventListener('resize', layout)
+    resized.observe(probe)
     window.addEventListener('scroll', update, { passive: true })
     stage.addEventListener('pointerdown', down)
     window.addEventListener('pointermove', move)
@@ -122,7 +127,7 @@ export default function Ring() {
     return () => {
       stop()
       io.disconnect()
-      window.removeEventListener('resize', layout)
+      resized.disconnect()
       window.removeEventListener('scroll', update)
       stage.removeEventListener('pointerdown', down)
       window.removeEventListener('pointermove', move)
