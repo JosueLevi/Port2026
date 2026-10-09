@@ -2,17 +2,65 @@
   --paper: #ffffff;
   --ink: #0e0e0e;
   --muted: #6b6b6b;
-  --display: 'Archivo Black', 'Arial Black', sans-serif;
-  --ui: 'Montserrat', system-ui, sans-serif;
-  --body: 'Inter', system-ui, sans-serif;
+  --line: rgba(14, 14, 14, .16); /* líneas finas de separación */
   --gutter: clamp(16px, 2.2vw, 32px);
+  --nav-h: 80px; /* alto del menú fijo de arriba */
+
+  /* Tipografía: dos familias, cada una con un papel
+     - display: títulos grandes, siempre en mayúsculas (Archivo Black)
+     - text: todo lo demás, del menú a los párrafos (Barlow 400, 500 y 600) */
+  --font-display: 'Archivo Black', 'Arial Black', sans-serif;
+  --font-text: 'Barlow', system-ui, sans-serif;
+
+  /* Escala de tamaños: usa siempre uno de estos (el título de la portada va aparte) */
+  --size-display: clamp(40px, 6vw, 88px);    /* títulos de sección */
+  --size-title: clamp(32px, 4.6vw, 68px);    /* título del caso y correo del pie */
+  --size-headline: clamp(28px, 3vw, 44px);   /* títulos y cifras de las tarjetas de casos */
+  --size-heading: clamp(20px, 1.8vw, 26px);  /* títulos de los pasos */
+  --size-lead: clamp(20px, 1.9vw, 25px);     /* párrafos destacados */
+  --size-body: 18px;
+  --size-small: 16px;
+  --size-caption: 14px;                      /* datos y etiquetas de tarjetas */
+  --size-label: 12px;                        /* etiquetas en mayúsculas */
+
+  /* Color: azul de la sudadera del personaje (jacketColor en site.js) + un acento cálido */
+  --brand: #2f5bea;
+  --pop: #ffc83d;
+  --brand-soft: color-mix(in oklab, var(--brand) 12%, white);
+  --pop-soft: color-mix(in oklab, var(--pop) 25%, white);
+
+  /* Tema de HeroUI: sus botones y etiquetas usan estos colores */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --border: #e4e4e4;
+  --accent: var(--brand);
+  --accent-foreground: #ffffff;
+  --warning: var(--pop);
+  --warning-foreground: var(--ink);
+  --success: #1fb57f;
+  --danger: #ff5a4e;
+  --success-soft: color-mix(in oklab, var(--success) 16%, white);
+  --danger-soft: color-mix(in oklab, var(--danger) 14%, white);
+
+  /* Sombra suave para lo que flota (globo, píldora de progreso) */
+  --float: 0 10px 30px rgba(14, 14, 14, .1);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+::selection { background: var(--pop); color: var(--ink); }
+
+/* Estilos de texto reutilizables */
+/* Etiqueta: pequeña, en mayúsculas y con aire entre letras */
+.section-meta, .about__lists h3, .case h2, .case__eyebrow, .case__facts dt, .case-card__meta, .contact__columns h3 {
+  font-family: var(--font-text); font-weight: 600; font-size: var(--size-label);
+  letter-spacing: .14em; text-transform: uppercase;
+}
+
+/* Reset en la capa "base" para que no pise los estilos de Tailwind de los componentes de Rare UI */
+@layer base { * { box-sizing: border-box; margin: 0; padding: 0; } }
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--body);
+  font-family: var(--font-text);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -27,7 +75,7 @@ img, video { display: block; max-width: 100%; }
 .skip-link {
   position: fixed; top: 8px; left: 8px; z-index: 200;
   padding: 10px 14px; background: var(--ink); color: var(--paper);
-  font-family: var(--ui); font-weight: 600; transform: translateY(-150%);
+  font-family: var(--font-text); font-weight: 600; transform: translateY(-150%);
 }
 .skip-link:focus { transform: none; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
@@ -39,7 +87,16 @@ img, video { display: block; max-width: 100%; }
   width: 18px; height: 18px; margin: -9px 0 0 -9px;
   border-radius: 50%; background: #fff;
   pointer-events: none; mix-blend-mode: difference;
+  display: grid; place-items: center;
+  transition: width .25s, height .25s, margin .25s;
 }
+/* Sobre las tarjetas de proyectos: círculo negro con "Ver caso" */
+.cursor--label {
+  width: 92px; height: 92px; margin: -46px 0 0 -46px;
+  background: var(--ink); mix-blend-mode: normal;
+}
+.cursor span { font-family: var(--font-text); font-weight: 600; font-size: var(--size-caption); color: var(--paper); white-space: nowrap; }
+@media (hover: hover) and (pointer: fine) { [data-cursor] { cursor: none; } }
 @media (hover: none) { .cursor { display: none; } }
 
 /* Nav */
@@ -47,25 +104,45 @@ img, video { display: block; max-width: 100%; }
   position: fixed; inset: 0 0 auto; z-index: 50;
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
   padding: 22px var(--gutter);
-  font-family: var(--ui); font-weight: 600; font-size: 15px; letter-spacing: .01em;
-  background: linear-gradient(var(--paper) 60%, transparent);
+  font-family: var(--font-text); font-weight: 600; font-size: var(--size-caption); letter-spacing: .08em;
+  background: var(--paper);
+  transition: background-color .3s, color .3s;
 }
 .nav__left { display: flex; align-items: center; gap: 18px; }
-.nav__logo {
-  font-family: var(--display); font-size: 26px; line-height: 1;
-  background: var(--ink); color: var(--paper); padding: 6px 7px 4px; letter-spacing: -.04em;
-}
+/* El logo mide 28px de alto; el relleno mantiene el menú en 80px (--nav-h) */
+.nav__logo { display: block; padding-block: 4px; color: var(--ink); transition: color .3s; }
+.nav__logo svg { display: block; height: 28px; width: auto; }
+.nav__logo:hover { color: var(--brand); }
 .nav__location { display: inline-flex; align-items: center; gap: 6px; }
-.nav__tabs { display: flex; gap: 36px; }
-.nav__tabs a { padding: 1px 5px; }
-.nav__tabs a.is-active { background: var(--ink); color: var(--paper); }
+.nav__tabs { display: flex; gap: 20px; }
+.nav__tabs a { padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+.nav__tabs a.is-active { background: var(--brand); color: #fff; }
 .nav__right { display: flex; align-items: center; justify-content: flex-end; gap: 26px; }
 .nav__right a:hover, .nav__tabs a:not(.is-active):hover { opacity: .6; }
+/* Al llegar al pie (negro), el menú también se pone negro, con el texto y el logo en blanco */
+.nav--dark { background: var(--ink); color: #fff; }
+.nav--dark .nav__logo { color: #fff; }
+.nav--dark .nav__logo:hover { color: var(--pop); }
+.nav--dark :focus-visible { outline-color: var(--paper); }
+/* En pantallas táctiles, las pestañas y el logo se pulsan en un área de al menos 44px de alto, sin cambiar cómo se ven */
+@media (pointer: coarse) {
+  .nav__tabs a, .nav__logo { position: relative; }
+  .nav__tabs a::after { content: ''; position: absolute; inset: -13px 0; }
+  .nav__logo::after { content: ''; position: absolute; inset: -4px; }
+}
 
 /* Hero */
+/* Portada fija: las demás secciones (.sheet) suben por encima al hacer scroll.
+   Si la pantalla es más baja que la portada, se fija mostrando su parte de abajo. */
 .hero {
-  position: relative; height: 100svh; min-height: 640px;
+  position: sticky; top: min(0px, calc(100svh - 640px)); z-index: 0;
+  height: 100svh; min-height: 640px;
   overflow: hidden;
+}
+.hero__shade { position: absolute; inset: 0; z-index: 10; background: var(--ink); pointer-events: none; }
+.sheet {
+  position: relative; z-index: 1; background: var(--paper);
+  border-radius: 32px 32px 0 0; box-shadow: 0 -18px 50px rgba(14, 14, 14, .12);
 }
 
 /* Carrusel 3D */
@@ -90,38 +167,56 @@ img, video { display: block; max-width: 100%; }
   background: #fff; border: 1px solid #e4e4e4;
   box-shadow: 0 10px 40px rgba(0, 0, 0, .08);
   backface-visibility: hidden;
-  user-select: none; cursor: pointer;
+  user-select: none;
 }
 .ring__card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+/* Pantallas web: apaisadas, centradas a la altura de las de móvil */
+.ring__card--web {
+  --h: calc(var(--w) * 19.5 / 9);
+  width: calc(var(--w) * 2.2); aspect-ratio: 16 / 10;
+  left: calc(var(--w) * -1.1);
+  top: calc(var(--w) * -1.08 + (var(--h) - var(--w) * 2.2 * 10 / 16) / 2);
+  border-radius: 12px;
+  display: flex; flex-direction: column;
+}
+.ring__card--web img { flex: 1; min-height: 0; object-position: top; }
+.browser { display: flex; align-items: center; gap: 5px; padding: 8px 10px; background: #f1f1f1; border-bottom: 1px solid #e4e4e4; }
+.browser span { width: 7px; height: 7px; border-radius: 50%; background: #ff5f57; }
+.browser span:nth-child(2) { background: #febc2e; }
+.browser span:nth-child(3) { background: #28c840; }
+.browser__url { flex: 1; height: 10px; margin-left: 8px; max-width: 55%; border-radius: 5px; background: #e2e2e2; }
 
 /* Pantalla de ejemplo */
 .mock { height: 100%; padding: 14px 12px; display: flex; flex-direction: column; gap: 8px; background: #fafafa; }
 .mock__bar { height: 6px; width: 40%; margin: 0 auto 6px; border-radius: 4px; background: #ddd; }
-.mock__avatar { width: 42px; height: 42px; border-radius: 50%; background: #cfcfcf; }
-.mock__title { font-family: var(--ui); font-weight: 600; font-size: 18px; color: #555; }
+.mock__avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--pop); }
+.mock__title { font-family: var(--font-text); font-weight: 600; font-size: 17px; color: #555; }
 .mock__line { height: 8px; border-radius: 4px; background: #e2e2e2; }
 .mock__line--short { width: 60%; }
-.mock__block { flex: 1; border-radius: 12px; background: linear-gradient(160deg, #d9d9d9, #f1f1f1); }
-.mock__button { height: 30px; border-radius: 16px; background: #8a8a8a; }
+.mock__block { flex: 1; border-radius: 12px; background: linear-gradient(160deg, var(--brand-soft), #f4f4f4); }
+.mock__button { height: 30px; border-radius: 16px; background: var(--brand); }
+.mockweb { flex: 1; min-height: 0; display: flex; gap: 12px; padding: 12px; background: #fafafa; }
+.mockweb__side { width: 22%; display: flex; flex-direction: column; gap: 8px; }
+.mockweb__side .mock__avatar { width: 28px; height: 28px; margin-bottom: 4px; }
+.mockweb__main { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.mockweb__cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; height: 26%; }
+.mockweb__cards .mock__block:nth-child(2) { background: var(--pop-soft); }
+.mockweb__chart { flex: 1; }
 
-/* Título curvado */
+/* Título horizontal (HeroTitle.jsx): el contorno se dibuja y luego se pinta el relleno */
 .hero__title {
+  --top: clamp(96px, 13vh, 140px);
   position: absolute; z-index: 2;
-  left: 50%; top: clamp(90px, 13vh, 140px);
-  width: min(720px, 86vw);
-  transform: translateX(-50%) perspective(900px) rotateY(-14deg);
+  left: 50%; top: var(--top); translate: -50% 0;
+  /* En pantallas bajas se achica para no tocar la cabeza del personaje, que empieza al 27vh */
+  width: min(940px, 84vw, max(560px, (27vh - var(--top) - 22px) * 9));
   pointer-events: none;
 }
-.hero__title svg { display: block; width: 100%; overflow: visible; }
-.hero__title text { font-family: var(--display); font-size: 132px; fill: var(--ink); }
-
-/* Textos curvos */
-.hero__captions {
-  position: absolute; z-index: 2; left: 50%; bottom: 20vh;
-  width: min(1200px, 96vw); transform: translateX(-50%);
-  overflow: visible; pointer-events: none;
-}
-.hero__captions text { font-family: var(--ui); font-weight: 600; font-size: 22px; letter-spacing: .02em; fill: var(--ink); }
+.hero__title-svg { display: block; width: 100%; height: auto; overflow: visible; transition: opacity .3s; }
+.hero__title-svg text { font-family: var(--font-display); font-size: 150px; letter-spacing: .03em; } /* aire entre letras para que los contornos no se crucen */
+/* El grosor va en unidades del SVG: crece y se achica con el título */
+.hero__title-outline { fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linejoin: round; }
+.hero__title-fill { fill: var(--ink); }
 
 /* Personaje */
 .hero__character {
@@ -131,7 +226,7 @@ img, video { display: block; max-width: 100%; }
 }
 /* Personaje animado */
 .character { position: relative; isolation: isolate; }
-.character { --char-ink: #000; --char-light: #FBF4E9; --char-shade: #353331; }
+.character, .about__character { --char-ink: #000; --char-light: #FBF4E9; --char-skin: #FBE0D6; --char-shade: #353331; }
 .character__art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 /* Solo la cabeza, que se mueve al ritmo (pivote en el cuello) */
 .character__head {
@@ -167,7 +262,7 @@ img, video { display: block; max-width: 100%; }
 
 .character__notes { position: absolute; left: 30%; top: 7%; }
 .character__notes span {
-  position: absolute; font-family: var(--ui); font-weight: 700; font-size: clamp(18px, 2.4vh, 28px);
+  position: absolute; font-family: var(--font-text); font-weight: 600; font-size: clamp(18px, 2.4vh, 28px);
   opacity: 0; animation: note 4.5s ease-out infinite;
 }
 .character__notes span:nth-child(2) { animation-delay: 1.5s; font-size: clamp(22px, 3vh, 34px); }
@@ -179,10 +274,11 @@ img, video { display: block; max-width: 100%; }
 }
 
 .character__bubble {
-  position: absolute; left: 68%; top: -2%; white-space: nowrap;
-  padding: 10px 16px; border-radius: 20px 20px 20px 4px;
-  background: var(--ink); color: var(--paper);
-  font-family: var(--ui); font-weight: 600; font-size: 15px;
+  position: absolute; left: 68%; top: 10%; white-space: nowrap;
+  padding: 10px 16px; border-radius: 22px 22px 22px 6px;
+  background: var(--paper); color: var(--ink);
+  border: 1.5px solid var(--ink); box-shadow: var(--float);
+  font-family: var(--font-text); font-weight: 600; font-size: var(--size-small);
   transform-origin: 0 100%; pointer-events: none;
 }
 
@@ -190,179 +286,504 @@ img, video { display: block; max-width: 100%; }
   .character__steam path, .character__notes span, .character__head { animation: none; }
 }
 
-/* Botón Explore */
-.hero__explore {
-  position: absolute; z-index: 4; left: 50%; bottom: 0; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 2px;
-  min-width: 74px; padding: 18px 14px 10px; white-space: nowrap;
-  background: var(--ink); color: var(--paper);
-  border-radius: 40px 40px 0 0;
-  font-family: var(--ui); font-weight: 700; font-size: 11px; letter-spacing: .02em;
+/* Mouse que invita a bajar: la rueda baja y se desvanece, una y otra vez */
+/* Siempre por debajo de los pies del personaje, que acaban a 9vh del borde; el padding agranda la zona de clic */
+.hero__scroll {
+  position: absolute; z-index: 4; left: 50%; bottom: clamp(6px, 9vh - 50px, 22px); translate: -50% 0;
+  padding: 8px; margin-bottom: -8px;
 }
-.hero__explore span { font-size: 20px; line-height: 1; transition: transform .3s; }
-.hero__explore:hover span { transform: translateY(3px); }
+.hero__mouse {
+  display: flex; justify-content: center;
+  width: 28px; height: 44px; padding-top: 8px;
+  border: 2px solid var(--ink); border-radius: 14px; background: var(--paper);
+  transition: border-color .3s;
+}
+.hero__wheel { width: 4px; height: 9px; border-radius: 2px; background: var(--ink); animation: wheel 2s ease-in-out infinite; transition: background-color .3s; }
+.hero__scroll:hover .hero__mouse { border-color: var(--brand); }
+.hero__scroll:hover .hero__wheel { background: var(--brand); }
+@keyframes wheel {
+  /* Baja y se desvanece; luego vuelve a aparecer arriba */
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  55% { transform: translateY(13px); opacity: 0; }
+  56% { transform: translateY(0); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .hero__wheel { animation: none; } }
 
 /* Secciones */
+/* Número y nombre de la sección sobre una línea fina (SectionHead.jsx) */
+.section-meta {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding-top: 14px; border-top: 1px solid currentColor;
+  margin-bottom: clamp(28px, 4vw, 56px);
+}
+.section-head { margin-bottom: clamp(40px, 5vw, 72px); }
+/* Título a la izquierda y entradilla a la derecha, alineados por abajo (en móvil, uno debajo del otro) */
+.section-head__main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 34ch); align-items: end; gap: 24px 48px; }
 .section-title {
-  font-family: var(--display); font-weight: 400; text-transform: uppercase;
-  font-size: clamp(40px, 7vw, 100px); line-height: .9; letter-spacing: -.02em; margin-bottom: 40px;
+  font-family: var(--font-display); text-transform: uppercase;
+  font-size: var(--size-display); line-height: .92; letter-spacing: -.01em;
 }
-
-.section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 40px; }
-.section-head .section-title { margin-bottom: 0; }
-.section-intro { max-width: 36ch; color: var(--muted); font-size: 17px; line-height: 1.5; }
-
-/* Botón */
-.button {
-  display: inline-block; margin-top: 32px; padding: 14px 22px; border-radius: 40px;
-  background: var(--ink); color: var(--paper);
-  font-family: var(--ui); font-weight: 600; font-size: 15px;
-  transition: transform .2s;
+/* Cantidad junto al título, p. ej. (04) */
+.section-title__count {
+  font-family: var(--font-text); font-size: var(--size-small); letter-spacing: .04em; color: var(--brand);
+  vertical-align: top; position: relative; top: .7em; margin-left: .35em;
 }
-.button:hover { transform: translateY(-2px); }
+.section-head__aside { display: grid; gap: 12px; }
+.section-intro { color: var(--muted); font-size: var(--size-body); line-height: 1.5; }
 
-/* Work */
-.work { padding: clamp(64px, 10vw, 140px) var(--gutter); }
-.work__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(16px, 3vw, 40px); }
-.card:nth-child(even) { margin-top: clamp(0px, 6vw, 80px); }
-.card__media { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 10px; }
-.card__media > * { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.22,1,.36,1); }
-.card:hover .card__media > :not(.card__metric) { transform: scale(1.05); }
-.card__meta { display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; gap: 12px; }
-.card__meta h3 { font-size: 18px; font-weight: 600; }
-.card__meta span { font-size: 13px; color: var(--muted); }
-.card__button {
-  display: block; width: 100%; text-align: left; cursor: pointer;
-  background: none; border: 0; color: inherit; font: inherit; padding: 0;
-}
-.card__media { position: relative; }
-.card__metric {
-  position: absolute; left: 14px; bottom: 14px; width: auto !important; height: auto !important;
-  padding: 8px 12px; border-radius: 30px; background: var(--paper); color: var(--ink);
-  font-family: var(--ui); font-size: 13px;
-}
-.card__summary { margin-top: 6px; color: var(--muted); font-size: 15px; line-height: 1.45; }
+/* Nota corta (site.notes en site.js) */
+.note { font-weight: 500; font-size: var(--size-body); line-height: 1.3; color: var(--brand); }
 
-/* Proceso */
-.process { padding: clamp(64px, 10vw, 140px) var(--gutter); border-top: 1px solid var(--ink); }
-.process__list { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(16px, 2.5vw, 32px); }
-.process__list li { border-top: 2px solid var(--ink); padding-top: 18px; }
-.process__step { font-family: var(--ui); font-weight: 600; font-size: 14px; color: var(--muted); }
-.process__list h3 { font-family: var(--display); font-weight: 400; font-size: clamp(24px, 2.6vw, 36px); text-transform: uppercase; margin: 10px 0 8px; }
-.process__list p { color: var(--muted); line-height: 1.5; }
+/* Botones de HeroUI (buttonVariants): ajustes de tamaño y letra */
+.button { color: var(--button-fg); } /* gana al color heredado de los enlaces */
+.button.cta { padding-inline: 24px; font-family: var(--font-text); font-weight: 600; font-size: var(--size-small); }
+.about .cta { margin-top: 36px; }
+
+/* Work: los casos en pila (Work.jsx). Cada tarjeta mide una pantalla de alto y se queda fija;
+   la siguiente sube por encima, un poco más abajo (--peek), y deja ver el borde de las anteriores */
+.work { padding: clamp(64px, 10vw, 140px) var(--gutter) clamp(24px, 4vw, 56px); }
+.work .section-head { margin-bottom: 0; }
+.stack {
+  list-style: none; --peek: 28px;
+  /* Alto de cada tarjeta: cabe en la pantalla aunque sea la última de la pila */
+  --card-h: min(580px, 100svh - var(--nav-h) - 48px - (var(--cards) - 1) * var(--peek));
+  /* Aire de arriba para que la pila completa quede centrada bajo el menú */
+  --stack-top: max(24px, (100svh - var(--nav-h) - var(--card-h) - (var(--cards) - 1) * var(--peek)) / 2);
+}
+.stack__item {
+  position: sticky; top: 0; height: 100vh; height: 100svh;
+  padding-top: calc(var(--nav-h) + var(--stack-top) + var(--i) * var(--peek));
+  pointer-events: none; /* la parte vacía no tapa los clics de la tarjeta de atrás */
+}
+.case-card {
+  position: relative; pointer-events: auto; transform-origin: 50% 0;
+  height: var(--card-h);
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 16px;
+  padding: 16px; border: 1px solid var(--line); border-radius: 28px;
+  background: var(--paper); box-shadow: 0 -12px 40px rgba(14, 14, 14, .07);
+}
+.case-card__info { display: flex; flex-direction: column; min-width: 0; padding: 14px 12px 8px 14px; }
+.case-card__meta { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); }
+.case-card__meta span:first-child { white-space: nowrap; }
+.case-card__meta span:last-child { text-align: right; }
+.case-card__title {
+  margin-top: clamp(20px, 5vh, 56px);
+  font-family: var(--font-display); font-weight: 400; text-transform: uppercase;
+  font-size: var(--size-headline); line-height: .95; letter-spacing: -.01em;
+}
+/* El botón del título cubre toda la tarjeta: se puede pulsar en cualquier parte */
+.case-card__button {
+  background: none; border: 0; padding: 0; color: inherit; font: inherit; text-transform: inherit; letter-spacing: inherit;
+  text-align: left; cursor: pointer;
+}
+.case-card__button::after { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: 28px; }
+.case-card__button:focus-visible { outline: none; }
+.case-card__button:focus-visible::after { outline: 2px solid var(--brand); outline-offset: 4px; }
+.case-card__summary { margin: 16px 0; max-width: 30ch; font-size: var(--size-lead); line-height: 1.35; }
+.case-card__metric { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--line); }
+/* El contador de Rare UI hace cada dígito de 1.5em de alto: el margen negativo quita ese aire extra */
+.case-card__metric strong { display: block; font-family: var(--font-display); font-weight: 400; font-size: var(--size-headline); line-height: 1; margin-block: -.25em; }
+.case-card__metric > span { display: block; margin-top: 10px; color: var(--muted); font-size: var(--size-caption); }
+.case-card__foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }
+/* Sin cifra, las etiquetas y "Ver caso" bajan al final de la tarjeta, sobre una línea fina */
+.case-card__summary + .case-card__foot { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--line); }
+.case-card__tags { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.case-card__tags li { padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: var(--size-caption); font-weight: 500; }
+.case-card__cta {
+  flex-shrink: 0; padding: 10px 18px; border-radius: 999px;
+  background: var(--ink); color: var(--paper); font-weight: 600; font-size: var(--size-small);
+  transition: background-color .3s;
+}
+.case-card:hover .case-card__cta { background: var(--brand); }
+.case-card__media { position: relative; overflow: hidden; border-radius: 18px; }
+.case-card__media > :is(img, video, .case-card__placeholder) { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.22,1,.36,1); }
+.case-card:hover .case-card__media > :is(img, video) { transform: scale(1.04); }
+/* Sin portada: móvil o navegador de ejemplo sobre el color del caso */
+.case-card__placeholder { display: grid; place-items: end center; overflow: hidden; }
+.case-card:hover .device { translate: 0 -5%; rotate: 0deg; }
+
+/* Móvil o navegador de ejemplo (Mocks.jsx) */
+.device {
+  position: relative; overflow: hidden; background: #fff; border: 1.5px solid var(--ink);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .18);
+  transition: translate .6s cubic-bezier(.22,1,.36,1), rotate .6s cubic-bezier(.22,1,.36,1);
+}
+.device--mobile { width: 32%; aspect-ratio: 9 / 19.5; border-radius: 26px; margin-bottom: -22%; rotate: -6deg; }
+.device--web { width: 74%; aspect-ratio: 16 / 10; border-radius: 12px; margin-bottom: -7%; rotate: -3deg; display: flex; flex-direction: column; }
+
+/* Proceso: cuatro columnas, cada una bajo una línea */
+.process { padding: clamp(64px, 10vw, 140px) var(--gutter); }
+.process__list { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px clamp(24px, 3vw, 40px); }
+.process__item { padding-top: 20px; border-top: 1px solid var(--ink); }
+.process__top { display: flex; justify-content: space-between; align-items: flex-start; }
+/* Número solo con el contorno, como el título de la portada; se rellena al pasar el ratón */
+.process__number {
+  font-family: var(--font-display); font-size: clamp(56px, 6vw, 92px); line-height: .9;
+  color: transparent; -webkit-text-stroke: 1.5px var(--ink);
+  transition: color .4s;
+}
+.process__item:hover .process__number { color: var(--brand); }
+.process__item h3 { font-family: var(--font-display); font-size: var(--size-heading); text-transform: uppercase; margin: 32px 0 10px; }
+.process__item p { color: var(--muted); font-size: var(--size-small); line-height: 1.5; max-width: 32ch; }
+.process .line-icon { width: 30px; height: 30px; }
 
 /* About */
-.about {
+.about { padding: clamp(64px, 10vw, 140px) var(--gutter); }
+.about__grid {
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); align-items: center;
   gap: clamp(24px, 6vw, 96px);
-  padding: clamp(64px, 10vw, 140px) var(--gutter);
-  border-top: 1px solid var(--ink);
 }
-.about__character { max-width: 340px; justify-self: center; }
-.about__text { font-size: clamp(18px, 2vw, 24px); line-height: 1.45; max-width: 40ch; }
-.about__lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 32px; }
-.about__lists h3 { font-family: var(--ui); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.about__character { position: relative; width: 100%; max-width: 340px; justify-self: center; }
+.about__art { position: static; display: block; height: auto; }
+.note--about { margin-top: 12px; text-align: center; }
+.about .section-title { margin-bottom: 28px; }
+.about__text { font-size: var(--size-lead); line-height: 1.45; text-wrap: pretty; }
+.about__lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 36px; }
+.about__lists h3 { color: var(--muted); margin-bottom: 12px; }
 .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
-.tags li { padding: 6px 12px; border: 1px solid var(--ink); border-radius: 30px; font-size: 14px; }
+.tags .chip { font-size: var(--size-caption); font-weight: 500; padding: 6px 12px; }
 
-/* Contact */
+/* Datos curiosos: una fila de iconos de línea con su texto, entre dos líneas finas */
+.facts {
+  list-style: none; display: flex; flex-wrap: wrap; gap: 10px 28px;
+  margin-top: 28px; padding: 14px 0; border-block: 1px solid var(--line);
+}
+.facts li { display: inline-flex; align-items: center; gap: 10px; font-size: var(--size-small); font-weight: 500; }
+.facts .line-icon { width: 24px; height: 24px; }
+
+/* Contact: el pie de la página, en negro */
 .contact {
-  background: var(--ink); color: var(--paper);
-  padding: clamp(64px, 12vw, 160px) var(--gutter) 32px;
-  display: flex; flex-direction: column; gap: 24px;
+  position: relative; overflow: hidden;
+  /* Al final de la página el pie llena la pantalla bajo el menú (así el menú, que se pone negro, queda unido a él).
+     Si sobra alto, las columnas y los derechos bajan hasta el fondo. */
+  display: flex; flex-direction: column;
+  min-height: calc(100vh - var(--nav-h));
+  min-height: calc(100lvh - var(--nav-h));
+  background: var(--ink); color: #fff;
+  padding: clamp(48px, 7vw, 104px) var(--gutter) clamp(28px, 4vw, 48px);
+  /* Para medir con "cqi": 100cqi es el ancho disponible dentro del pie (sin los márgenes) */
+  container-type: inline-size;
 }
-.contact p { font-family: var(--ui); text-transform: uppercase; letter-spacing: .08em; font-size: 14px; color: #a9a9a9; }
+/* Cabecera como la de las demás secciones, en blanco */
+.contact .section-head { margin-bottom: clamp(28px, 4vw, 56px); }
+.contact .section-intro { color: rgba(255, 255, 255, .8); }
+.note--contact { color: var(--pop); }
+/* Llamada principal: el correo en grande y, al lado, el botón para copiarlo */
+.contact__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 32px; margin-bottom: clamp(56px, 7vw, 96px); }
 .contact__mail {
-  font-family: var(--display); text-transform: uppercase; letter-spacing: -.02em;
-  font-size: clamp(26px, 6vw, 96px); line-height: .95; overflow-wrap: anywhere;
+  max-width: 100%; overflow-wrap: anywhere;
+  font-weight: 500; letter-spacing: -.01em; line-height: 1.1;
+  /* Para que quepa en una línea también en el móvil: el correo con la flecha mide unas 10,4 veces
+     el tamaño de la letra, así que se divide el ancho disponible entre 10,6.
+     Si cambias de correo y es más largo, sube ese número. */
+  font-size: min(var(--size-title), 100cqi / 10.6);
+  text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em;
+  text-decoration-color: rgba(255, 255, 255, .4); transition: text-decoration-color .3s;
 }
-.contact__mail:hover { text-decoration: underline; text-underline-offset: 8px; }
-.contact__socials { display: flex; gap: 24px; flex-wrap: wrap; font-weight: 500; }
-.contact small { color: #a9a9a9; margin-top: 48px; }
+.contact__mail:hover { text-decoration-color: #fff; }
+.contact__arrow { display: inline-block; margin-left: .2em; font-size: .7em; transition: transform .3s; }
+.contact__mail:hover .contact__arrow { transform: translate(4px, -4px); }
+/* Columnas: secciones, redes, ubicación y volver arriba */
+.contact__columns {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: 28px 32px;
+  margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, .3);
+}
+.contact__columns h3 { margin-bottom: 14px; color: rgba(255, 255, 255, .65); }
+.contact__columns ul { list-style: none; display: grid; gap: 8px; }
+.contact__columns li a, .contact__columns p { font-size: var(--size-body); font-weight: 500; }
+.contact__columns li a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.contact__status { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.contact__top { align-self: start; }
+/* Derechos y crédito de Rare UI a la izquierda, lejos de la píldora de progreso */
+.contact__bottom { display: flex; gap: 6px 32px; flex-wrap: wrap; margin-top: clamp(40px, 6vw, 72px); }
+.contact small { color: rgba(255, 255, 255, .75); font-size: var(--size-caption); }
+.contact__credits a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 
-/* Caso de estudio */
-.case {
-  position: fixed; inset: 0; z-index: 150;
-  background: rgba(0, 0, 0, .45); backdrop-filter: blur(6px);
-  overflow-y: auto; overscroll-behavior: contain;
-  padding: clamp(16px, 5vh, 56px) var(--gutter) 0;
+/* Botón redondeado del contacto */
+.pill-button {
+  display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 22px;
+  border: 1px solid rgba(255, 255, 255, .6); border-radius: 999px; background: transparent; color: #fff;
+  font-family: var(--font-text); font-weight: 600; font-size: var(--size-small); cursor: pointer;
+  transition: background-color .2s, color .2s, border-color .2s;
 }
-.case__panel {
-  position: relative; max-width: 920px; margin: 0 auto; min-height: 100%;
-  background: var(--paper); border-radius: 24px 24px 0 0;
-  padding: clamp(28px, 5vw, 64px);
+.pill-button:hover { background: #fff; border-color: #fff; color: var(--ink); }
+.pill-button--pop { background: var(--pop); border-color: var(--pop); color: var(--ink); }
+
+/* Caso de estudio: página propia entre el menú y el pie (mientras tanto, el inicio se oculta) */
+.case { padding: calc(var(--nav-h) + clamp(16px, 3vw, 40px)) var(--gutter) clamp(56px, 8vw, 120px); }
+.case .section-meta a { transition: opacity .2s; }
+.case .section-meta a:hover { opacity: .6; }
+/* Cabecera como las de las secciones: título a la izquierda y resumen a la derecha, alineados por abajo */
+.case__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 34ch); align-items: end; gap: 24px 48px; }
+.case__eyebrow { color: var(--brand); }
+.case__title {
+  font-family: var(--font-display); text-transform: uppercase;
+  font-size: var(--size-display); line-height: .92; letter-spacing: -.01em; margin-top: 14px;
 }
-.case__close {
-  position: sticky; top: 0; float: right; width: 44px; height: 44px; border-radius: 50%;
-  border: 0; background: var(--ink); color: var(--paper); font-size: 16px; cursor: pointer;
-}
-.case__eyebrow { font-family: var(--ui); font-weight: 600; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.case__title { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: clamp(40px, 7vw, 88px); line-height: .95; margin: 10px 0 14px; }
-.case__summary { font-size: clamp(18px, 2vw, 22px); line-height: 1.45; max-width: 46ch; }
-.case__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 32px 0; padding: 20px 0; border-block: 1px solid #e2e2e2; }
-.case__facts dt { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+.case__title:focus { outline: none; } /* recibe el foco al abrir el caso, para lectores de pantalla */
+.case__summary { color: var(--muted); font-size: var(--size-body); line-height: 1.5; }
+.case__intro { display: grid; justify-items: start; gap: 20px; }
+.case__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: clamp(32px, 4vw, 56px) 0; padding: 20px 0; border-block: 1px solid var(--line); }
+.case__facts dt { color: var(--muted); margin-bottom: 6px; }
 .case__facts dd { font-weight: 600; }
-.case__cover { aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; margin-bottom: 40px; }
-.case__cover img { width: 100%; height: 100%; object-fit: cover; }
-.case section { margin-bottom: 36px; }
-.case h3 { font-family: var(--ui); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-.case section p, .case__process { font-size: 18px; line-height: 1.55; }
+.case__cover { position: relative; aspect-ratio: 21 / 9; border-radius: 16px; overflow: hidden; margin-bottom: clamp(56px, 7vw, 112px); display: grid; place-items: end center; }
+.case__cover .device--mobile { width: 16%; }
+.case__cover .device--web { width: 52%; margin-bottom: -4%; }
+/* La imagen llena la portada, recortada por el centro (o por donde diga `coverPosition` en site.js) */
+.case__cover > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* Cada parte del caso: el nombre a la izquierda y el contenido a la derecha, sobre una línea fina */
+.case section {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 16px 48px;
+  padding-top: 20px; border-top: 1px solid var(--line); margin-bottom: clamp(48px, 6vw, 96px);
+}
+.case h2 { color: var(--muted); }
+.case section > :not(h2) { grid-column: 2; }
+.case section p, .case__process { font-size: var(--size-body); line-height: 1.6; max-width: 62ch; }
 .case__process { padding-left: 22px; display: grid; gap: 8px; }
-.case__metrics { display: flex; flex-wrap: wrap; gap: 16px; }
-.case__metrics div { flex: 1 1 200px; padding: 20px; border-radius: 14px; background: #f3f3f3; }
-.case__metrics strong { display: block; font-family: var(--display); font-weight: 400; font-size: 44px; line-height: 1; }
-.case__metrics span { color: var(--muted); }
+/* Pasos con nombre y texto: numerados y en fila (de tres en tres en tablet y de dos en el celular) */
+.case__steps { list-style: none; counter-reset: paso; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 28px clamp(16px, 2vw, 24px); }
+.case__steps li { counter-increment: paso; padding-top: 14px; border-top: 1px solid var(--line); }
+.case__steps li::before { content: counter(paso, decimal-leading-zero); font-size: var(--size-label); font-weight: 600; letter-spacing: .08em; color: var(--brand); }
+.case__steps strong { display: block; margin-top: 8px; font-weight: 600; }
+.case__steps span { display: block; margin-top: 4px; font-size: var(--size-small); line-height: 1.5; color: var(--muted); }
+/* Usuarios, componentes, decisiones y siguientes pasos: de tres en tres si son tres y si no de dos en dos (uno debajo de otro en tablet y celular) */
+.case__points { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 32px; }
+.case__points:has(> :nth-child(3):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.case__points > div { padding-top: 14px; border-top: 1px solid var(--line); }
+.case__points dt { font-weight: 600; }
+.case__points dd { margin-top: 4px; font-size: var(--size-small); line-height: 1.5; color: var(--muted); }
+/* Flujo de usuario, pasos y pantallas: a todo lo ancho, debajo del nombre de la parte */
+.case section > :is(.case__flow, .case__steps, .slider, .case__phones) { grid-column: 1 / -1; margin-top: clamp(8px, 1.5vw, 16px); }
+.case__flow img { width: 100%; height: auto; border-radius: 16px; }
+.case__screens img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 12px; }
+.case__screens figcaption { margin-top: 14px; font-size: var(--size-small); line-height: 1.5; color: var(--muted); }
+.case__screens figcaption strong { color: var(--ink); font-weight: 600; }
+/* Pantallas en carrusel, de borde a borde de la ventana: una grande y un pedazo de la siguiente (y de la anterior al avanzar).
+   Cada deslizamiento se detiene en la pantalla siguiente, alineada con el texto de la página */
+.slider { position: relative; margin-inline: calc(-1 * var(--gutter)); }
+.case__screens {
+  position: relative; display: flex; gap: clamp(12px, 2vw, 24px);
+  overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
+  padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
+}
+.case__screens::-webkit-scrollbar { display: none; }
+.case__screens:focus-visible { outline-offset: -2px; }
+.case__screens figure { flex: 0 0 76%; scroll-snap-align: start; scroll-snap-stop: always; }
+.case__screens figure:only-child { flex-basis: 100%; }
+/* Pista al verse por primera vez: las pantallas se corren a la izquierda y vuelven */
+.case__screens.is-hinting figure { animation: slider-hint 1.1s cubic-bezier(.45, 0, .2, 1) .35s; }
+@keyframes slider-hint { 0%, 100% { translate: 0; } 45% { translate: -56px 0; } }
+/* Flechas sobre las pantallas, a media altura de la imagen y en los bordes del texto de la página: la de "siguiente"
+   sobre la pantalla que asoma; la de "anterior" aparece al avanzar. En pantallas táctiles no van: ahí se desliza con el dedo */
+.slider__arrow {
+  position: absolute; top: var(--arrow-y, 40%); z-index: 1;
+  display: grid; place-items: center; width: 56px; height: 56px;
+  border: 0; border-radius: 50%; background: var(--ink); color: var(--paper);
+  font: inherit; font-size: 22px; cursor: pointer;
+  box-shadow: 0 8px 24px rgba(14, 14, 14, .24);
+  transition: opacity .25s, scale .2s, background-color .2s;
+}
+.slider__arrow--prev { left: var(--gutter); translate: -50% -50%; }
+.slider__arrow--next { right: var(--gutter); translate: 50% -50%; }
+.slider__arrow:hover { background: var(--brand); scale: 1.06; }
+.slider__arrow:disabled { opacity: 0; pointer-events: none; }
+@media (hover: none) { .slider__arrow { display: none; } }
+/* Barra de progreso: un tramo por pantalla (el de la que se ve, más largo y en negro) y el contador; cada tramo lleva a su pantalla */
+.case section > .slider__progress { grid-column: 1 / -1; }
+.slider__progress { display: flex; align-items: center; gap: 14px; }
+.slider__progress ol { list-style: none; display: flex; gap: 6px; }
+.slider__progress button { display: grid; align-items: center; width: 36px; height: 32px; padding: 0; border: 0; background: none; cursor: pointer; transition: width .3s; }
+.slider__progress button::before { content: ''; height: 3px; border-radius: 3px; background: var(--line); transition: background-color .25s; }
+.slider__progress button:hover::before { background: var(--muted); }
+.slider__progress button[aria-current] { width: 64px; }
+.slider__progress button[aria-current]::before { background: var(--ink); }
+.slider__count { font-size: var(--size-label); font-weight: 600; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+@media (pointer: coarse) { .slider__progress button { height: 44px; } }
+/* Versión móvil: las pantallas del celular en fila, de un lado al otro y sin pasar de 340px cada una */
+.case__phones { display: grid; grid-template-columns: repeat(4, minmax(0, 340px)); justify-content: space-between; gap: clamp(28px, 4vw, 40px) clamp(12px, 2vw, 32px); }
+.case__phones img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: clamp(10px, 1.1vw, 16px); }
+.case__phones figcaption { margin-top: 12px; font-size: var(--size-small); font-weight: 600; }
+/* Video de presentación: en la columna del texto (a todo lo ancho en tablet y celular) */
+.case__promo { width: 100%; height: auto; border-radius: 16px; background: var(--ink); }
+.case section > p + .case__promo { margin-top: clamp(8px, 1.5vw, 16px); }
+/* Sistema de diseño: la paleta en una fila (de tres en tres en tablet y celular), los logos lado a lado y los componentes */
+.case section > :is(.case__colors, .case__logos, .case__colors + .case__points, .case__logos + .case__points) { margin-top: clamp(8px, 1.5vw, 16px); }
+.case__colors { list-style: none; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 20px 12px; }
+/* La línea interior marca el borde de los colores claros sobre el fondo blanco */
+.case__colors span { display: block; aspect-ratio: 4 / 3; border-radius: 12px; box-shadow: inset 0 0 0 1px rgba(14, 14, 14, .1); }
+.case__colors strong { display: block; margin-top: 10px; font-size: var(--size-small); font-weight: 600; }
+.case__colors code { display: block; margin-top: 2px; font-family: inherit; font-size: var(--size-small); color: var(--muted); }
+.case__logos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; }
+.case__logos div { display: grid; place-items: center; padding: clamp(28px, 4vw, 44px) 24px; border: 1px solid var(--line); border-radius: 12px; }
+.case__logos img { height: clamp(40px, 4.5vw, 60px); width: auto; max-width: 100%; }
+/* Más imágenes del caso: una debajo de otra o lado a lado si caben; las muy altas se recortan por arriba y por abajo */
+.case__gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; margin-bottom: clamp(48px, 6vw, 96px); }
+.case__gallery img { width: 100%; height: auto; max-height: 80vh; object-fit: cover; border-radius: 16px; }
+/* Stack: qué se usó en cada parte, en dos columnas separadas por líneas finas */
+.case__stack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+.case__stack div { display: grid; grid-template-columns: minmax(0, 11ch) minmax(0, 1fr); gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); }
+.case__stack div:nth-child(-n + 2) { border-top: 0; padding-top: 0; }
+.case__stack dt { color: var(--muted); font-size: var(--size-small); }
+.case__stack dd { font-size: var(--size-small); font-weight: 500; }
+/* Resultados: número grande bajo una línea */
+.case__metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+.case__metrics div { padding-top: 16px; border-top: 1px solid var(--ink); }
+/* El contador de Rare UI hace cada dígito de 1.5em de alto: el margen negativo quita ese aire extra */
+.case__metrics strong { display: block; font-family: var(--font-display); font-weight: 400; font-size: clamp(44px, 5vw, 64px); line-height: 1; margin-block: -.25em; }
+.case__metrics div > span { display: block; margin-top: 12px; color: var(--muted); }
+
+/* Al abrir o cerrar un caso, la imagen de la tarjeta crece hasta ser la portada (o vuelve); el resto se funde */
+::view-transition-group(case-cover) { animation-duration: .6s; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
+::view-transition-old(case-cover), ::view-transition-new(case-cover) { height: 100%; object-fit: cover; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .35s; }
 
 /* Presentación visible en la portada */
 .hero__intro { position: absolute; z-index: 4; left: var(--gutter); bottom: 36px; max-width: 300px; }
-.hero__intro h1 { font-family: var(--ui); font-weight: 600; font-size: 15px; letter-spacing: .01em; }
-.hero__intro p { margin-top: 4px; font-size: 15px; line-height: 1.45; color: var(--muted); }
+.hero__intro h1 { font-weight: 600; font-size: var(--size-small); }
+.hero__intro p { margin-top: 4px; font-size: var(--size-small); line-height: 1.45; color: var(--muted); }
+/* Etiqueta "Disponible para proyectos" con punto verde que late */
+.hero__intro .status {
+  display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px;
+  padding: 6px 12px 6px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper);
+  font-weight: 500; font-size: var(--size-caption); line-height: 1.2; color: var(--ink);
+}
+.status__dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--success);
+  animation: ping 1.8s ease-out infinite;
+}
+@keyframes ping {
+  0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--success) 55%, transparent); }
+  100% { box-shadow: 0 0 0 8px transparent; }
+}
 
-/* Final del caso: llamada a la acción y casos anterior / siguiente */
-.case__cta { padding: 28px; border-radius: 14px; background: var(--ink); color: var(--paper); }
-.case__cta h3 { color: var(--paper); opacity: .7; }
-.case__cta p { margin-bottom: 18px; }
-.case__cta .button { background: var(--paper); color: var(--ink); }
-.case__nav { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-bottom: 40px; }
+/* Final del caso: los casos anterior y siguiente (debajo va el pie de la web, con el contacto) */
+.case__nav { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .case__nav button {
   display: flex; align-items: center; gap: 14px; padding: 18px 20px;
-  border: 1px solid #e2e2e2; border-radius: 14px; background: none;
+  border: 1px solid var(--line); border-radius: 14px; background: var(--paper);
   font: inherit; color: inherit; text-align: left; cursor: pointer;
+  transition: border-color .2s;
 }
-.case__nav button:last-child { justify-content: flex-end; text-align: right; }
+/* "Siguiente caso" siempre a la derecha, aunque vaya solo */
+.case__nav .case__next { grid-column: 2; justify-content: flex-end; text-align: right; }
 .case__nav button:hover { border-color: var(--ink); }
-.case__nav span { font-size: 13px; color: var(--muted); }
-.case__nav strong { display: block; font-size: 17px; color: var(--ink); }
+.case__nav span { font-size: var(--size-caption); color: var(--muted); }
+.case__nav strong { display: block; margin-top: 2px; font-size: var(--size-body); font-weight: 600; color: var(--ink); }
 .case__nav [aria-hidden] { font-size: 20px; color: var(--ink); }
+
+/* Iconos de línea (Doodles.jsx) */
+.line-icon {
+  width: 40px; height: 40px; flex-shrink: 0; overflow: visible;
+  fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.fill-paper { fill: var(--paper); }
+.fill-ink { fill: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .status__dot, .case__screens figure { animation: none; }
+}
+
+/* Con el menú en español no cabe también el correo en pantallas medianas */
+@media (max-width: 1180px) { .nav__mail { display: none; } }
 
 /* Tablet */
 @media (max-width: 1000px) {
   .nav__location, .nav__mail { display: none; }
+  .section-head__main { grid-template-columns: 1fr; }
+  .section-head__aside { max-width: 44ch; }
+  .case__head { grid-template-columns: 1fr; }
+  .case__summary { max-width: 44ch; }
+  /* El flujo vertical (versión de celular y tablet) no pasa de 420px, para que la letra no crezca de más */
+  .case__flow img { max-width: 420px; }
+  .case__screens figure { flex-basis: 84%; }
+  .case section > .case__promo { grid-column: 1 / -1; }
+  .case__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .case__points, .case__points:has(> :nth-child(3):last-child) { grid-template-columns: 1fr; }
+  .case__colors { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .about__lists { grid-template-columns: 1fr; }
   .process__list { grid-template-columns: repeat(2, 1fr); }
+  .case-card { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Casos con imagen o video propio: la imagen va abajo, a lo ancho y apaisada, para que no se corte por los lados */
+  .case-card:has(.case-card__media > :is(img, video)) { display: flex; flex-direction: column; }
+  .case-card:has(.case-card__media > :is(img, video)) .case-card__info { flex: 1 0 auto; }
+  .case-card__media:has(> :is(img, video)) { flex: 0 1 auto; min-height: 0; aspect-ratio: 4 / 3; }
+  /* Pie: "Volver arriba" baja a su propia fila */
+  .contact__columns { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .contact__top { grid-column: 1 / -1; justify-self: start; }
 }
 
 /* Móvil */
 @media (max-width: 640px) {
-  .nav { grid-template-columns: auto 1fr auto; gap: 12px; font-size: 13px; }
-  .nav__tabs { gap: 8px; justify-content: center; font-size: 11px; }
+  .nav { grid-template-columns: auto 1fr auto; gap: 12px; }
+  .nav__tabs { gap: 8px; justify-content: center; font-size: 11px; letter-spacing: .06em; }
   .nav__right { gap: 14px; }
-  /* Con la pestaña CONTACT, los iconos sobran en móvil (están en el pie) */
+  /* Con la pestaña CONTACT, los iconos sobran en móvil (las redes están en el pie) */
   .nav__right { display: none; }
   .nav { grid-template-columns: auto 1fr; }
   .ring__card { --w: 120px; border-radius: 16px; }
-  .mock__title { font-size: 13px; }
+  .mock__title { font-size: var(--size-caption); }
+  .browser { padding: 6px 8px; }
+  .mockweb { padding: 8px; gap: 8px; }
   .hero__title { top: 120px; width: 92vw; }
-  .hero__intro { left: 50%; translate: -50% 0; top: 205px; bottom: auto; width: 86vw; max-width: none; text-align: center; }
-  .hero__intro h1, .hero__intro p { font-size: 13px; }
+  .hero__title-outline { stroke-width: 4.5; }
+  .hero__intro { left: 50%; translate: -50% 0; top: 205px; bottom: auto; width: 92vw; max-width: none; text-align: center; }
+  .hero__intro h1, .hero__intro p { font-size: var(--size-caption); }
   .case__nav { grid-template-columns: 1fr; }
+  .case__nav .case__next { grid-column: auto; }
+  .case section { grid-template-columns: minmax(0, 1fr); }
+  .case section > :not(h2) { grid-column: auto; }
+  .case__phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .case__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .case__screens figure { flex-basis: 88%; }
+  .case__cover { aspect-ratio: 4 / 3; }
+  .case__cover .device--mobile { width: 30%; }
+  .case__cover .device--web { width: 80%; }
   .ring { margin-top: -8vh; }
-  .hero__captions { display: none; }
   .hero__character { bottom: 9vh; }
-  .character__breath { height: 46vh; }
-  .work__grid { grid-template-columns: 1fr; }
-  .card:nth-child(even) { margin-top: 0; }
-  .about { grid-template-columns: 1fr; }
+  /* En móviles bajos se achica para que el saludo no tape la presentación */
+  .character__breath { height: min(46vh, 79vh - 256px); }
+  /* Pila de casos: el texto arriba, la imagen debajo y menos borde visible entre tarjetas */
+  .stack { --peek: 16px; --card-h: min(620px, 100svh - var(--nav-h) - 24px - (var(--cards) - 1) * var(--peek)); }
+  .case-card { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); gap: 12px; padding: 12px; border-radius: 22px; }
+  .case-card__button::after { border-radius: 22px; }
+  .case-card__info { padding: 8px 6px 0; }
+  .case-card__title { margin-top: 14px; }
+  .case-card__summary { margin-top: 8px; font-size: var(--size-small); }
+  .case-card__metric { display: flex; align-items: baseline; gap: 10px; margin-top: 14px; padding-top: 12px; }
+  .case-card__metric > span { margin-top: 0; }
+  /* Con imagen propia, la cifra y las etiquetas bajan al final del texto, junto a la imagen (como en las tarjetas sin cifra) */
+  .case-card:has(.case-card__media > :is(img, video)) .case-card__metric { margin-top: auto; }
+  .case-card__foot { margin-top: 12px; }
+  .case-card__cta { display: none; }
+  .case-card__media { border-radius: 14px; }
+  /* Pie: secciones y redes lado a lado; la ubicación debajo, a todo el ancho */
+  .contact__columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .contact__place { grid-column: 1 / -1; }
+  .about__grid { grid-template-columns: 1fr; }
   .about__character { max-width: 220px; }
-  .about__lists, .case__facts { grid-template-columns: 1fr; }
+  .about__lists, .case__facts, .case__stack { grid-template-columns: 1fr; }
+  .case__stack div:nth-child(2) { border-top: 1px solid var(--line); padding-top: 12px; }
   .process__list { grid-template-columns: 1fr; }
+  .nav__tabs a { padding: 3px 6px; }
+  .device .mock { padding: 10px 8px; gap: 6px; }
+  .device .mock__title { font-size: 12px; }
+  .device .mockweb { padding: 8px; gap: 8px; }
+  /* Globo del personaje centrado encima de la cabeza, para que no se salga de la pantalla */
+  .character__bubble {
+    left: 50%; top: -15%; translate: -50% 0; transform-origin: 50% 100%;
+    border-radius: 22px; padding: 8px 14px; font-size: var(--size-caption);
+  }
 }
+
+/* Móviles estrechos: el menú cabe en una línea */
+@media (max-width: 400px) {
+  .nav__tabs { gap: 2px; font-size: 10px; letter-spacing: .04em; }
+  .nav__tabs a { padding: 3px 5px; }
+}
+
+/* Píldora de progreso (Rare UI): abajo a la derecha para no tapar el mouse de la portada */
+.progress-pill { left: auto; right: 24px; translate: none; }
+.progress-pill [data-slot="scroll-progress-surface"] { left: auto; right: 0; translate: none; }
+.progress-pill [data-slot="scroll-progress-surface"] { border: 1px solid var(--line); background: var(--paper); box-shadow: var(--float); }
+/* En el móvil no se muestra: tapaba contenido y el menú de arriba ya marca la sección */
+@media (max-width: 640px) { .progress-pill { display: none; } }

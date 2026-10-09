@@ -1,16 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { site } from '../data/site.js'
-import { Pin, socialIcons } from './Icons.jsx'
+import { Pin, external, socialIcons } from './Icons.jsx'
+import Logo from './Logo.jsx'
 
 const tabs = [
-  { label: 'WORK', href: '#work', id: 'work' },
-  { label: 'PROCESS', href: '#process', id: 'process' },
-  { label: 'ABOUT', href: '#about', id: 'about' },
-  { label: 'CONTACT', href: '#contact', id: 'contact' },
+  { label: 'PROYECTOS', href: '#work', id: 'work' },
+  { label: 'PROCESO', href: '#process', id: 'process' },
+  { label: 'SOBRE MÍ', href: '#about', id: 'about' },
+  { label: 'CONTACTO', href: '#contact', id: 'contact' },
 ]
 
-export default function Nav() {
+// current: pestaña que se marca sí o sí (p. ej. Proyectos dentro de un caso)
+export default function Nav({ current }) {
   const [active, setActive] = useState('work')
+  const shown = current ?? active
+  const ref = useRef(null)
+  const [onFooter, setOnFooter] = useState(false)
 
   // Marca la pestaña de la sección que se está viendo
   useEffect(() => {
@@ -25,10 +30,29 @@ export default function Nav() {
     return () => io.disconnect()
   }, [])
 
+  // Sobre el pie, que es negro, el menú también se pone negro: desde que el borde de arriba del pie llega al menú
+  // (con un píxel de margen, por los decimales de las medidas)
+  useEffect(() => {
+    const footer = document.getElementById('contact')
+    if (!footer) return
+    const check = () => setOnFooter(footer.getBoundingClientRect().top - ref.current.getBoundingClientRect().bottom < 1)
+    check()
+    window.addEventListener('scroll', check, { passive: true })
+    window.addEventListener('resize', check)
+    // También cuando cambia el alto de la página sin hacer scroll (al abrir un caso, al cargar imágenes…)
+    const ro = new ResizeObserver(check)
+    ro.observe(document.documentElement)
+    return () => {
+      window.removeEventListener('scroll', check)
+      window.removeEventListener('resize', check)
+      ro.disconnect()
+    }
+  }, [])
+
   return (
-    <header className="nav">
+    <header ref={ref} className={onFooter ? 'nav nav--dark' : 'nav'}>
       <div className="nav__left">
-        <a href="#top" className="nav__logo" aria-label={site.name}>{site.logo}</a>
+        <a href="#top" className="nav__logo" aria-label={site.name}><Logo /></a>
         <span className="nav__location"><Pin /> {site.location}</span>
       </div>
 
@@ -37,8 +61,8 @@ export default function Nav() {
           <a
             key={t.id}
             href={t.href}
-            className={active === t.id ? 'is-active' : ''}
-            aria-current={active === t.id ? 'true' : undefined}
+            className={shown === t.id ? 'is-active' : ''}
+            aria-current={shown === t.id ? 'true' : undefined}
           >
             {t.label}
           </a>
@@ -50,7 +74,7 @@ export default function Nav() {
         {site.socials.map((s) => {
           const Icon = socialIcons[s.icon]
           return (
-            <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label}>
+            <a key={s.label} href={s.href} {...external(s.href)} aria-label={s.label}>
               <Icon />
             </a>
           )

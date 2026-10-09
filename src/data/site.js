@@ -3,111 +3,327 @@
 const withBase = (path) => (path?.startsWith('/') ? import.meta.env.BASE_URL + path.slice(1) : path)
 
 // Cambia aquí tus textos y enlaces
+const email = 'friaslevi97@gmail.com'
+
 export const site = {
   name: 'Levi',
-  logo: 'LV',
   role: 'UX/UI Designer',
-  location: 'TU CIUDAD, PAÍS',
-  email: 'hola@tudominio.com',
+  location: 'LIMA, PERÚ',
+  email,
   cv: withBase('/cv.pdf'), // pon tu CV en /public/cv.pdf
-  character: withBase('/assets/img/personaje.png'),
   // Color de la chaqueta del personaje (null = negro original). Ej: '#2f5bea'
   jacketColor: '#2f5bea',
 
   // Portada
   heroTitle: 'UX/UI DESIGN',
-  // Frase visible en la portada y texto del botón que baja a los casos
+  // Frase visible en la portada
   tagline: 'Diseño productos digitales claros, útiles y medibles.',
-  exploreLabel: 'VER CASOS',
-  captionLeft: 'PRODUCT DESIGNER',
-  captionRight: 'RESEARCH → UI → PROTOTIPO',
+  // Etiqueta con punto verde en la portada (pon null para quitarla)
+  status: 'Disponible para proyectos',
+  // Lo que leen los lectores de pantalla en el mouse que baja a los casos
+  exploreLabel: 'Bajar a los casos de estudio',
+
+  // Cabecera de cada sección: número y nombre pequeños, título grande y entradilla
+  sections: {
+    work: {
+      label: 'Trabajo seleccionado',
+      title: 'Casos de estudio',
+      intro: 'Proyectos donde el diseño movió métricas. Haz clic en uno para ver cómo lo hice.',
+    },
+    process: {
+      label: 'Proceso',
+      title: 'Cómo trabajo',
+      intro: 'Mi receta para pasar de una idea a un producto que la gente usa de verdad.',
+    },
+    about: { label: 'Perfil', title: 'Sobre mí' },
+    // El pie de la página
+    contact: {
+      label: 'Contacto',
+      title: 'Hablemos',
+      intro: '¿Tienes una idea en mente? Escríbeme y lo vemos juntos.',
+    },
+  },
 
   socials: [
-    { label: 'Telegram', icon: 'telegram', href: 'https://t.me/' },
-    { label: 'LinkedIn', icon: 'linkedin', href: 'https://linkedin.com/' },
+    { label: 'Gmail', icon: 'gmail', href: `mailto:${email}` },
+    { label: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/in/josue-frias-aquino-5955a9256' },
   ],
 
+  // Cuéntalo con tus palabras: tu historia y el tipo de equipo que buscas
   about:
-    'Diseñador UX/UI. Convierto problemas de negocio en productos fáciles de usar: investigo con usuarios, ordeno la información, prototipo y valido antes de pasar a desarrollo. Cambia este texto por tu historia y el tipo de equipo que buscas.',
+    'Ingeniero de Sistemas con cuatro años de experiencia especializada en diseño UX/UI, con un enfoque en diseño web, desarrollo de aplicaciones y plataformas digitales. A lo largo de mi carrera, he perfeccionado mis habilidades para crear soluciones innovadoras, funcionales y altamente intuitivas, siempre orientadas a ofrecer un valor excepcional a los clientes.',
 
-  skills: ['UX Research', 'Arquitectura de información', 'Wireframes', 'UI Design', 'Design Systems', 'Prototipado', 'Testing de usabilidad', 'Accesibilidad'],
-  tools: ['Figma', 'FigJam', 'Maze', 'Notion', 'Miro', 'Protopie', 'Webflow'],
+  // Datos curiosos de "Sobre mí". Iconos: coffee, music, ball, pin, search, map, pencil, check
+  facts: [
+    { icon: 'coffee', text: 'Funciono a café' },
+    { icon: 'music', text: 'Diseño con música' },
+    { icon: 'ball', text: 'Juego básquet' },
+    { icon: 'pin', text: 'Desde Lima, Perú' },
+  ],
+
+  // Notas cortas junto a las secciones (pon null para quitar una)
+  notes: {
+    work: null,
+    about: null,
+    contact: 'escríbeme, no muerdo :)',
+  },
+
+  skills: ['UX Research', 'Arquitectura de información', 'Wireframes', 'UI Design', 'Design Systems', 'Prototipado', 'Testing de usabilidad', 'Accesibilidad (WCAG)'],
+  tools: ['Figma', 'Figma Make', 'FigJam', 'Maze', 'Notion', 'Miro', 'Protopie', 'Webflow', 'HTML', 'CSS', 'JavaScript', 'Codex', 'Claude'],
 }
 
 // Pasos del proceso de diseño
 export const process = [
-  { step: '01', title: 'Descubrir', text: 'Entrevistas, benchmark y análisis de datos para entender el problema real.' },
-  { step: '02', title: 'Definir', text: 'User personas, journeys y arquitectura de información para priorizar.' },
-  { step: '03', title: 'Diseñar', text: 'Wireframes, UI y design system, iterando con el equipo.' },
-  { step: '04', title: 'Validar', text: 'Prototipos y tests de usabilidad antes de pasar a desarrollo.' },
+  { step: '01', icon: 'search', title: 'Descubrir', text: 'Entrevistas, benchmark y análisis de datos para entender el problema real.' },
+  { step: '02', icon: 'map', title: 'Definir', text: 'User personas, journeys y arquitectura de información para priorizar.' },
+  { step: '03', icon: 'pencil', title: 'Diseñar', text: 'Wireframes, UI y design system, iterando con el equipo.' },
+  { step: '04', icon: 'check', title: 'Validar', text: 'Prototipos y tests de usabilidad antes de pasar a desarrollo.' },
 ]
 
 // Pantallas del carrusel 3D de la portada.
-// Pon tus capturas de apps/webs en /public/assets/img/ y añade `image: '/assets/img/x.webp'`.
-// `project` es el índice del caso de estudio que se abre al hacer clic (opcional).
+// `type: 'web'` dibuja una pantalla apaisada con barra de navegador; sin `type` es de móvil.
+// Pon tus capturas de apps/webs en /public/assets/img/ y añade `image: '/assets/img/x.webp'`
+// (móvil: vertical, unos 9:19,5 · web: apaisada, unos 16:10).
 // Sin imagen se dibuja una pantalla de ejemplo con el título.
 export const screens = [
-  { title: 'Onboarding', project: 0 },
-  { title: 'Dashboard', project: 1 },
-  { title: 'Checkout', project: 2 },
-  { title: 'Perfil', project: 0 },
-  { title: 'Chat', project: 1 },
-  { title: 'Búsqueda', project: 2 },
-  { title: 'Ajustes', project: 3 },
-  { title: 'Agenda', project: 3 },
+  { title: 'Inicio de Levi, gestor de finanzas', image: '/assets/img/gestor-finanzas-movil.webp' },
+  { title: 'Web de SISE', type: 'web', image: '/assets/img/sise-web.webp' },
+  { title: 'Food App, bienvenida', image: '/assets/img/food-app.webp' },
+  { title: 'Coinpay, crear cuenta', image: '/assets/img/coinpay.webp' },
+  { title: 'Raven, pronósticos para flora y fauna', type: 'web', image: '/assets/img/raven.webp' },
+  { title: 'Fresh Go, inicio', image: '/assets/img/fresh-go.webp' },
+  { title: 'Exacta Express, inicio de sesión', type: 'web', image: '/assets/img/exacta-express.webp' },
+  { title: 'Aspen, bienvenida', image: '/assets/img/aspen.webp' },
 ]
 
-// Casos de estudio. `cover` (imagen) o `video` en /public/assets/.
-// Sin portada se muestra un bloque de color.
+// Casos de estudio, en el orden de la pila. `cover` (imagen) o `video` en /public/assets/.
+// Sin portada se muestra un móvil o un navegador de ejemplo (`type: 'web'`) sobre el color del caso.
+// `tags`: etiquetas cortas que se ven en la tarjeta (tipo de proyecto, plataforma...).
+// Solo hacen falta título, año, rol y resumen: lo demás (live, platform, duration, tools, description, problem,
+// users, process, flow, screens, mobile, promo, designSystem, decisions, gallery, stack, metrics, next) es opcional y, si no lo pones,
+// esa parte no sale en el caso.
+// `draft: true` deja el caso guardado aquí pero fuera de la web (los de ejemplo, hasta tener los reales).
 export const projects = [
   {
-    title: 'App de salud',
-    client: 'Proyecto de ejemplo',
+    title: 'Gestor de finanzas personales',
+    tags: ['App móvil', 'SaaS'],
+    client: 'Proyecto personal',
     year: '2026',
-    role: 'UX/UI Designer',
-    duration: '3 meses',
-    tools: 'Figma · Maze',
-    color: '#111111',
-    summary: 'Rediseño del onboarding de una app de seguimiento de hábitos.',
-    problem: 'El 60% de los usuarios abandonaba la app antes de terminar el registro.',
-    process: [
-      '8 entrevistas con usuarios y análisis del embudo de registro.',
-      'Reducción del registro de 7 a 3 pasos y nueva arquitectura de información.',
-      'Prototipo en Figma validado con 2 rondas de test en Maze.',
+    role: 'UX/UI Designer y Developer',
+    color: 'var(--ink)',
+    cover: '/assets/img/gestor-finanzas.webp',
+    // Qué parte de la portada se ve en el caso abierto, que la recorta más baja (por defecto, el centro)
+    coverPosition: 'top',
+    // Flujo de usuario (sale en "Proceso", con el texto al lado). `mobile`: versión vertical para celular y tablet
+    flow: {
+      src: '/assets/img/gestor-finanzas-flujo.webp',
+      mobile: '/assets/img/gestor-finanzas-flujo-movil.webp',
+      alt: 'Flujo de usuario de Levi: entrar; si no tiene cuenta, crearla y confirmar el correo; iniciar sesión; llegar al Dashboard y desde ahí ir y volver a Registro de movimientos, Comparar meses y Configuración',
+      caption:
+        'Flujo de usuario: quien no tiene cuenta la crea y confirma su correo antes de iniciar sesión. Ya dentro, todo parte del Dashboard, desde donde se va y se vuelve a Registro de movimientos, Comparar meses y Configuración.',
+    },
+    // Pantallas principales (salen en "Pantallas", de dos en dos, cada una con su texto debajo)
+    screens: [
+      {
+        src: '/assets/img/gestor-finanzas-login.webp',
+        title: 'Inicio de sesión',
+        caption: 'Entrar y crear cuenta comparten pantalla, con pestañas, y el tono es cercano desde el primer mensaje.',
+        alt: 'Pantalla de inicio de sesión de Levi, con la ilustración a la izquierda y el formulario a la derecha',
+      },
+      {
+        src: '/assets/img/gestor-finanzas-dashboard.webp',
+        title: 'Dashboard',
+        caption: 'El saldo estimado de hoy va primero y en grande. Debajo, el resumen del mes y en qué categorías se va el dinero.',
+        alt: 'Dashboard de Levi con el saldo estimado, el resumen del mes y un gráfico de gastos por categoría',
+      },
+      {
+        src: '/assets/img/gestor-finanzas-registro.webp',
+        title: 'Registro',
+        caption: 'Los movimientos del mes en una tabla, con buscador, filtros por tipo y los totales de lo que estás viendo.',
+        alt: 'Pantalla de registro de Levi con buscador, filtros y la tabla de movimientos del mes',
+      },
+      {
+        src: '/assets/img/gestor-finanzas-categorias.webp',
+        title: 'Categorías',
+        caption: 'Cada persona crea sus categorías con nombre, tipo, color e ícono, o añade las sugeridas para empezar rápido.',
+        alt: 'Pantalla de categorías de Levi con el formulario para crear una y la lista de categorías',
+      },
     ],
-    metrics: [
-      { value: '+35%', label: 'registros completados' },
-      { value: '-50%', label: 'tiempo de onboarding' },
+    // Versión para celular (sale en "Versión móvil": las pantallas en fila, cada una con su nombre debajo)
+    mobile: {
+      caption:
+        'La misma app en el celular: el menú lateral pasa a una barra abajo, al alcance del pulgar, y la tabla de movimientos se convierte en tarjetas.',
+      // Tamaño en píxeles de las capturas (todas iguales): guarda su lugar mientras cargan, para que la página no salte
+      width: 436,
+      height: 813,
+      screens: [
+        {
+          src: '/assets/img/gestor-finanzas-movil-login.webp',
+          title: 'Inicio de sesión',
+          alt: 'Inicio de sesión de Levi en el celular, con la ilustración arriba y el formulario debajo',
+        },
+        {
+          src: '/assets/img/gestor-finanzas-movil-inicio.webp',
+          title: 'Inicio',
+          alt: 'Inicio de Levi en el celular, con el saludo, el saldo estimado de hoy y la barra de navegación abajo',
+        },
+        {
+          src: '/assets/img/gestor-finanzas-movil-registro.webp',
+          title: 'Registro',
+          alt: 'Registro de Levi en el celular, con el buscador, los filtros y los movimientos del mes en tarjetas',
+        },
+        {
+          src: '/assets/img/gestor-finanzas-movil-ajustes.webp',
+          title: 'Ajustes',
+          alt: 'Ajustes de Levi en el celular, con el formulario para crear una categoría',
+        },
+      ],
+    },
+    // Video de presentación (sale en "La app en acción", después de la versión móvil; con controles, porque tiene música).
+    // `poster`: la imagen que se ve antes de darle a reproducir
+    promo: {
+      src: '/assets/video/gestor-finanzas-presentacion.mp4',
+      poster: '/assets/img/gestor-finanzas-presentacion.webp',
+      caption:
+        'Video de presentación de 22 segundos, con música. Muestra el problema que resuelve Levi y sus tres funciones clave: registrar movimientos, ponerle límite a cada categoría y ver en qué se va el dinero.',
+    },
+    summary: 'Tus finanzas pueden sentirse más simples.',
+    // App publicada (sale en el caso abierto, debajo del resumen; se abre en otra pestaña)
+    live: { url: 'https://gestor-de-gastos-gamma.vercel.app/', label: 'Visitar la app' },
+    // Qué es el producto (sale en el caso abierto, en "El proyecto")
+    description:
+      'Levi es una plataforma de finanzas personales para registrar ingresos y gastos, organizar movimientos por categorías y controlar presupuestos. Muestra tu saldo, gráficos y comparaciones mensuales para ayudarte a entender en qué se va tu dinero.',
+    // Con qué está hecho (sale en el caso abierto, en "Stack")
+    stack: [
+      { label: 'Frontend', value: 'React 19 con JavaScript/JSX y Vite 8' },
+      { label: 'Interfaz', value: 'Tailwind CSS 4 y HeroUI 3' },
+      { label: 'Estado', value: 'Zustand' },
+      { label: 'Gráficos', value: 'Recharts' },
+      { label: 'Animaciones e íconos', value: 'Framer Motion y Lucide React' },
+      { label: 'Backend', value: 'Supabase: PostgreSQL, Auth y políticas RLS' },
+      { label: 'Despliegue', value: 'Vercel, con el código en GitHub' },
+      { label: 'IA', value: 'Codex' },
     ],
   },
   {
-    title: 'Dashboard SaaS',
-    client: 'Proyecto de ejemplo',
+    title: 'Raven',
+    type: 'web',
+    tags: ['Web app', 'Agrotech'],
     year: '2025',
-    role: 'Product Designer',
-    duration: '4 meses',
-    tools: 'Figma · FigJam',
-    color: '#e6e6e6',
-    summary: 'Panel de analítica para equipos de ventas.',
-    problem: 'Los usuarios no encontraban los datos clave entre demasiados gráficos.',
-    process: [
-      'Card sorting con 12 usuarios para priorizar métricas.',
-      'Nuevo layout por tareas y design system con 40 componentes.',
-      'Test de usabilidad con prototipo de alta fidelidad.',
+    role: 'UX/UI Designer',
+    // Sale en los datos de arriba del caso, junto al rol y las herramientas
+    platform: 'Web de escritorio',
+    tools: 'Figma',
+    color: 'var(--ink)',
+    cover: '/assets/img/raven-portada.webp',
+    coverPosition: 'top',
+    summary: 'Pronosticar la cosecha antes de cosecharla.',
+    description:
+      'Raven es una plataforma web para que las empresas agrícolas proyecten cuántas toneladas van a cosechar en una campaña, frente por frente y semana a semana, a partir de los datos que levantan en campo.',
+    // Puede ir en varios párrafos
+    problem: [
+      'Planificar una cosecha implica cruzar muchos datos: cuántos frentes hay en cada fundo, cuántas semanas dura la campaña, qué módulos se recogen y cuánto pesa lo que sale de cada uno. Esa información llega desde distintas fuentes, como conteos, muestreos y registros de caída, y en distintos formatos.',
+      'El objetivo de Raven es convertir esos datos en una proyección de tonelaje que el equipo pueda revisar, ajustar y comparar contra su meta, sin perder de vista de dónde sale cada número.',
     ],
+    // Quién lo usa (sale en "Usuarios")
+    users: [
+      { title: 'Planificación de cosecha', text: 'Arma las simulaciones, define frentes y semanas, y ajusta el tonelaje hasta llegar a la meta de la campaña.' },
+      { title: 'Operaciones de campo', text: 'Sube los archivos de conteo, caída y muestreo, y revisa si fueron validados y procesados.' },
+      { title: 'Jefaturas', text: 'Revisan el avance de cada simulación contra su meta en TN y deciden qué frente necesita atención.' },
+    ],
+    // Pasos del flujo con nombre y texto (salen en "Proceso", numerados y en fila); `processCaption` va antes
+    processCaption:
+      'Del inicio de sesión al plan de cosecha, en seis pasos. En paralelo, el módulo de datos alimenta las simulaciones: ahí se cargan los archivos de caída, conteo, muestreo destructivo y no destructivo, y proyección de caída.',
+    process: [
+      { title: 'Ingreso', text: 'Usuario y contraseña, con recuperación de acceso.' },
+      { title: 'Entorno', text: 'Se elige la empresa y la campaña con la que se va a trabajar.' },
+      { title: 'Simulación', text: 'Se crea o abre una simulación y se elige el fundo.' },
+      { title: 'Tonelaje', text: 'Se proyectan las toneladas por frente y por semana.' },
+      { title: 'Corte', text: 'Se ajusta la simulación por calibre y modelo.' },
+      { title: 'Planeamiento', text: 'Se ordena la recolección en el tiempo, frente por frente.' },
+    ],
+    screens: [
+      {
+        src: '/assets/img/raven-entorno.webp',
+        title: 'Entorno operativo',
+        caption: 'Antes de ver cualquier dato, la persona elige con qué empresa y campaña va a trabajar. Así todo lo que viene después se lee en ese contexto.',
+        alt: 'Pantalla de entorno operativo con el saludo, la selección de empresa y campaña, y una ilustración de granja',
+      },
+      {
+        src: '/assets/img/raven-simulaciones.webp',
+        title: 'Simulaciones',
+        caption: 'La tabla resume cada simulación en una fila: fecha, frentes, semanas y pañas. Las dos columnas que más importan son el estado del tonelaje y la barra de avance hacia la meta.',
+        alt: 'Tabla de simulaciones con el estado del tonelaje y una barra de avance hacia la meta en cada fila',
+      },
+      {
+        src: '/assets/img/raven-tonelaje.webp',
+        title: 'Tonelaje',
+        caption: 'Con cuatro datos (frentes, número de semanas, semana inicial y final) se genera una tabla editable. Cada frente es una fila y cada semana una columna, de Sem. 51 a Sem. 12.',
+        alt: 'Tabla editable de tonelaje con un frente por fila, una semana por columna y los totales en verde',
+      },
+      {
+        src: '/assets/img/raven-planeamiento.webp',
+        title: 'Planeamiento',
+        caption: 'Una línea de tiempo ordena la recolección. Cada frente muestra su último recojo, los módulos que le tocan y cómo se acumula el peso hasta su meta.',
+        alt: 'Planeamiento con una línea de tiempo, los módulos de cada frente, indicadores circulares de meta y un gráfico de barras por módulo',
+      },
+      {
+        src: '/assets/img/raven-datos.webp',
+        title: 'Datos de campo',
+        caption: 'Cada archivo que se sube pasa por dos controles: validación y procesamiento. La tabla muestra ambos estados por separado, así es fácil ver qué falta y qué falló.',
+        alt: 'Tabla de archivos de proyección de caída con su estado de validación y de procesamiento',
+      },
+    ],
+    // Video sin sonido: con controles, como el del primer caso
+    promo: {
+      src: '/assets/video/raven-recorrido.mp4',
+      poster: '/assets/img/raven-recorrido.webp',
+      caption: 'Veamos cómo funciona Raven.',
+    },
+    // Sistema de diseño (sale después del video): texto, paleta y grupos de componentes. También acepta
+    // `logos: [{ src, alt, background }]`, en fila debajo de la paleta (`background`: color detrás del logo; si no, blanco)
+    designSystem: {
+      caption:
+        'La paleta sale del propio producto: el verde de las hojas como color principal y los tonos de la palta en el logo. Los colores de estado se reservan para alertas y errores.',
+      colors: [
+        { name: 'Primario', value: '#35A645' },
+        { name: 'Primario oscuro', value: '#1C5925' },
+        { name: 'Primario suave', value: '#E4F6E7' },
+        { name: 'Alerta', value: '#F0AF23' },
+        { name: 'Error', value: '#EA3B3B' },
+        { name: 'Texto', value: '#313131' },
+      ],
+      components: [
+        { title: 'Navegación', text: 'Barra lateral de íconos, migas de pan y pasos de simulación.' },
+        { title: 'Entradas', text: 'Campos con etiqueta, selectores, calendarios y filtros.' },
+        { title: 'Datos', text: 'Tablas paginadas, barras de meta e indicadores circulares.' },
+        { title: 'Feedback', text: 'Toasts, cargadores, confirmaciones y etiquetas de estado.' },
+      ],
+    },
+    // Decisiones de diseño (salen después del sistema de diseño, de dos en dos)
+    decisions: [
+      { title: 'Contexto primero', text: 'Empresa y campaña se eligen al entrar y se mantienen visibles en el título de cada pantalla, por ejemplo “Simulaciones Arato II”.' },
+      { title: 'La meta siempre a la vista', text: 'Cada vista que trabaja con toneladas muestra la meta y cuánto falta, para que nadie tenga que calcularlo.' },
+      { title: 'Un paso a la vez', text: 'La simulación se divide en tonelaje, corte y planeamiento, con navegación propia y botones de volver y siguiente.' },
+      { title: 'Estados que no dependen del color', text: 'Toda etiqueta de estado lleva texto, y las acciones que no aplican se muestran desactivadas en lugar de esconderse.' },
+    ],
+    // Cifras con otro nombre en lugar de "Resultado"; la primera también sale en la tarjeta del inicio
+    metricsTitle: 'Alcance',
     metrics: [
-      { value: '4.6/5', label: 'satisfacción (SUS)' },
-      { value: '-30%', label: 'tickets de soporte' },
+      { value: '49', label: 'pantallas' },
+      { value: '335', label: 'componentes' },
     ],
   },
   {
     title: 'E-commerce',
+    draft: true,
+    tags: ['E-commerce', 'Móvil'],
     client: 'Proyecto de ejemplo',
     year: '2025',
     role: 'UX/UI Designer',
     duration: '2 meses',
     tools: 'Figma · Hotjar',
-    color: '#2a2a2a',
+    color: 'var(--ink)',
     summary: 'Optimización del checkout móvil de una tienda online.',
     problem: 'Alta tasa de abandono del carrito en móvil.',
     process: [
@@ -119,12 +335,15 @@ export const projects = [
   },
   {
     title: 'Design System',
+    draft: true,
+    type: 'web',
+    tags: ['Design System', 'Accesibilidad'],
     client: 'Proyecto de ejemplo',
     year: '2024',
     role: 'UI Designer',
     duration: '6 meses',
     tools: 'Figma · Storybook',
-    color: '#d4d4d4',
+    color: 'var(--brand-soft)',
     summary: 'Sistema de diseño accesible para 3 productos.',
     problem: 'Cada producto tenía estilos distintos y el desarrollo era lento.',
     process: [
@@ -134,13 +353,25 @@ export const projects = [
     ],
     metrics: [{ value: '2x', label: 'velocidad de entrega' }],
   },
-]
+].filter((p) => !p.draft)
 
 // Aplica la dirección de la web a las imágenes y videos de pantallas y casos
 screens.forEach((s) => { s.image = withBase(s.image) })
 projects.forEach((p) => {
   p.cover = withBase(p.cover)
   p.video = withBase(p.video)
+  p.gallery = p.gallery?.map(withBase)
+  if (p.flow) {
+    p.flow.src = withBase(p.flow.src)
+    p.flow.mobile = withBase(p.flow.mobile)
+  }
+  p.screens?.forEach((s) => { s.src = withBase(s.src) })
+  p.mobile?.screens?.forEach((s) => { s.src = withBase(s.src) })
+  if (p.promo) {
+    p.promo.src = withBase(p.promo.src)
+    p.promo.poster = withBase(p.promo.poster)
+  }
+  p.designSystem?.logos?.forEach((l) => { l.src = withBase(l.src) })
 })
 
 // Nombre del caso para su enlace propio: "App de salud" -> "app-de-salud" (tusitio.com/#caso/app-de-salud)

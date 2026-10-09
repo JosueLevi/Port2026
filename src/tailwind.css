@@ -1,0 +1,28 @@
+/* Tailwind solo para los componentes de Rare UI (src/components/ui) y de HeroUI.
+   Sin "preflight": así no cambia ningún estilo de styles.css. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+/* Solo genera clases para los componentes de Rare UI, no para el resto de la web */
+@source "./components/ui";
+
+/* HeroUI (https://heroui.com): variables del tema y solo los componentes que usamos.
+   Para usar otro, añade aquí su CSS, p. ej. "@heroui/styles/components/tooltip.css".
+   Los colores (--accent, --warning...) se ajustan en :root de styles.css. */
+@import "tw-animate-css";
+@import "@heroui/styles/themes/default" layer(theme);
+@import "@heroui/styles/utilities";
+@import "@heroui/styles/variants";
+@import "@heroui/styles/components/button.css" layer(components);
+@import "@heroui/styles/components/chip.css" layer(components);
+
+/* Mínimo reset para los componentes (sustituye al preflight de Tailwind) */
+@layer base {
+  [data-slot^="scroll-progress"] button {
+    border: 0; background: none; padding: 0;
+    font: inherit; color: inherit; cursor: pointer;
+  }
+  [data-slot^="scroll-progress"] ul { list-style: none; }
+  .button, .chip { border: 0 solid; font-family: inherit; letter-spacing: inherit; text-decoration: none; }
+  button.button { margin: 0; }
+}
