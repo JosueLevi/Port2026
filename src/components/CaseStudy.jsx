@@ -26,6 +26,9 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
   const total = projects.length
   const prevIndex = (index - 1 + total) % total
   const nextIndex = (index + 1) % total
+  // Con solo dos casos, un único enlace al otro, en el orden de la pila: "siguiente" en el primero y "anterior" en el segundo
+  const showPrev = total > 2 || index > 0
+  const showNext = total > 2 || index < total - 1
   // Datos del caso bajo la cabecera; los que falten en site.js no se muestran
   const facts = [['Rol', p.role], ['Plataforma', p.platform], ['Duración', p.duration], ['Herramientas', p.tools]].filter(([, value]) => value)
   // Texto de "Proceso": el del flujo, o uno propio si el caso no tiene imagen de flujo
@@ -258,14 +261,18 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
         {/* Al final, los otros casos; debajo viene el pie con el contacto */}
         {total > 1 && (
           <nav className="case__nav" aria-label="Otros casos de estudio">
-            <button onClick={() => onNavigate(prevIndex)}>
-              <span aria-hidden="true">←</span>
-              <span>Caso anterior<strong>{projects[prevIndex].title}</strong></span>
-            </button>
-            <button onClick={() => onNavigate(nextIndex)}>
-              <span>Siguiente caso<strong>{projects[nextIndex].title}</strong></span>
-              <span aria-hidden="true">→</span>
-            </button>
+            {showPrev && (
+              <button onClick={() => onNavigate(prevIndex)}>
+                <span aria-hidden="true">←</span>
+                <span>Caso anterior<strong>{projects[prevIndex].title}</strong></span>
+              </button>
+            )}
+            {showNext && (
+              <button className="case__next" onClick={() => onNavigate(nextIndex)}>
+                <span>Siguiente caso<strong>{projects[nextIndex].title}</strong></span>
+                <span aria-hidden="true">→</span>
+              </button>
+            )}
           </nav>
         )}
       </article>

@@ -102,6 +102,7 @@ export const screens = [
 // Solo hacen falta título, año, rol y resumen: lo demás (live, platform, duration, tools, description, problem,
 // users, process, flow, screens, mobile, promo, designSystem, decisions, gallery, stack, metrics, next) es opcional y, si no lo pones,
 // esa parte no sale en el caso.
+// `draft: true` deja el caso guardado aquí pero fuera de la web (los de ejemplo, hasta tener los reales).
 export const projects = [
   {
     title: 'Gestor de finanzas personales',
@@ -315,6 +316,7 @@ export const projects = [
   },
   {
     title: 'E-commerce',
+    draft: true,
     tags: ['E-commerce', 'Móvil'],
     client: 'Proyecto de ejemplo',
     year: '2025',
@@ -333,6 +335,7 @@ export const projects = [
   },
   {
     title: 'Design System',
+    draft: true,
     type: 'web',
     tags: ['Design System', 'Accesibilidad'],
     client: 'Proyecto de ejemplo',
@@ -350,7 +353,7 @@ export const projects = [
     ],
     metrics: [{ value: '2x', label: 'velocidad de entrega' }],
   },
-]
+].filter((p) => !p.draft)
 
 // Aplica la dirección de la web a las imágenes y videos de pantallas y casos
 screens.forEach((s) => { s.image = withBase(s.image) })
