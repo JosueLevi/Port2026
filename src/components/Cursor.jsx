@@ -12,14 +12,20 @@ export default function Cursor({ view }) {
   const [label, setLabel] = useState('')
 
   useEffect(() => {
+    const read = (el) => setLabel(el?.closest?.('[data-cursor]')?.dataset.cursor ?? '')
     const move = (e) => {
       x.set(e.clientX)
       y.set(e.clientY)
     }
-    const over = (e) => setLabel(e.target.closest?.('[data-cursor]')?.dataset.cursor ?? '')
+    const over = (e) => read(e.target)
+    // Si el texto cambia con el ratón quieto encima (p. ej. la pantalla que asomaba en el carrusel
+    // pasa a ser la actual), se vuelve a leer lo que hay bajo el ratón
+    const changed = new MutationObserver(() => read(document.elementFromPoint(x.get(), y.get())))
+    changed.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['data-cursor'] })
     window.addEventListener('pointermove', move)
     window.addEventListener('pointerover', over)
     return () => {
+      changed.disconnect()
       window.removeEventListener('pointermove', move)
       window.removeEventListener('pointerover', over)
     }

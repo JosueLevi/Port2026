@@ -553,33 +553,52 @@ img, video { display: block; max-width: 100%; }
 .case__points dt { font-weight: 600; }
 .case__points dd { margin-top: 4px; font-size: var(--size-small); line-height: 1.5; color: var(--muted); }
 /* Flujo de usuario, pasos y pantallas: a todo lo ancho, debajo del nombre de la parte */
-.case section > :is(.case__flow, .case__steps, .case__screens, .case__phones) { grid-column: 1 / -1; margin-top: clamp(8px, 1.5vw, 16px); }
+.case section > :is(.case__flow, .case__steps, .slider, .case__phones) { grid-column: 1 / -1; margin-top: clamp(8px, 1.5vw, 16px); }
 .case__flow img { width: 100%; height: auto; border-radius: 16px; }
 .case__screens img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 12px; }
 .case__screens figcaption { margin-top: 14px; font-size: var(--size-small); line-height: 1.5; color: var(--muted); }
 .case__screens figcaption strong { color: var(--ink); font-weight: 600; }
 /* Pantallas en carrusel, de borde a borde de la ventana: una grande y un pedazo de la siguiente (y de la anterior al avanzar).
    Cada deslizamiento se detiene en la pantalla siguiente, alineada con el texto de la página */
+.slider { position: relative; margin-inline: calc(-1 * var(--gutter)); }
 .case__screens {
   position: relative; display: flex; gap: clamp(12px, 2vw, 24px);
   overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
-  margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
+  padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
 }
 .case__screens::-webkit-scrollbar { display: none; }
 .case__screens:focus-visible { outline-offset: -2px; }
 .case__screens figure { flex: 0 0 76%; scroll-snap-align: start; scroll-snap-stop: always; }
 .case__screens figure:only-child { flex-basis: 100%; }
-/* Contador y flechas, a la derecha del nombre de la parte y a su altura */
-.case section > .slider__controls { justify-self: end; align-self: start; margin-top: -12px; }
-.slider__controls { display: flex; align-items: center; gap: 8px; }
-.slider__count { margin-right: 10px; font-size: var(--size-label); font-weight: 600; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
-.slider__button {
-  display: grid; place-items: center; width: 40px; height: 40px;
-  border: 1px solid var(--line); border-radius: 50%; background: var(--paper);
-  font: inherit; font-size: 18px; color: var(--ink); cursor: pointer; transition: border-color .2s, opacity .2s;
+/* Pista al verse por primera vez: las pantallas se corren a la izquierda y vuelven */
+.case__screens.is-hinting figure { animation: slider-hint 1.1s cubic-bezier(.45, 0, .2, 1) .35s; }
+@keyframes slider-hint { 0%, 100% { translate: 0; } 45% { translate: -56px 0; } }
+/* Flechas sobre las pantallas, a media altura de la imagen y en los bordes del texto de la página: la de "siguiente"
+   sobre la pantalla que asoma; la de "anterior" aparece al avanzar. En pantallas táctiles no van: ahí se desliza con el dedo */
+.slider__arrow {
+  position: absolute; top: var(--arrow-y, 40%); z-index: 1;
+  display: grid; place-items: center; width: 56px; height: 56px;
+  border: 0; border-radius: 50%; background: var(--ink); color: var(--paper);
+  font: inherit; font-size: 22px; cursor: pointer;
+  box-shadow: 0 8px 24px rgba(14, 14, 14, .24);
+  transition: opacity .25s, scale .2s, background-color .2s;
 }
-.slider__button:hover:not(:disabled) { border-color: var(--ink); }
-.slider__button:disabled { opacity: .3; cursor: default; }
+.slider__arrow--prev { left: var(--gutter); translate: -50% -50%; }
+.slider__arrow--next { right: var(--gutter); translate: 50% -50%; }
+.slider__arrow:hover { background: var(--brand); scale: 1.06; }
+.slider__arrow:disabled { opacity: 0; pointer-events: none; }
+@media (hover: none) { .slider__arrow { display: none; } }
+/* Barra de progreso: un tramo por pantalla (el de la que se ve, más largo y en negro) y el contador; cada tramo lleva a su pantalla */
+.case section > .slider__progress { grid-column: 1 / -1; }
+.slider__progress { display: flex; align-items: center; gap: 14px; }
+.slider__progress ol { list-style: none; display: flex; gap: 6px; }
+.slider__progress button { display: grid; align-items: center; width: 36px; height: 32px; padding: 0; border: 0; background: none; cursor: pointer; transition: width .3s; }
+.slider__progress button::before { content: ''; height: 3px; border-radius: 3px; background: var(--line); transition: background-color .25s; }
+.slider__progress button:hover::before { background: var(--muted); }
+.slider__progress button[aria-current] { width: 64px; }
+.slider__progress button[aria-current]::before { background: var(--ink); }
+.slider__count { font-size: var(--size-label); font-weight: 600; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+@media (pointer: coarse) { .slider__progress button { height: 44px; } }
 /* Versión móvil: las pantallas del celular en fila, de un lado al otro y sin pasar de 340px cada una */
 .case__phones { display: grid; grid-template-columns: repeat(4, minmax(0, 340px)); justify-content: space-between; gap: clamp(28px, 4vw, 40px) clamp(12px, 2vw, 32px); }
 .case__phones img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: clamp(10px, 1.1vw, 16px); }
@@ -660,7 +679,7 @@ img, video { display: block; max-width: 100%; }
 .fill-ink { fill: var(--ink); }
 
 @media (prefers-reduced-motion: reduce) {
-  .status__dot { animation: none; }
+  .status__dot, .case__screens figure { animation: none; }
 }
 
 /* Con el menú en español no cabe también el correo en pantallas medianas */
@@ -709,13 +728,11 @@ img, video { display: block; max-width: 100%; }
   .hero__intro { left: 50%; translate: -50% 0; top: 205px; bottom: auto; width: 92vw; max-width: none; text-align: center; }
   .hero__intro h1, .hero__intro p { font-size: var(--size-caption); }
   .case__nav { grid-template-columns: 1fr; }
-  .case section { grid-template-columns: 1fr; }
+  .case section { grid-template-columns: minmax(0, 1fr); }
   .case section > :not(h2) { grid-column: auto; }
   .case__phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .case__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .case__screens figure { flex-basis: 88%; }
-  /* El nombre de la parte y las flechas siguen en la misma fila */
-  .case section:has(> .slider__controls) { grid-template-columns: minmax(0, 1fr) auto; }
   .case__cover { aspect-ratio: 4 / 3; }
   .case__cover .device--mobile { width: 30%; }
   .case__cover .device--web { width: 80%; }
