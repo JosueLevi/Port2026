@@ -228,7 +228,7 @@ img, video { display: block; max-width: 100%; }
 }
 /* Personaje animado */
 .character { position: relative; isolation: isolate; }
-.character, .about__character { --char-ink: #000; --char-shoe: var(--pop); --char-light: #FBF4E9; --char-skin: #FBE0D6; --char-shade: #353331; }
+.character, .about__character { --char-ink: #000; --char-light: #FBF4E9; --char-skin: #FBE0D6; --char-shade: #353331; }
 .character__art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 /* Solo la cabeza, que se mueve al ritmo (pivote en el cuello) */
 .character__head {
