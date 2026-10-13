@@ -315,6 +315,125 @@ export const projects = [
     ],
   },
   {
+    title: 'Talmaclick',
+    type: 'web',
+    tags: ['BackOffice', 'Carga aérea'],
+    client: 'Talma',
+    year: '2025',
+    role: 'UX Designer y UX Researcher',
+    platform: 'Web responsive',
+    duration: '5 meses',
+    tools: 'Figma',
+    color: 'var(--ink)',
+    cover: '/assets/img/talmaclick-portada.webp',
+    screens: [
+      {
+        src: '/assets/img/talmaclick-inicio.webp',
+        title: 'Inicio',
+        caption: 'Un saludo con el nombre de la persona, el tipo de cambio del día, accesos rápidos y las novedades del servicio de carga en tarjetas.',
+        alt: 'Inicio de Talmaclick con el saludo, el tipo de cambio, los accesos rápidos y tarjetas de Facturación y Citas y Track de carga',
+      },
+      {
+        src: '/assets/img/talmaclick-vuelos.webp',
+        title: 'Avance de vuelos',
+        caption: 'Cada vuelo de exportación en una fila, con barras de avance para confirmación de AWBs, paletizaje y despacho, y su estado con texto y color.',
+        alt: 'Tabla de avance de vuelos de exportación con barras amarillas, verdes y azules de avance y etiquetas de estado En curso, Cerrado y Despachado',
+      },
+      {
+        src: '/assets/img/talmaclick-validaciones.webp',
+        title: 'Gestión de validaciones',
+        caption: 'Las validaciones se agrupan en un menú lateral y cada una tiene sus filtros y su tabla, con el estado de cada documento a la vista.',
+        alt: 'Gestión de validaciones con el menú de Restricción SENASA, los filtros de DAM afectadas y una tabla con estados En revisión y Rechazado',
+      },
+      {
+        src: '/assets/img/talmaclick-reclamos.webp',
+        title: 'Quejas y reclamos',
+        caption: 'Filtros por categoría, estado, fecha y número de caso, y una lista donde cada reclamo muestra su estado y su PDF.',
+        alt: 'Registro de quejas y reclamos con filtros arriba y una lista de casos con estados como Cerrado, Recibido, Abierto y Con respuesta',
+      },
+      {
+        src: '/assets/img/talmaclick-track.webp',
+        title: 'Track sin resultados',
+        caption: 'Cuando una búsqueda no encuentra la carga, un mensaje claro explica qué pasó y cómo seguir, en lugar de una tabla vacía.',
+        alt: 'Búsqueda de tracking de exportaciones con el panel de filtros y un mensaje que dice que el track no ha sido encontrado',
+      },
+      {
+        src: '/assets/img/talmaclick-arquitectura.webp',
+        title: 'Arquitectura de la información',
+        caption: 'De 9 opciones con siglas internas a 3 módulos y 2 niveles, ordenados por lo que llega, lo que sale y lo que requiere atención.',
+        alt: 'Antes: 9 opciones de menú con siglas operativas. Después: Talmaclick BackOffice con los módulos Notificaciones, Importación y Exportación',
+      },
+      {
+        src: '/assets/img/talmaclick-responsive.webp',
+        title: 'Diseño responsive',
+        caption: 'En pantallas pequeñas la tabla pasa a tarjetas y la barra lateral a una navegación inferior.',
+        alt: 'Esquema del sistema en desktop de 1440 px, tablet de 1024 px y móvil de 390 px',
+      },
+    ],
+    summary: 'De un sistema que exigía capacitación a uno que se entiende al usarlo.',
+    live: {
+      url: 'https://www.figma.com/proto/7me53Xz44z08Sp76tqrKQP/Talmaclick-1.5-COPIA?page-id=1%3A2&node-id=335-7214&starting-point-node-id=335%3A7439',
+      label: 'Ver prototipo en Figma',
+    },
+    description:
+      'Talmaclick es la plataforma digital del servicio de carga de Talma. Su BackOffice es la herramienta diaria con la que operadores de carga y agentes gestionan la importación y exportación de carga aérea. La versión 1.5 es la versión final del rediseño completo de ese sistema, hecho junto al Product Owner, UI, desarrollo y negocio.',
+    problem: [
+      'El sistema anterior había crecido por acumulación de funciones. Funcionaba, pero cada tarea dependía de saber dónde estaba cada opción: encontrar el estado de una guía tomaba 7 minutos, porque su información estaba repartida en tres pantallas, y el menú principal tenía 9 opciones con nombres técnicos que los agentes externos no reconocían.',
+      'El 40 % de las consultas a soporte eran dudas de uso del sistema, no incidencias reales de la carga. La pregunta de diseño fue: ¿cómo podríamos lograr que operadores y agentes gestionen su carga de forma rápida y sin errores, sin depender de una capacitación previa?',
+    ],
+    users: [
+      {
+        title: 'Carlos, operador de carga',
+        text: 'Trabaja en el almacén de importación, de pie y con poco tiempo entre tareas. Necesita registrar recepciones e inspecciones rápido desde la tablet, sin volver a la PC solo para cambiar el estado de una guía.',
+      },
+      {
+        title: 'Lucía, agente de carga',
+        text: 'Trabaja en una agencia de carga internacional y sigue varias guías al día desde el escritorio. Necesita saber al instante si la carga de su cliente está lista para retirar y qué documento falta, sin llamar al counter.',
+      },
+    ],
+    processCaption:
+      'Cinco meses, siempre con el usuario en el centro. Hice 12 entrevistas a profundidad (6 operadores y 6 agentes, de unos 45 minutos y en su puesto de trabajo cuando fue posible) y salieron cuatro hallazgos: la información de una guía estaba fragmentada, el lenguaje era interno y no del usuario, el estado de la carga no era visible y no todos trabajan frente a un escritorio. Con un card sorting abierto con 15 usuarios pasamos de 9 opciones en el menú a 3 módulos (Notificaciones, Importación y Exportación), con un máximo de dos niveles.',
+    process: [
+      { title: 'Descubrir', text: 'Mes 1. Entrevistas a usuarios finales y observación del sistema actual.' },
+      { title: 'Definir', text: 'Mes 2. Síntesis de hallazgos, perfiles de usuario y prioridades.' },
+      { title: 'Estructurar', text: 'Meses 2 y 3. Card sorting y nueva arquitectura de la información.' },
+      { title: 'Diseñar y validar', text: 'Meses 3 y 4. Wireframes, prototipo y dos rondas de pruebas de usabilidad.' },
+      { title: 'Adaptar', text: 'Mes 5. Diseño responsive y entrega de la versión 1.5.' },
+    ],
+    decisions: [
+      { title: 'Toda la guía en una sola pantalla', text: 'El detalle de la guía reúne su resumen, el estado, una línea de tiempo del proceso, los documentos y la acción principal. Así se ve qué pasó, qué falta y cuál es el siguiente paso sin llamar al counter.' },
+      { title: 'Búsqueda única por guía', text: 'El número de guía (AWB) es el punto de entrada para todo, como ya lo usaban los usuarios.' },
+      { title: 'Estados con color y texto', text: 'Cada estado combina etiqueta, color y contraste suficiente; nunca depende solo del color.' },
+      { title: 'Lenguaje del usuario', text: 'Reemplazamos las siglas internas por términos validados con agentes y operadores.' },
+      { title: 'Del escritorio al almacén', text: 'Tres puntos de quiebre: tabla completa en escritorio (1440 px), tarjetas táctiles en tablet (1024 px) y consulta rápida en el celular (390 px), con la barra lateral convertida en navegación inferior.' },
+    ],
+    // Recorrido de producto de 20 segundos, sin sonido
+    promo: {
+      src: '/assets/video/talmaclick-recorrido.mp4',
+      poster: '/assets/img/talmaclick-recorrido.webp',
+      caption: 'Veamos cómo funciona Talmaclick.',
+    },
+    // Colores medidos en las pantallas del producto
+    designSystem: {
+      caption:
+        'La paleta sale de la marca Talma: el azul como color principal en la barra lateral y los botones, y el verde del logo para destacar y confirmar. El amarillo se reserva para el avance, y los estados siempre llevan texto además de color.',
+      colors: [
+        { name: 'Azul Talma', value: '#002D74' },
+        { name: 'Verde Talma', value: '#76BC21' },
+        { name: 'Amarillo avance', value: '#FFCC00' },
+        { name: 'Azul destacado', value: '#0068F3' },
+        { name: 'Fondo', value: '#F2F3F8' },
+        { name: 'Blanco', value: '#FFFFFF' },
+      ],
+      components: [
+        { title: 'Navegación', text: 'Barra lateral de íconos con notificaciones, menús de sección y accesos rápidos.' },
+        { title: 'Entradas', text: 'Filtros con etiqueta, selectores, calendarios y buscador por número de guía.' },
+        { title: 'Datos', text: 'Tablas y listas en tarjetas, barras de avance y paginación.' },
+        { title: 'Feedback', text: 'Etiquetas de estado, mensajes sin resultados con ilustración y modales de confirmación.' },
+      ],
+    },
+  },
+  {
     title: 'E-commerce',
     draft: true,
     tags: ['E-commerce', 'Móvil'],

@@ -126,7 +126,7 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
                   ))}
                 </ol>
               ) : (
-                <ol className="case__steps">
+                <ol className="case__steps" style={{ '--steps': Math.min(p.process.length, 6) }}>
                   {p.process.map((step) => (
                     <li key={step.title}>
                       <strong>{step.title}</strong>
