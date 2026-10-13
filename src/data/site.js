@@ -218,6 +218,10 @@ export const projects = [
     cover: '/assets/img/raven-portada.webp',
     coverPosition: 'top',
     summary: 'Pronosticar la cosecha antes de cosecharla.',
+    live: {
+      url: 'https://www.figma.com/proto/EWnc3bpTzEjx9qcsd1tWUf/Raven-Phr?node-id=1-10559&starting-point-node-id=1%3A10559',
+      label: 'Ver prototipo en Figma',
+    },
     description:
       'Raven es una plataforma web para que las empresas agrícolas proyecten cuántas toneladas van a cosechar en una campaña, frente por frente y semana a semana, a partir de los datos que levantan en campo.',
     // Puede ir en varios párrafos
