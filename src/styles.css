@@ -540,10 +540,16 @@ img, video { display: block; max-width: 100%; }
 }
 .case h2 { color: var(--muted); }
 .case section > :not(h2) { grid-column: 2; }
-.case section p, .case__process { font-size: var(--size-body); line-height: 1.6; max-width: 62ch; }
+/* Los textos llenan todo el ancho de su columna, sin cortarse antes */
+.case section p, .case__process { font-size: var(--size-body); line-height: 1.6; }
+/* Textos del caso justificados desde tablet (en el celular la columna es tan angosta que quedan huecos grandes entre palabras) */
+@media (min-width: 641px) {
+  .case section p, .case__process li, .case__points dd, .case__steps span { text-align: justify; hyphens: auto; }
+}
 .case__process { padding-left: 22px; display: grid; gap: 8px; }
 /* Pasos con nombre y texto: numerados y en fila (de tres en tres en tablet y de dos en el celular) */
-.case__steps { list-style: none; counter-reset: paso; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 28px clamp(16px, 2vw, 24px); }
+/* Una columna por paso (--steps la pone CaseStudy.jsx), así la fila ocupa todo el ancho sin huecos al final */
+.case__steps { list-style: none; counter-reset: paso; display: grid; grid-template-columns: repeat(var(--steps, 6), minmax(0, 1fr)); gap: 28px clamp(16px, 2vw, 24px); }
 .case__steps li { counter-increment: paso; padding-top: 14px; border-top: 1px solid var(--line); }
 .case__steps li::before { content: counter(paso, decimal-leading-zero); font-size: var(--size-label); font-weight: 600; letter-spacing: .08em; color: var(--brand); }
 .case__steps strong { display: block; margin-top: 8px; font-weight: 600; }

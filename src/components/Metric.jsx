@@ -14,6 +14,9 @@ export default function Metric({ value }) {
   const [, before, num, after] = m
   const decimals = num.split(/[.,]/)[1]?.length ?? 0
   const target = Number(num.replace(',', '.'))
+  // El contador pinta el prefijo y el sufijo en cajas aparte, donde un espacio al borde se pierde
+  // ("8 de 8" salía "8de 8"): se cambia por un espacio que no se pierde
+  const keepSpaces = (text) => text.replace(/^ +| +$/g, (s) => ' '.repeat(s.length))
 
   return (
     <span ref={ref}>
@@ -21,8 +24,8 @@ export default function Metric({ value }) {
         value={inView ? target : 0}
         decimals={decimals}
         duration={1.1}
-        prefix={before.replace('-', '−') || undefined}
-        suffix={after || undefined}
+        prefix={keepSpaces(before.replace('-', '−')) || undefined}
+        suffix={keepSpaces(after) || undefined}
       />
     </span>
   )
