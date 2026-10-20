@@ -8,7 +8,7 @@ import { SectionMeta } from './SectionHead.jsx'
 export default function About() {
   return (
     <section id="about" className="about" aria-labelledby="about-title">
-      <SectionMeta number="03" label={site.sections.about.label} />
+      <SectionMeta number="04" label={site.sections.about.label} />
       <div className="about__grid">
         <motion.figure
           className="about__character"
@@ -61,7 +61,24 @@ export default function About() {
             </div>
           </div>
 
-          <a className={`${buttonVariants({ size: 'lg' })} cta`} href={site.cv} download>Descargar CV ↓</a>
+          {/* Cursos y certificaciones */}
+          {site.certifications?.length > 0 && (
+            <div className="about__certs">
+              <h3>Formación</h3>
+              <ul>
+                {site.certifications.map((c) => (
+                  <li key={c.title}>
+                    <strong>{c.title}</strong>
+                    <span>{[c.org, c.year].filter(Boolean).join(' · ')}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {site.cv && (
+            <a className={`${buttonVariants({ size: 'lg' })} cta`} href={site.cv} download>Descargar CV ↓</a>
+          )}
         </motion.div>
       </div>
     </section>

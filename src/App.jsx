@@ -7,6 +7,7 @@ import Nav from './components/Nav.jsx'
 import Hero from './components/Hero.jsx'
 import Work from './components/Work.jsx'
 import Process from './components/Process.jsx'
+import Skills from './components/Skills.jsx'
 import About from './components/About.jsx'
 import Contact from './components/Contact.jsx'
 import CaseStudy from './components/CaseStudy.jsx'
@@ -33,6 +34,7 @@ const sections = [
   { id: 'top', label: 'Inicio' },
   { id: 'work', label: 'Casos de estudio' },
   { id: 'process', label: 'Proceso' },
+  { id: 'skills', label: 'Competencias' },
   { id: 'about', label: 'Sobre mí' },
   { id: 'contact', label: 'Contacto' },
 ]
@@ -241,6 +243,7 @@ export default function App() {
         <div className="sheet">
           <Work onOpenProject={openCase} />
           <Process />
+          <Skills />
           <About />
         </div>
       </main>

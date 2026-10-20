@@ -13,14 +13,14 @@
   --font-text: 'Barlow', system-ui, sans-serif;
 
   /* Escala de tamaños: usa siempre uno de estos (el título de la portada va aparte) */
-  --size-display: clamp(40px, 6vw, 88px);    /* títulos de sección */
-  --size-title: clamp(32px, 4.6vw, 68px);    /* título del caso y correo del pie */
-  --size-headline: clamp(28px, 3vw, 44px);   /* títulos y cifras de las tarjetas de casos */
-  --size-heading: clamp(20px, 1.8vw, 26px);  /* títulos de los pasos */
-  --size-lead: clamp(20px, 1.9vw, 25px);     /* párrafos destacados */
-  --size-body: 18px;
-  --size-small: 16px;
-  --size-caption: 14px;                      /* datos y etiquetas de tarjetas */
+  --size-display: clamp(36px, 5.4vw, 78px);   /* títulos de sección */
+  --size-title: clamp(30px, 4.2vw, 60px);    /* título del caso y correo del pie */
+  --size-headline: clamp(26px, 2.7vw, 40px);  /* títulos y cifras de las tarjetas de casos */
+  --size-heading: clamp(18px, 1.6vw, 23px);  /* títulos de los pasos */
+  --size-lead: clamp(18px, 1.7vw, 22px);     /* párrafos destacados */
+  --size-body: 17px;
+  --size-small: 15px;
+  --size-caption: 13px;                      /* datos y etiquetas de tarjetas */
   --size-label: 12px;                        /* etiquetas en mayúsculas */
 
   /* Color: azul de la sudadera del personaje (jacketColor en site.js) + un acento cálido */
@@ -50,7 +50,7 @@
 
 /* Estilos de texto reutilizables */
 /* Etiqueta: pequeña, en mayúsculas y con aire entre letras */
-.section-meta, .about__lists h3, .case h2, .case__eyebrow, .case__facts dt, .case-card__meta, .contact__columns h3 {
+.section-meta, .about__lists h3, .about__certs h3, .case h2, .case__eyebrow, .case__facts dt, .case-card__meta, .contact__columns h3 {
   font-family: var(--font-text); font-weight: 600; font-size: var(--size-label);
   letter-spacing: .14em; text-transform: uppercase;
 }
@@ -429,6 +429,17 @@ img, video { display: block; max-width: 100%; }
 .process__item p { color: var(--muted); font-size: var(--size-small); line-height: 1.5; max-width: 32ch; }
 .process .line-icon { width: 30px; height: 30px; }
 
+/* Competencias en práctica: de dos en dos, cada una sobre una línea fina */
+.skills { padding: clamp(64px, 10vw, 140px) var(--gutter); }
+.skills__list { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px clamp(24px, 4vw, 64px); }
+.skills__item { padding-top: 20px; border-top: 1px solid var(--ink); }
+.skills__item h3 { font-family: var(--font-display); font-size: var(--size-heading); text-transform: uppercase; margin-bottom: 12px; }
+.skills__item p { color: var(--muted); font-size: var(--size-small); line-height: 1.6; }
+.skills__cases { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; margin-top: 14px; }
+.skills__cases span { font-size: var(--size-label); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.skills__cases a { color: var(--brand); font-weight: 600; }
+.skills__cases a:hover { text-decoration: underline; }
+
 /* About */
 .about { padding: clamp(64px, 10vw, 140px) var(--gutter); }
 .about__grid {
@@ -444,6 +455,12 @@ img, video { display: block; max-width: 100%; }
 .about__lists h3 { color: var(--muted); margin-bottom: 12px; }
 .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
 .tags .chip { font-size: var(--size-caption); font-weight: 500; padding: 6px 12px; }
+.about__certs { margin-top: 28px; }
+.about__certs h3 { color: var(--muted); margin-bottom: 12px; }
+.about__certs ul { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.about__certs li { display: grid; align-content: start; gap: 2px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; }
+.about__certs strong { font-weight: 600; }
+.about__certs span { color: var(--muted); font-size: var(--size-small); }
 
 /* Datos curiosos: una fila de iconos de línea con su texto, entre dos líneas finas */
 .facts {
@@ -624,6 +641,11 @@ img, video { display: block; max-width: 100%; }
 .case__logos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; }
 .case__logos div { display: grid; place-items: center; padding: clamp(28px, 4vw, 44px) 24px; border: 1px solid var(--line); border-radius: 12px; }
 .case__logos img { height: clamp(40px, 4.5vw, 60px); width: auto; max-width: 100%; }
+/* Láminas del sistema de diseño: a todo lo ancho, una al lado de otra y alineadas arriba */
+.case section > .case__sheets { grid-column: 1 / -1; margin-top: clamp(16px, 2.5vw, 32px); }
+.case__sheets { display: grid; grid-template-columns: 1fr 0.7fr 2fr; gap: clamp(12px, 2vw, 24px); align-items: start; }
+.case__sheets img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.case__sheets figcaption { margin-top: 10px; font-size: var(--size-small); color: var(--muted); }
 /* Más imágenes del caso: una debajo de otra o lado a lado si caben; las muy altas se recortan por arriba y por abajo */
 .case__gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; margin-bottom: clamp(48px, 6vw, 96px); }
 .case__gallery img { width: 100%; height: auto; max-height: 80vh; object-fit: cover; border-radius: 16px; }
@@ -710,6 +732,10 @@ img, video { display: block; max-width: 100%; }
   .case__colors { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .about__lists { grid-template-columns: 1fr; }
   .process__list { grid-template-columns: repeat(2, 1fr); }
+  .skills__list { grid-template-columns: 1fr; }
+  .about__certs ul { grid-template-columns: 1fr; }
+  .case__sheets { grid-template-columns: 1fr 1fr; }
+  .case__sheets figure:last-child { grid-column: 1 / -1; }
   .case-card { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   /* Casos con imagen o video propio: la imagen va abajo, a lo ancho y apaisada, para que no se corte por los lados */
   .case-card:has(.case-card__media > :is(img, video)) { display: flex; flex-direction: column; }

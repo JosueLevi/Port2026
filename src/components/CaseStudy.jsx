@@ -205,6 +205,17 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
               </div>
             )}
             {p.designSystem.components?.length > 0 && <Points items={p.designSystem.components} />}
+            {/* Láminas del sistema de diseño en Figma, cada una con su nombre debajo */}
+            {p.designSystem.sheets?.length > 0 && (
+              <div className="case__sheets">
+                {p.designSystem.sheets.map((s) => (
+                  <figure key={s.src}>
+                    <img src={s.src} alt={s.alt ?? s.title} loading="lazy" />
+                    <figcaption>{s.title}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
           </section>
         )}
 
