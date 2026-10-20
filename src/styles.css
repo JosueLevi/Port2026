@@ -655,6 +655,7 @@ img, video { display: block; max-width: 100%; }
 .case__stack div:nth-child(-n + 2) { border-top: 0; padding-top: 0; }
 .case__stack dt { color: var(--muted); font-size: var(--size-small); }
 .case__stack dd { font-size: var(--size-small); font-weight: 500; }
+.case__stack a { text-decoration: underline; text-underline-offset: 3px; }
 /* Resultados: número grande bajo una línea */
 .case__metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
 .case__metrics div { padding-top: 16px; border-top: 1px solid var(--ink); }

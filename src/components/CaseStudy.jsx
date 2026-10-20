@@ -226,6 +226,14 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
           </section>
         )}
 
+        {/* Partes con nombre propio (p. ej. Desarrollo, Accesibilidad, Aprendizajes), cada una con sus puntos */}
+        {p.extras?.map((x) => (
+          <section key={x.title}>
+            <h2>{x.title}</h2>
+            <Points items={x.items} />
+          </section>
+        ))}
+
         {p.gallery?.length > 0 && (
           <div className="case__gallery">
             {p.gallery.map((src) => (
@@ -266,6 +274,29 @@ export default function CaseStudy({ index, onClose, onNavigate }) {
           <section>
             <h2>Siguientes pasos</h2>
             <Points items={p.next} />
+          </section>
+        )}
+
+        {/* Créditos de recursos de terceros (modelos, librerías, fuentes), con enlace si lo tienen */}
+        {p.credits?.length > 0 && (
+          <section>
+            <h2>Créditos</h2>
+            <dl className="case__stack">
+              {p.credits.map((c) => (
+                <div key={c.label}>
+                  <dt>{c.label}</dt>
+                  <dd>
+                    {c.url ? (
+                      <a href={c.url} target="_blank" rel="noreferrer">
+                        {c.text}<span className="sr-only"> (se abre en otra pestaña)</span>
+                      </a>
+                    ) : (
+                      c.text
+                    )}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </section>
         )}
 

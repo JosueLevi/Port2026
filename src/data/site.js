@@ -160,7 +160,7 @@ export const screens = [
 // Sin portada se muestra un móvil o un navegador de ejemplo (`type: 'web'`) sobre el color del caso.
 // `tags`: etiquetas cortas que se ven en la tarjeta (tipo de proyecto, plataforma...).
 // Solo hacen falta título, año, rol y resumen: lo demás (live, platform, duration, tools, description, problem,
-// users, process, flow, screens, mobile, promo, designSystem, decisions, gallery, stack, metrics, next) es opcional y, si no lo pones,
+// users, process, flow, screens, mobile, promo, designSystem, decisions, gallery, stack, metrics, next, extras, credits) es opcional y, si no lo pones,
 // esa parte no sale en el caso.
 // `draft: true` deja el caso guardado aquí pero fuera de la web (los de ejemplo, hasta tener los reales).
 export const projects = [
@@ -504,23 +504,88 @@ export const projects = [
     },
   },
   {
-    title: 'E-commerce',
-    draft: true,
-    tags: ['E-commerce', 'Móvil'],
-    client: 'Proyecto de ejemplo',
-    year: '2025',
-    role: 'UX/UI Designer',
-    duration: '2 meses',
-    tools: 'Figma · Hotjar',
+    title: 'Lotus Exige 240',
+    type: 'web',
+    tags: ['Web 3D', 'Front-end'],
+    client: 'Proyecto personal',
+    year: '2026',
+    role: 'Diseño y desarrollo front-end',
+    platform: 'Web responsive',
+    tools: 'HTML · CSS · JavaScript · Three.js',
     color: 'var(--ink)',
-    summary: 'Optimización del checkout móvil de una tienda online.',
-    problem: 'Alta tasa de abandono del carrito en móvil.',
+    cover: '/assets/img/lotus-portada.webp',
+    summary: 'Puro instinto: un deportivo contado como una experiencia, no como una ficha técnica.',
+    live: { url: 'https://josuelevi.github.io/lotus-exige-3d/', label: 'Ver la web' },
+    description:
+      'Una web de storytelling en dos tiempos: un recorrido guiado por el diseño del Lotus Exige 240 y, al final, un visor 3D para explorarlo libremente. Una experiencia ligera y completa que combina narrativa, diseño editorial y 3D interactivo en una web estática que se publica sola con cada cambio.',
+    problem:
+      'Presentar un coche deportivo en la web de forma que se sienta como una experiencia y no como una ficha técnica. El objetivo era contar el diseño del Lotus Exige 240 paso a paso y, al final, dejar que el usuario lo explore libremente en 3D, sin que la web se vuelva pesada ni difícil de usar.',
+    processCaption: 'Una web de storytelling en dos tiempos.',
     process: [
-      'Análisis de mapas de calor y grabaciones de sesión.',
-      'Checkout en una sola página con pago exprés.',
-      'Test A/B frente al flujo anterior.',
+      {
+        title: 'Recorrido guiado',
+        text: 'El coche entra desde el borde de la pantalla con las ruedas girando y frena suavemente. A partir de ahí, seis capítulos ligados al scroll mueven la cámara alrededor del modelo para mostrar sus rasgos clave: la silueta baja, las tomas de aire, el alerón trasero y el habitáculo.',
+      },
+      {
+        title: 'Exploración libre',
+        text: 'En el último capítulo se activa un visor interactivo dentro de un “estudio nocturno” donde el usuario puede girar el coche, elegir vistas predefinidas (frente, perfil, trasera, interior), cambiar el color, abrir las puertas, hacer zoom y tocar puntos interactivos que explican cada detalle.',
+      },
     ],
-    metrics: [{ value: '+18%', label: 'conversión móvil' }],
+    screens: [
+      { src: '/assets/img/lotus-silueta.webp', title: 'La silueta', caption: 'Cada capítulo tiene un título y una frase; el 3D es el protagonista.', alt: 'Capítulo “Pegado al asfalto”: el Exige de perfil sobre fondo claro' },
+      { src: '/assets/img/lotus-tomas-de-aire.webp', title: 'Tomas de aire', caption: 'Los capítulos alternan fondo claro y oscuro para marcar el ritmo del recorrido.', alt: 'Capítulo “El aire tiene forma”: el Exige sobre fondo oscuro' },
+      { src: '/assets/img/lotus-trasera.webp', title: 'La parte trasera', caption: 'La cámara se mueve con el scroll hasta el alerón y los pilotos circulares.', alt: 'Capítulo “Imposible confundirlo”: la parte trasera del Exige con su alerón' },
+      { src: '/assets/img/lotus-habitaculo.webp', title: 'El habitáculo', caption: 'Las puertas se abren para mirar dentro y descubrir el espacio del conductor.', alt: 'Capítulo “Tu sitio. Tu instinto.”: el Exige con las puertas abiertas' },
+      { src: '/assets/img/lotus-visor.webp', title: 'Visor 3D', caption: 'En el estudio nocturno se elige vista, color, puertas y zoom, y los puntos explican cada detalle.', alt: 'Visor activado con puntos de Interior, Alerón y Tomas de aire, y el panel de vistas' },
+    ],
+    decisions: [
+      { title: 'Tipografía con carácter', text: 'Barlow Condensed Black Italic para los titulares grandes, inclinados y rápidos, como el propio coche; Montserrat para la marca.' },
+      { title: 'Paleta mínima', text: 'Blanco, negro y un rojo de acento (#ff0e49). Los capítulos alternan fondo claro y oscuro para marcar el ritmo del recorrido, y el estudio final usa luz suave, un halo rojo y un reflejo tenue bajo el coche.' },
+      { title: 'Textos cortos', text: 'Cada capítulo tiene un título y una frase. El 3D es el protagonista; el texto solo lo acompaña.' },
+      { title: 'Honestidad en el contenido', text: 'Se describen solo rasgos visibles del modelo, sin inventar potencia, año ni equipamiento, y los colores alternativos se indican como ilustrativos.' },
+    ],
+    // Partes con nombre propio: cada una sale con su título y sus puntos (nombre y texto)
+    extras: [
+      {
+        title: 'Desarrollo',
+        items: [
+          { title: 'Sin frameworks ni build', text: 'HTML, CSS y JavaScript puro con un import map. Three.js, el decodificador Draco, las fuentes y el modelo se sirven desde el propio proyecto, sin depender de CDNs.' },
+          { title: 'Escena 3D con Three.js', text: 'Modelo GLB comprimido con Draco (~1,7 MB), iluminación de entorno (RoomEnvironment), tone mapping ACES y sombras suaves. Las puertas se abren rotando sus bisagras sobre el eje correcto de cada pieza.' },
+          { title: 'Cámara guiada por scroll', text: 'Cada capítulo define una pose de cámara y la web interpola entre ellas según el avance del scroll.' },
+          { title: 'Rendimiento', text: 'La escena solo se vuelve a dibujar cuando algo cambia, la resolución de render tiene un límite (más bajo en móvil) y el mapa de sombras se actualiza únicamente cuando el coche o las puertas se mueven.' },
+          { title: 'Despliegue automático', text: 'Un flujo de GitHub Actions comprueba el JavaScript y los archivos principales, versiona app.js y design.css para evitar problemas de caché y publica la carpeta dist/ en GitHub Pages.' },
+        ],
+      },
+      {
+        title: 'Accesibilidad y casos límite',
+        items: [
+          { title: 'Teclado', text: 'Flechas para girar, + / − para zoom y Esc para salir del visor.' },
+          { title: 'Movimiento reducido', text: 'Respeta la preferencia de movimiento reducido del sistema y permite saltar o repetir la animación de entrada.' },
+          { title: 'Si algo falla', text: 'Si WebGL no está disponible o falla, se muestra una imagen alternativa del coche y el recorrido sigue funcionando. Sin JavaScript, el contenido sigue siendo legible.' },
+          { title: 'Adaptable', text: 'Diseño adaptable a escritorio, tablet y móvil, con textos de ayuda distintos para ratón y pantalla táctil.' },
+        ],
+      },
+      {
+        title: 'Aprendizajes',
+        items: [
+          { title: 'Luz, cámara y encuadre', text: 'Que el 3D se vea bien depende tanto de la luz, la cámara y el encuadre como del modelo en sí.' },
+          { title: 'Renderizar solo cuando hace falta', text: 'Marca una gran diferencia en batería y fluidez, sobre todo en móvil.' },
+          { title: 'Pensar en los fallos desde el principio', text: 'Qué pasa sin WebGL, sin JS o con movimiento reducido: así la experiencia es sólida para todos.' },
+        ],
+      },
+    ],
+    stack: [
+      { label: 'Frontend', value: 'HTML, CSS y JavaScript (módulos ES)' },
+      { label: '3D', value: 'Three.js y Draco' },
+      { label: 'Publicación', value: 'GitHub Pages con GitHub Actions' },
+    ],
+    // Créditos al final del caso
+    credits: [
+      { label: 'Modelo 3D', text: '“AC - Lotus Exige 240 FREE” de David & 3D (Sketchfab)', url: 'https://sketchfab.com/DavidAnd3D' },
+      { label: 'Librería', text: 'Three.js (MIT)' },
+      { label: 'Fuentes', text: 'Barlow Condensed y Montserrat (OFL)' },
+      { label: 'Nota', text: 'Proyecto conceptual independiente, sin relación oficial con Lotus.' },
+    ],
   },
   {
     title: 'Design System',
