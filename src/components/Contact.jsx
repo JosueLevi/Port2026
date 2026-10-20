@@ -8,6 +8,7 @@ const links = [
   { label: 'Inicio', href: '#top' },
   { label: 'Proyectos', href: '#work' },
   { label: 'Proceso', href: '#process' },
+  { label: 'Competencias', href: '#skills' },
   { label: 'Sobre mí', href: '#about' },
 ]
 
@@ -29,7 +30,7 @@ export default function Contact() {
 
   return (
     <footer id="contact" className="contact" aria-labelledby="contact-title">
-      <SectionHead id="contact-title" number="04" section={site.sections.contact}>
+      <SectionHead id="contact-title" number="05" section={site.sections.contact}>
         {site.notes?.contact && <p className="note note--contact" aria-hidden="true">{site.notes.contact}</p>}
       </SectionHead>
 

@@ -10,7 +10,8 @@ export const site = {
   role: 'UX/UI Designer',
   location: 'LIMA, PERÚ',
   email,
-  cv: withBase('/cv.pdf'), // pon tu CV en /public/cv.pdf
+  // CV para descargar: pon el archivo en /public/cv.pdf y aquí withBase('/cv.pdf'); con null no sale el botón
+  cv: null,
   // Color de la chaqueta del personaje (null = negro original). Ej: '#2f5bea'
   jacketColor: '#2f5bea',
 
@@ -34,6 +35,10 @@ export const site = {
       label: 'Proceso',
       title: 'Cómo trabajo',
       intro: 'Mi receta para pasar de una idea a un producto que la gente usa de verdad.',
+    },
+    skills: {
+      label: 'Competencias',
+      title: 'En la práctica',
     },
     about: { label: 'Perfil', title: 'Sobre mí' },
     // El pie de la página
@@ -69,8 +74,63 @@ export const site = {
   },
 
   skills: ['UX Research', 'Arquitectura de información', 'Wireframes', 'UI Design', 'Design Systems', 'Prototipado', 'Testing de usabilidad', 'Accesibilidad (WCAG)'],
-  tools: ['Figma', 'Figma Make', 'FigJam', 'Maze', 'Notion', 'Miro', 'Protopie', 'Webflow', 'HTML', 'CSS', 'JavaScript', 'Codex', 'Claude'],
+  tools: ['Figma', 'Figma Make', 'FigJam', 'Maze', 'Hotjar', 'GA4', 'Power BI', 'Notion', 'Miro', 'Protopie', 'Webflow', 'HTML', 'CSS', 'JavaScript', 'Codex', 'Claude'],
+  // Cursos y certificaciones (salen en "Sobre mí", debajo de las herramientas). `year` es opcional
+  certifications: [
+    { title: 'UX/UI 360°', org: 'Toulouse Lautrec', year: '2026' },
+    { title: 'UX Writer', org: 'Udemy', year: '2026' },
+    { title: 'Google UX Design Certificate', org: 'Google', year: '2023' },
+    { title: 'Product Designer', org: 'Udemy', year: '2022' },
+    { title: 'Especialista en Microsoft Excel Nivel Avanzado', org: 'IDAT', year: '2022' },
+    { title: 'CCNA 3', org: 'Cisco', year: '2022' },
+    { title: 'CareerFoundry UX Design Certification', org: 'CareerFoundry', year: '2021' },
+    { title: 'Scrum Master', year: '2021' },
+  ],
 }
+
+// Competencias en práctica: cada una con dónde se ve en los casos. `cases`: títulos de casos de `projects`
+// (salen como enlaces que abren el caso). Solo lo que de verdad hiciste: en una entrevista te lo van a preguntar
+export const competencies = [
+  {
+    title: 'Figma de punta a punta',
+    text: 'User flows, wireframes de baja fidelidad, prototipos navegables e interfaces de alta fidelidad, todo en Figma. Raven son 49 pantallas, y los dos prototipos se pueden abrir desde su caso.',
+    cases: ['Raven', 'Talmaclick'],
+  },
+  {
+    title: 'Design System',
+    text: 'Phonesys, el sistema de diseño de Raven: estilos de color con escalas y colores de estado, tipografía, íconos, y 335 componentes con variantes (con fondo, de contorno y sin fondo) y estados para mantener la consistencia visual.',
+    cases: ['Raven'],
+  },
+  {
+    title: 'Discovery y arquitectura de información',
+    text: '12 entrevistas a profundidad y un card sorting abierto con 15 usuarios para reordenar el sistema: de 9 opciones de menú con siglas internas a 3 módulos y 2 niveles.',
+    cases: ['Talmaclick'],
+  },
+  {
+    title: 'Validación con usuarios',
+    text: 'Pruebas de usabilidad con prototipos en Maze, con tareas reales, para encontrar problemas antes de pasar a desarrollo y convertirlos en cambios concretos de diseño.',
+  },
+  {
+    title: 'Analítica para encontrar oportunidades',
+    text: 'Hotjar para ver mapas de calor y grabaciones de sesión, y consultas en GA4 y Power BI para medir comportamiento, abandono y eficiencia de las tareas.',
+  },
+  {
+    title: 'Accesibilidad',
+    // Solo lo verificado: contrastes medidos en las paletas de los casos
+    text: 'Textos con contraste AA: el azul de Talmaclick con blanco llega a 12,9:1 y el texto de Raven sobre blanco a 13:1. Los estados nunca dependen solo del color, siempre llevan texto (WCAG 1.4.1).',
+    cases: ['Raven', 'Talmaclick'],
+  },
+  {
+    title: 'Usuario, negocio y tecnología',
+    text: 'Diseño junto a Product Owner, desarrollo y negocio, y sustento cada decisión con lo que vi en la investigación. En el gestor de finanzas también hice el desarrollo, en React y Supabase.',
+    cases: ['Talmaclick', 'Gestor de finanzas personales'],
+  },
+  {
+    title: 'Plataformas transaccionales, autoservicio y móvil',
+    text: 'Un BackOffice de carga aérea donde los agentes gestionan sus guías sin llamar al counter, una plataforma de pronóstico de cosecha y una app de finanzas pensada también para el celular.',
+    cases: ['Talmaclick', 'Raven', 'Gestor de finanzas personales'],
+  },
+]
 
 // Pasos del proceso de diseño
 export const process = [
@@ -303,6 +363,12 @@ export const projects = [
         { title: 'Datos', text: 'Tablas paginadas, barras de meta e indicadores circulares.' },
         { title: 'Feedback', text: 'Toasts, cargadores, confirmaciones y etiquetas de estado.' },
       ],
+      // Láminas del sistema de diseño en Figma (salen al final, una al lado de otra; en el celular, una debajo de otra)
+      sheets: [
+        { src: '/assets/img/raven-ds-colores.webp', title: 'Colores', alt: 'Lámina de colores de Phonesys: escalas de 50 a 900 del verde primario, el verde azulado y el naranja secundarios, grises, colores de estado y sombras' },
+        { src: '/assets/img/raven-ds-tipografia.webp', title: 'Tipografía', alt: 'Lámina de tipografía de Phonesys con la escala de títulos, de Title y H1 a Small' },
+        { src: '/assets/img/raven-ds-componentes.webp', title: 'Botones, íconos y combos', alt: 'Lámina de componentes de Phonesys: botones con fondo, de contorno y sin fondo en sus estados, la librería de íconos y los combos con sus variaciones' },
+      ],
     },
     // Decisiones de diseño (salen después del sistema de diseño, de dos en dos)
     decisions: [
@@ -495,6 +561,7 @@ projects.forEach((p) => {
     p.promo.poster = withBase(p.promo.poster)
   }
   p.designSystem?.logos?.forEach((l) => { l.src = withBase(l.src) })
+  p.designSystem?.sheets?.forEach((l) => { l.src = withBase(l.src) })
 })
 
 // Nombre del caso para su enlace propio: "App de salud" -> "app-de-salud" (tusitio.com/#caso/app-de-salud)
