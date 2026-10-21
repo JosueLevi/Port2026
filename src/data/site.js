@@ -29,7 +29,7 @@ export const site = {
     work: {
       label: 'Trabajo seleccionado',
       title: 'Casos de estudio',
-      intro: 'Proyectos donde el diseño movió métricas. Haz clic en uno para ver cómo lo hice.',
+      intro: 'Proyectos reales, del problema a la solución. Haz clic en uno para ver cómo lo hice.',
     },
     process: {
       label: 'Proceso',
@@ -55,8 +55,9 @@ export const site = {
   ],
 
   // Cuéntalo con tus palabras: tu historia y el tipo de equipo que buscas
+  // Versión anterior: 'Ingeniero de Sistemas con cuatro años de experiencia especializada en diseño UX/UI, con un enfoque en diseño web, desarrollo de aplicaciones y plataformas digitales. A lo largo de mi carrera, he perfeccionado mis habilidades para crear soluciones innovadoras, funcionales y altamente intuitivas, siempre orientadas a ofrecer un valor excepcional a los clientes.'
   about:
-    'Ingeniero de Sistemas con cuatro años de experiencia especializada en diseño UX/UI, con un enfoque en diseño web, desarrollo de aplicaciones y plataformas digitales. A lo largo de mi carrera, he perfeccionado mis habilidades para crear soluciones innovadoras, funcionales y altamente intuitivas, siempre orientadas a ofrecer un valor excepcional a los clientes.',
+    'Ingeniero de Sistemas y diseñador UX/UI con cuatro años de experiencia. Diseño productos digitales complejos, como BackOffices logísticos, plataformas agrícolas y apps de finanzas, partiendo de investigación con usuarios: entrevistas, card sorting y pruebas con prototipos. Me muevo cómodo entre Figma y el código, y busco equipos de producto donde el diseño se decida con datos y con los usuarios.',
 
   // Datos curiosos de "Sobre mí". Iconos: coffee, music, ball, pin, search, map, pencil, check
   facts: [
