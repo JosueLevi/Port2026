@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { site } from '../data/site.js'
 import { characterArt as art } from '../data/characterArt.js'
+import GooFilter from './Goo.jsx'
 
 const ease = [0.22, 1, 0.36, 1]
 
@@ -124,6 +125,11 @@ export default function Character() {
   }
 
   const show = hover || clicked || auto
+  const gooId = `bubble-goo-${useId().replace(/:/g, '')}`
+  const [reduce] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+  // Al aparecer, primero las gotas y luego el globo; al irse, al revés
+  const pop = (delayIn, delayOut) =>
+    reduce ? { duration: 0 } : { type: 'spring', stiffness: 420, damping: 24, delay: show ? delayIn : delayOut }
 
   return (
     <motion.div
@@ -166,17 +172,27 @@ export default function Character() {
         </motion.button>
       </motion.div>
 
-      {/* Saludo al entrar, al pasar el ratón o al hacer clic (el automático no se lee en voz alta) */}
-      <motion.p
-        className="character__bubble"
-        role="status"
-        aria-live={auto ? 'off' : 'polite'}
-        initial={false}
-        animate={show ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.6, y: 10 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 22 }}
-      >
-        {show ? greetings[greeting] : ''}
-      </motion.p>
+      {/* Saludo al entrar, al pasar el ratón o al hacer clic. Sale del personaje como una gota (efecto gooey):
+          dos gotas pequeñas y el globo se funden gracias al filtro, que solo va en la capa de fondo */}
+      <div className="character__bubble">
+        <GooFilter id={gooId} blur={4} />
+        <div className="bubble__goo" style={{ filter: `url(#${gooId}) drop-shadow(0 8px 18px rgba(14, 14, 14, .18))` }} aria-hidden="true">
+          <motion.span className="bubble__drop is-far" initial={false} animate={{ scale: show ? 1 : 0 }} transition={pop(0, 0.22)} />
+          <motion.span className="bubble__drop is-near" initial={false} animate={{ scale: show ? 1 : 0 }} transition={pop(0.06, 0.16)} />
+          <motion.span className="bubble__shape" initial={false} animate={{ scale: show ? 1 : 0 }} transition={pop(0.12, 0)} />
+        </div>
+        <motion.span
+          className="bubble__text"
+          aria-hidden="true"
+          initial={false}
+          animate={{ opacity: show ? 1 : 0 }}
+          transition={{ duration: reduce ? 0 : 0.2, delay: show && !reduce ? 0.22 : 0 }}
+        >
+          {greetings[greeting]}
+        </motion.span>
+        {/* Para lectores de pantalla (el saludo automático no se lee en voz alta) */}
+        <span className="sr-only" role="status" aria-live={auto ? 'off' : 'polite'}>{show ? greetings[greeting] : ''}</span>
+      </div>
     </motion.div>
   )
 }

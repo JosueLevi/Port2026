@@ -23,9 +23,10 @@
   --size-caption: 13px;                      /* datos y etiquetas de tarjetas */
   --size-label: 12px;                        /* etiquetas en mayúsculas */
 
-  /* Color: azul de la sudadera del personaje (jacketColor en site.js) + un acento cálido */
-  --brand: #2f5bea;
-  --pop: #ffc83d;
+  /* Color: los del logo. Azul eléctrico (también la sudadera del personaje, jacketColor en site.js) y verde lima.
+     El lima nunca va como texto sobre blanco (no se lee): solo de fondo con texto --ink, o sobre negro o sobre --brand */
+  --brand: #2302ff;
+  --pop: #affe00;
   --brand-soft: color-mix(in oklab, var(--brand) 12%, white);
   --pop-soft: color-mix(in oklab, var(--pop) 25%, white);
 
@@ -35,7 +36,7 @@
   --border: #e4e4e4;
   --accent: var(--brand);
   --accent-foreground: #ffffff;
-  --warning: var(--pop);
+  --warning: var(--ink);
   --warning-foreground: var(--ink);
   --success: #1fb57f;
   --danger: #ff5a4e;
@@ -275,14 +276,22 @@ img, video { display: block; max-width: 100%; }
   100% { opacity: 0; transform: translate(-50px, -70px) rotate(-20deg); }
 }
 
+/* Globo del saludo: el texto le da el tamaño; el fondo es una capa aparte con el efecto gooey */
 .character__bubble {
+  --bubble-r: 22px 22px 22px 6px;
   position: absolute; left: 68%; top: 10%; white-space: nowrap;
-  padding: 10px 16px; border-radius: 22px 22px 22px 6px;
-  background: var(--paper); color: var(--ink);
-  border: 1.5px solid var(--ink); box-shadow: var(--float);
+  padding: 10px 16px; color: var(--paper);
   font-family: var(--font-text); font-weight: 600; font-size: var(--size-small);
-  transform-origin: 0 100%; pointer-events: none;
+  pointer-events: none;
 }
+.bubble__goo { position: absolute; inset: 0; } /* el filtro (gotas + sombra) va en línea, con el id del componente */
+.bubble__shape, .bubble__drop { position: absolute; display: block; background: var(--brand); } /* azul de la sudadera: se distingue de los auriculares negros */
+.bubble__shape { inset: 0; border-radius: var(--bubble-r); transform-origin: 0 100%; }
+/* Gotas que salen de la cabeza del personaje hacia el globo */
+.bubble__drop { border-radius: 50%; }
+.bubble__drop.is-near { width: 16px; height: 16px; left: -10px; bottom: -12px; }
+.bubble__drop.is-far { width: 12px; height: 12px; left: -26px; bottom: -28px; }
+.bubble__text { position: relative; display: block; }
 
 @media (prefers-reduced-motion: reduce) {
   .character__steam path, .character__notes span, .character__head { animation: none; }
@@ -317,6 +326,12 @@ img, video { display: block; max-width: 100%; }
   display: flex; justify-content: space-between; gap: 16px;
   padding-top: 14px; border-top: 1px solid currentColor;
   margin-bottom: clamp(28px, 4vw, 56px);
+}
+/* La "i" del logo (píldora azul con el punto lima) como viñeta del número de sección */
+.section-meta > span:first-child { display: inline-flex; align-items: center; gap: 8px; }
+.section-meta > span:first-child::before {
+  content: ''; width: 8px; height: 14px; border-radius: 4px;
+  background: radial-gradient(circle at 50% 4px, var(--pop) 2.4px, transparent 2.9px), var(--brand);
 }
 .section-head { margin-bottom: clamp(40px, 5vw, 72px); }
 /* Título a la izquierda y entradilla a la derecha, alineados por abajo (en móvil, uno debajo del otro) */
@@ -430,16 +445,6 @@ img, video { display: block; max-width: 100%; }
 .process .line-icon { width: 30px; height: 30px; }
 
 /* Competencias en práctica: de dos en dos, cada una sobre una línea fina */
-.skills { padding: clamp(64px, 10vw, 140px) var(--gutter); }
-.skills__list { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px clamp(24px, 4vw, 64px); }
-.skills__item { padding-top: 20px; border-top: 1px solid var(--ink); }
-.skills__item h3 { font-family: var(--font-display); font-size: var(--size-heading); text-transform: uppercase; margin-bottom: 12px; }
-.skills__item p { color: var(--muted); font-size: var(--size-small); line-height: 1.6; }
-.skills__cases { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; margin-top: 14px; }
-.skills__cases span { font-size: var(--size-label); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
-.skills__cases a { color: var(--brand); font-weight: 600; }
-.skills__cases a:hover { text-decoration: underline; }
-
 /* About */
 .about { padding: clamp(64px, 10vw, 140px) var(--gutter); }
 .about__grid {
@@ -455,6 +460,8 @@ img, video { display: block; max-width: 100%; }
 .about__lists h3 { color: var(--muted); margin-bottom: 12px; }
 .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
 .tags .chip { font-size: var(--size-caption); font-weight: 500; padding: 6px 12px; }
+/* Herramientas: verde lima del logo con texto oscuro (el lima no se usa como texto sobre blanco) */
+.about__lists > div:nth-child(2) .tags .chip { background: var(--pop); color: var(--ink); }
 .about__certs { margin-top: 28px; }
 .about__certs h3 { color: var(--muted); margin-bottom: 12px; }
 .about__certs ul { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
@@ -679,11 +686,11 @@ img, video { display: block; max-width: 100%; }
   font-weight: 500; font-size: var(--size-caption); line-height: 1.2; color: var(--ink);
 }
 .status__dot {
-  width: 8px; height: 8px; border-radius: 50%; background: var(--success);
+  width: 10px; height: 10px; border-radius: 50%; background: var(--pop); border: 1.5px solid var(--ink);
   animation: ping 1.8s ease-out infinite;
 }
 @keyframes ping {
-  0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--success) 55%, transparent); }
+  0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand) 45%, transparent); }
   100% { box-shadow: 0 0 0 8px transparent; }
 }
 
@@ -733,7 +740,6 @@ img, video { display: block; max-width: 100%; }
   .case__colors { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .about__lists { grid-template-columns: 1fr; }
   .process__list { grid-template-columns: repeat(2, 1fr); }
-  .skills__list { grid-template-columns: 1fr; }
   .about__certs ul { grid-template-columns: 1fr; }
   .case__sheets { grid-template-columns: 1fr 1fr; }
   .case__sheets figure:last-child { grid-column: 1 / -1; }
@@ -808,9 +814,13 @@ img, video { display: block; max-width: 100%; }
   .device .mockweb { padding: 8px; gap: 8px; }
   /* Globo del personaje centrado encima de la cabeza, para que no se salga de la pantalla */
   .character__bubble {
-    left: 50%; top: -15%; translate: -50% 0; transform-origin: 50% 100%;
-    border-radius: 22px; padding: 8px 14px; font-size: var(--size-caption);
+    --bubble-r: 22px;
+    left: 50%; top: -15%; translate: -50% 0;
+    padding: 8px 14px; font-size: var(--size-caption);
   }
+  .bubble__shape { transform-origin: 50% 100%; }
+  .bubble__drop.is-near { left: calc(50% - 7px); bottom: -10px; }
+  .bubble__drop.is-far { left: calc(50% - 4px); bottom: -22px; }
 }
 
 /* Móviles estrechos: el menú cabe en una línea */
