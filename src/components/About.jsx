@@ -8,7 +8,7 @@ import { SectionMeta } from './SectionHead.jsx'
 export default function About() {
   return (
     <section id="about" className="about" aria-labelledby="about-title">
-      <SectionMeta number="04" label={site.sections.about.label} />
+      <SectionMeta number="03" label={site.sections.about.label} />
       <div className="about__grid">
         <motion.figure
           className="about__character"

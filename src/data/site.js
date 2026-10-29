@@ -12,8 +12,8 @@ export const site = {
   email,
   // CV para descargar: pon el archivo en /public/cv.pdf y aquí withBase('/cv.pdf'); con null no sale el botón
   cv: null,
-  // Color de la chaqueta del personaje (null = negro original). Ej: '#2f5bea'
-  jacketColor: '#2f5bea',
+  // Color de la chaqueta del personaje (null = negro original): el azul del logo
+  jacketColor: '#2302ff',
 
   // Portada
   heroTitle: 'UX/UI DESIGN',
@@ -36,10 +36,6 @@ export const site = {
       title: 'Cómo trabajo',
       intro: 'Mi receta para pasar de una idea a un producto que la gente usa de verdad.',
     },
-    skills: {
-      label: 'Competencias',
-      title: 'En la práctica',
-    },
     about: { label: 'Perfil', title: 'Sobre mí' },
     // El pie de la página
     contact: {
@@ -57,7 +53,7 @@ export const site = {
   // Cuéntalo con tus palabras: tu historia y el tipo de equipo que buscas
   // Versión anterior: 'Ingeniero de Sistemas con cuatro años de experiencia especializada en diseño UX/UI, con un enfoque en diseño web, desarrollo de aplicaciones y plataformas digitales. A lo largo de mi carrera, he perfeccionado mis habilidades para crear soluciones innovadoras, funcionales y altamente intuitivas, siempre orientadas a ofrecer un valor excepcional a los clientes.'
   about:
-    'Ingeniero de Sistemas y diseñador UX/UI con cuatro años de experiencia. Diseño productos digitales complejos, como un BackOffice de carga aérea, una plataforma de pronóstico agrícola y una app de finanzas personales, partiendo de investigación con usuarios: entrevistas, card sorting y pruebas con prototipos en Maze. Uso Hotjar, GA4 y Power BI para encontrar dónde se traba la experiencia, y me muevo cómodo entre Figma y el código, como en mi web 3D del Lotus Exige.',
+    'Ingeniero de Sistemas y diseñador UX/UI con cuatro años de experiencia. Diseño productos digitales complejos, como un BackOffice de carga aérea, una plataforma de pronóstico agrícola y una app de finanzas personales, partiendo de investigación con usuarios: entrevistas, card sorting y pruebas con prototipos en Maze. Uso Hotjar, GA4 y Power BI para encontrar dónde se traba la experiencia, y me muevo cómodo entre Figma y el código.',
 
   // Datos curiosos de "Sobre mí". Iconos: coffee, music, ball, pin, search, map, pencil, check
   facts: [
@@ -71,7 +67,7 @@ export const site = {
   notes: {
     work: null,
     about: null,
-    contact: 'escríbeme, no muerdo :)',
+    contact: null,
   },
 
   skills: ['UX Research', 'Arquitectura de información', 'Wireframes', 'UI Design', 'Design Systems', 'Prototipado', 'Testing de usabilidad', 'Accesibilidad (WCAG)'],
@@ -88,50 +84,6 @@ export const site = {
     { title: 'Scrum Master', year: '2021' },
   ],
 }
-
-// Competencias en práctica: cada una con dónde se ve en los casos. `cases`: títulos de casos de `projects`
-// (salen como enlaces que abren el caso). Solo lo que de verdad hiciste: en una entrevista te lo van a preguntar
-export const competencies = [
-  {
-    title: 'Figma de punta a punta',
-    text: 'User flows, wireframes de baja fidelidad, prototipos navegables e interfaces de alta fidelidad, todo en Figma. Raven son 49 pantallas, y los dos prototipos se pueden abrir desde su caso.',
-    cases: ['Raven', 'Talmaclick'],
-  },
-  {
-    title: 'Design System',
-    text: 'Phonesys, el sistema de diseño de Raven: estilos de color con escalas y colores de estado, tipografía, íconos, y 335 componentes con variantes (con fondo, de contorno y sin fondo) y estados para mantener la consistencia visual.',
-    cases: ['Raven'],
-  },
-  {
-    title: 'Discovery y arquitectura de información',
-    text: '12 entrevistas a profundidad y un card sorting abierto con 15 usuarios para reordenar el sistema: de 9 opciones de menú con siglas internas a 3 módulos y 2 niveles.',
-    cases: ['Talmaclick'],
-  },
-  {
-    title: 'Validación con usuarios',
-    text: 'Pruebas de usabilidad con prototipos en Maze, con tareas reales, para encontrar problemas antes de pasar a desarrollo y convertirlos en cambios concretos de diseño.',
-  },
-  {
-    title: 'Analítica para encontrar oportunidades',
-    text: 'Hotjar para ver mapas de calor y grabaciones de sesión, y consultas en GA4 y Power BI para medir comportamiento, abandono y eficiencia de las tareas.',
-  },
-  {
-    title: 'Accesibilidad',
-    // Solo lo verificado: contrastes medidos en las paletas de los casos
-    text: 'Textos con contraste AA: el azul de Talmaclick con blanco llega a 12,9:1 y el texto de Raven sobre blanco a 13:1. Los estados nunca dependen solo del color, siempre llevan texto (WCAG 1.4.1).',
-    cases: ['Raven', 'Talmaclick'],
-  },
-  {
-    title: 'Usuario, negocio y tecnología',
-    text: 'Diseño junto a Product Owner, desarrollo y negocio, y sustento cada decisión con lo que vi en la investigación. En el gestor de finanzas también hice el desarrollo, en React y Supabase.',
-    cases: ['Talmaclick', 'Gestor de finanzas personales'],
-  },
-  {
-    title: 'Plataformas transaccionales, autoservicio y móvil',
-    text: 'Un BackOffice de carga aérea donde los agentes gestionan sus guías sin llamar al counter, una plataforma de pronóstico de cosecha y una app de finanzas pensada también para el celular.',
-    cases: ['Talmaclick', 'Raven', 'Gestor de finanzas personales'],
-  },
-]
 
 // Pasos del proceso de diseño
 export const process = [
